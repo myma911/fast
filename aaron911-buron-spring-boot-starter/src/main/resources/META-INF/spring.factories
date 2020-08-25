@@ -1,0 +1,8 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.aaron911.buron.BuronAutoConfiguration,\
+cn.aaron911.buron.BuronRedisAutoConfiguration
+
+# banner
+org.springframework.context.ApplicationListener=\
+cn.aaron911.buron.context.BuronLogoApplactionListener

@@ -1,0 +1,6 @@
+# MinIo文件服务器
+min:
+  io:
+    endpoint: http://49.232.194.201
+    accessKey: admin
+    secretKey: admin123456
