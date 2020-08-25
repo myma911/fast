@@ -25,7 +25,6 @@
 		<module>aaron911-spider</module>
 		<module>aaron911-sso</module>
 		<module>aaron911-api-encrypt-spring-boot-starter</module>
-		<module>aaron911-api-encrypt-springb-boot-starter</module>
 		<module>aaron911-limiter-spring-boot-starter</module>
 	</modules>
 
