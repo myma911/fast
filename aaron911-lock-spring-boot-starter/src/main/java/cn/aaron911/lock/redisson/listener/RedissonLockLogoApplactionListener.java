@@ -7,6 +7,7 @@ import org.springframework.boot.context.logging.LoggingApplicationListener;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import cn.aaron911.lock.redisson.RedissonLockBanner;
 
@@ -14,6 +15,7 @@ import cn.aaron911.lock.redisson.RedissonLockBanner;
  * Print LOGO.
  *
  */
+@Component
 @Order(LoggingApplicationListener.DEFAULT_ORDER)
 public class RedissonLockLogoApplactionListener implements ApplicationListener<ContextRefreshedEvent> {
 

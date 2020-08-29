@@ -1,5 +1,6 @@
 package cn.aaron911.lock.redisson;
 
+
 /**
  * @version 1.0
  */
@@ -11,6 +12,6 @@ public class RedissonLockBanner {
             
 
     public static String buildBannerText() {
-        return System.getProperty("line.separator") + LOGO + " :: RedissonLock ::  "  + System.getProperty("line.separator");
+    	return System.getProperty("line.separator") + LOGO + " :: RedissonLock :: (v" + RedissonLockVersion.getVersion(INIT_VERSION) + ")" + System.getProperty("line.separator");
     }
 }
