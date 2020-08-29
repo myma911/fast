@@ -1,7 +1,7 @@
 package cn.aaron911.buron.context;
 
 /**
- * @version 1.0
+ * 
  */
 public class BuronBanner {
 
