@@ -9,8 +9,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import cn.aaron911.lock.redisson.RedissonLockBanner;
-
 /**
  * Print LOGO.
  *

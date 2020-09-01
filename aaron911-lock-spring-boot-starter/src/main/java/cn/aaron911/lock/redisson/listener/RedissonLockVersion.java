@@ -1,4 +1,4 @@
-package cn.aaron911.lock.redisson;
+package cn.aaron911.lock.redisson.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
