@@ -15,7 +15,7 @@ public interface Cache {
      * @param delay 缓存时间
      * @param unit  缓存时间单位
      */
-    void set(String key, Integer value, long delay, TimeUnit unit);
+	boolean set(String key, Object value, long delay, TimeUnit unit);
 
     /**
      * 设置缓存
@@ -23,7 +23,7 @@ public interface Cache {
      * @param key   缓存KEY
      * @param value 缓存内容
      */
-    void set(String key, Integer value);
+	boolean set(String key, Object value);
 
     /**
      * 获取缓存
@@ -46,7 +46,7 @@ public interface Cache {
      *
      * @param key 缓存KEY
      */
-    void del(String key);
+    Boolean del(String key);
 
     /**
      * 获取剩余缓存失效时间
@@ -54,15 +54,8 @@ public interface Cache {
      * @param key 缓存KEY
      * @return 过期时间
      */
-    long getExpire(String key);
+    Long getExpire(String key);
 
-    /**
-     * 自增并返回自增后的结果
-     *
-     * @param key 缓存key
-     * @return 返回自增后的结果
-     */
-    int incrementAndGet(String key);
 
     /**
      * 清理过期的缓存

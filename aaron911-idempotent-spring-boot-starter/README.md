@@ -77,6 +77,16 @@ public class WebMvcConfig2 implements WebMvcConfigurer {
 ```
 
 
+## 注入 IdempotentComponent  调用 createToken()方法生成幂等性校验码，在需要携带幂等性校验码的接口携带此方法返回的数据
+```
+	@Autowired
+	private IdempotentComponent idempotentComponent;
+	
+	
+```
+
+
+
 - **测试**
 
 ```

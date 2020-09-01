@@ -8,28 +8,28 @@ import java.util.concurrent.TimeUnit;
  */
 public class CacheObj implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int value;
+	private Object value;
     private long expire;
 
     public CacheObj() {
 
     }
 
-    public CacheObj(int value, long expire, TimeUnit unit) {
+    public CacheObj(Object value, long expire, TimeUnit unit) {
         this.value = value;
         // 实际过期时间等于当前时间加上有效期
         this.expire = System.currentTimeMillis() + unit.toMillis(expire);
     }
 
-    public CacheObj(int value) {
+    public CacheObj(Object value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public CacheObj setValue(int value) {
+    public CacheObj setValue(Object value) {
         this.value = value;
         return this;
     }

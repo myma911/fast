@@ -4,83 +4,93 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.util.Assert;
 
-import cn.aaron911.idempotent.property.IdempotentProperties;
+import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @version 1.0
  */
+@Slf4j
 public class RedisCache implements Cache {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
     
-    @Autowired
-    private IdempotentProperties properties;
 
+    /**
+     * 普通缓存放入并设置时间
+     *
+     * @param key   键
+     * @param value 值
+     * @param time  时间(秒) time要大于0 如果time小于等于0 将设置无限期
+     * @return 
+     * @return true成功 false 失败
+     */
     @Override
-    public void set(String key, Integer value, long delay, TimeUnit unit) {
-        Assert.notNull(key, "The object argument [key] must be null");
-        Assert.notNull(value, "The object argument [value] must be null");
-        Assert.notNull(unit, "The object argument [unit] must be null");
-        redisTemplate.opsForValue().set(key, new CacheObj(value), delay, unit);
+    public boolean set(String key, Object value, long time, TimeUnit timeUnit) {
+    	try {
+            if (time > 0) {
+                redisTemplate.opsForValue().set(key, new CacheObj(value), time, null == timeUnit ? TimeUnit.SECONDS : timeUnit);
+            } else {
+                set(key, value);
+            }
+            return true;
+        } catch (Exception e) {
+        	log.error(e.getMessage());
+            return false;
+        }
     }
 
     @Override
-    public void set(String key, Integer value) {
-        Assert.notNull(key, "The object argument [key] must be null");
-        Assert.notNull(value, "The object argument [value] must be null");
-
-        ValueOperations operations = redisTemplate.opsForValue();
-        CacheObj cacheObj = (CacheObj) operations.get(key);
-        if (null == cacheObj) {
-            this.set(key, value, properties.getValidTime(), TimeUnit.MILLISECONDS);
-        } else {
-            operations.set(key, cacheObj.setValue(value), getExpire(key), TimeUnit.MILLISECONDS);
+    public boolean set(String key, Object value) {
+    	try {
+            redisTemplate.opsForValue().set(key, new CacheObj(value));
+            return true;
+        } catch (Exception e) {
+        	log.error(e.getMessage());
+            return false;
         }
     }
 
     @Override
     public CacheObj get(String key) {
-        Assert.notNull(key, "The object argument [key] must be null");
-        return (CacheObj) redisTemplate.opsForValue().get(key);
+    	return key == null ? null : (CacheObj)redisTemplate.opsForValue().get(key);
     }
 
     @Override
     public Boolean hasKey(String key) {
-        Assert.notNull(key, "The object argument [key] must be null");
-        return redisTemplate.hasKey(key);
-    }
-
-    @Override
-    public void del(String key) {
-        Assert.notNull(key, "The object argument [key] must be null");
-        if (hasKey(key)) {
-        	redisTemplate.delete(key);
+    	try {
+            return redisTemplate.hasKey(key);
+        } catch (Exception e) {
+        	log.error(e.getMessage());
+            return false;
         }
     }
 
     @Override
-    public long getExpire(String key) {
-        Assert.notNull(key, "The object argument [key] must be null");
-        return redisTemplate.getExpire(key, TimeUnit.MILLISECONDS);
+    public Boolean del(String key) {
+    	if (StrUtil.isEmpty(key)) {
+    		return false;
+    	}
+    	try {
+    		return redisTemplate.delete(key);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+            return false;
+		}
+    	
     }
 
     @Override
-    public int incrementAndGet(String key) {
-        Assert.notNull(key, "The object argument [key] must be null");
-        int value = 0;
-        CacheObj obj = this.get(key);
-        if (null == obj) {
-            value = 1;
-        } else {
-            value = obj.getValue() + 1;
-        }
-        this.set(key, value);
-        return value;
+    public Long getExpire(String key) {
+    	try {
+    		return redisTemplate.getExpire(key, TimeUnit.MILLISECONDS);	
+		} catch (Exception e) {
+			log.error(e.getMessage());
+            return 0L;
+		}
+        
     }
 }

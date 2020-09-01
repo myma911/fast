@@ -1,10 +1,5 @@
 package cn.aaron911.idempotent.cache;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
-
-import cn.aaron911.idempotent.property.IdempotentProperties;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,9 +7,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import cn.aaron911.idempotent.property.IdempotentProperties;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @version 1.0
  */
+@Slf4j
 public class ConcurrentHashMapCache implements Cache {
 
     private static final Map<String, CacheObj> STORE = new ConcurrentHashMap<>();
@@ -36,35 +37,40 @@ public class ConcurrentHashMapCache implements Cache {
     }
 
     @Override
-    public void set(String key, Integer value, long delay, TimeUnit unit) {
-        Assert.notNull(key, "The object argument [key] must be null");
-        Assert.notNull(value, "The object argument [value] must be null");
-        Assert.notNull(unit, "The object argument [unit] must be null");
+    public boolean set(String key, Object value, long delay, TimeUnit unit) {
         writeLock.lock();
         try {
-            STORE.put(key, new CacheObj(value, delay, unit));
+            CacheObj cacheObj = STORE.put(key, new CacheObj(value, delay, unit));
             CacheScheduler.INSTANCE.schedule(() -> del(key), delay, unit);
-        } finally {
+        	return true;
+        } catch (Exception e) {
+        	log.error(e.getMessage());
+        	return false;
+		} finally {
             writeLock.unlock();
         }
     }
 
     @Override
-    public void set(String key, Integer value) {
-        Assert.notNull(key, "The object argument [key] must be null");
-        Assert.notNull(value, "The object argument [value] must be null");
+    public boolean set(String key, Object value) {
         writeLock.lock();
         long delay = properties.getValidTime();
         TimeUnit unit = TimeUnit.MILLISECONDS;
         try {
             CacheObj cacheObj = STORE.get(key);
             if (null == cacheObj) {
-                this.set(key, value, delay, unit);
-            } else {
-                cacheObj.setValue(value);
-                STORE.put(key, cacheObj);
+               return this.set(key, value, delay, unit);
             }
-        } finally {
+            cacheObj.setValue(value);
+            cacheObj = STORE.put(key, cacheObj);
+            if (null != cacheObj) {
+            	return true;
+            }
+            return false;
+        } catch (Exception e) {
+        	log.error(e.getMessage());
+        	return false;
+		} finally {
             writeLock.unlock();
         }
 
@@ -72,64 +78,74 @@ public class ConcurrentHashMapCache implements Cache {
 
     @Override
     public CacheObj get(String key) {
-        Assert.notNull(key, "The object argument [key] must be null");
         readLock.lock();
         try {
             return STORE.get(key);
-        } finally {
+        } catch (Exception e) {
+        	log.error(e.getMessage());
+        	return null;
+		}finally {
             readLock.unlock();
         }
     }
 
     @Override
     public Boolean hasKey(String key) {
-        Assert.notNull(key, "The object argument [key] must be null");
         readLock.lock();
         try {
             return STORE.containsKey(key);
-        } finally {
+        } catch (Exception e) {
+        	log.error(e.getMessage());
+        	return false;
+		} finally {
             readLock.unlock();
         }
     }
 
+    /**
+     * 删除缓存
+     *
+     * @param key 缓存KEY
+     */
     @Override
-    public void del(String key) {
-        Assert.notNull(key, "The object argument [key] must be null");
+    public Boolean del(String key) {
         writeLock.lock();
         try {
-            STORE.remove(key);
-        } finally {
+            CacheObj remove = STORE.remove(key);
+            if (null != remove) {
+            	return true;
+            }
+            return false;
+        } catch (Exception e) {
+        	log.error(e.getMessage());
+        	return false;
+		} finally {
             writeLock.unlock();
         }
     }
 
+    
+    /**
+     * 获取剩余缓存失效时间
+     *
+     * @param key 缓存KEY
+     * @return 过期时间
+     */
     @Override
-    public long getExpire(String key) {
-        Assert.notNull(key, "The object argument [key] must be null");
+    public Long getExpire(String key) {
         readLock.lock();
         try {
             if (this.hasKey(key)) {
                 CacheObj cacheObj = this.get(key);
                 return cacheObj.getExpire();
             }
-            return 0;
-        } finally {
+            return 0L;
+        } catch (Exception e) {
+        	log.error(e.getMessage());
+        	return 0L;
+		} finally {
             readLock.unlock();
         }
-    }
-
-    @Override
-    public int incrementAndGet(String key) {
-        Assert.notNull(key, "The object argument [key] must be null");
-        int value = 0;
-        CacheObj cacheObj = get(key);
-        if (null == cacheObj) {
-            value = 1;
-        } else {
-            value = cacheObj.getValue() + 1;
-        }
-        this.set(key, value);
-        return value;
     }
 
     @Override

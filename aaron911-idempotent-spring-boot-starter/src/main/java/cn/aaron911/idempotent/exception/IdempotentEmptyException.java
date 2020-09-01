@@ -10,14 +10,14 @@ package cn.aaron911.idempotent.exception;
 public class IdempotentEmptyException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	
-	private StateCodeEnum stateCodeEnum;
+	private static StateCodeEnum stateCodeEnum = StateCodeEnum.EMPTY;
 	
 	private int code;
 	
 	private String msg;
 
 	public IdempotentEmptyException() {
-		stateCodeEnum = StateCodeEnum.EMPTY;
+		super(stateCodeEnum.getMessage());
 		this.code = stateCodeEnum.getCode();
 		this.msg = stateCodeEnum.getMessage();
 	}
@@ -26,24 +26,14 @@ public class IdempotentEmptyException extends RuntimeException {
 		return stateCodeEnum;
 	}
 
-	public void setStateCodeEnum(StateCodeEnum stateCodeEnum) {
-		this.stateCodeEnum = stateCodeEnum;
-	}
 
 	public int getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
-		this.code = code;
-	}
 
 	public String getMsg() {
 		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
 	}
 }
 

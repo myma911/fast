@@ -22,7 +22,7 @@ public enum CacheScheduler {
         this.scheduler = new ScheduledThreadPoolExecutor(10, new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
-                return new Thread(r, String.format("Buron-Task-%s", cacheTaskNumber.getAndIncrement()));
+                return new Thread(r, String.format("Idempotent-Task-%s", cacheTaskNumber.getAndIncrement()));
             }
         });
     }

@@ -9,40 +9,31 @@ package cn.aaron911.idempotent.exception;
 public class IdempotentCreateFailedException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	
-	private StateCodeEnum stateCodeEnum;
+	private static StateCodeEnum stateCodeEnum = StateCodeEnum.CREATE_FAILED;
 	
 	private int code;
 	
 	private String msg;
 
 	public IdempotentCreateFailedException() {
-		stateCodeEnum = StateCodeEnum.CREATE_FAILED;
-		this.code = stateCodeEnum.getCode();
+		super(stateCodeEnum.getMessage());
 		this.msg = stateCodeEnum.getMessage();
+		this.code = stateCodeEnum.getCode();
 	}
 
 	public StateCodeEnum getStateCodeEnum() {
 		return stateCodeEnum;
 	}
 
-	public void setStateCodeEnum(StateCodeEnum stateCodeEnum) {
-		this.stateCodeEnum = stateCodeEnum;
-	}
 
 	public int getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
-		this.code = code;
-	}
 
 	public String getMsg() {
 		return msg;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
 }
 

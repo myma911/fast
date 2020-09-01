@@ -27,6 +27,7 @@
 		<module>aaron911-api-encrypt-spring-boot-starter</module>
 		<module>aaron911-limiter-spring-boot-starter</module>
 		<module>aaron911-lock-spring-boot-starter</module>
+		<module>aaron911-idempotent-spring-boot-starter</module>
 	</modules>
 
 	<properties>
