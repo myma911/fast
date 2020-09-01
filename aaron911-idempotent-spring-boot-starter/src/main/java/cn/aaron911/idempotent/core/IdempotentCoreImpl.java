@@ -1,10 +1,11 @@
-package cn.aaron911.idempotent;
+package cn.aaron911.idempotent.core;
 
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import cn.aaron911.idempotent.cache.Cache;
@@ -19,7 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class IdempotentComponent {
+/**最小值,最先读取这个配置**/
+@Order(Integer.MIN_VALUE)
+public class IdempotentCoreImpl implements IIdempotentCore{
     
     @Autowired
     private IdempotentProperties idempotentProperties;
@@ -60,7 +63,7 @@ public class IdempotentComponent {
      * @throws IdempotentInvalidException
      * 
      */
-    public void checkToken(HttpServletRequest request) {
+    public void checkToken(HttpServletRequest request) throws IdempotentEmptyException, IdempotentEmptyException{
         String token = request.getHeader(idempotentProperties.getIdempotentName());
         if (StrUtil.isBlank(token)) {// header中不存在token
             token = request.getParameter(idempotentProperties.getIdempotentName());

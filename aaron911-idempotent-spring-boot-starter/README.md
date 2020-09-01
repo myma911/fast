@@ -46,7 +46,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.haoyongsys.erp.common.util.interceptor.ApiIdempotentInterceptor;
+import com.haoyongsys.erp.common.util.interceptor.IdempotentInterceptor;
 
 /**
  * MVC配置
@@ -61,14 +61,14 @@ public class WebMvcConfig2 implements WebMvcConfigurer {
      * 幂等性
      */
     @Autowired
-    private ApiIdempotentInterceptor apiIdempotentInterceptor;
+    private IdempotentInterceptor idempotentInterceptor;
     
  
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
     	
-        registry.addInterceptor(apiIdempotentInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(idempotentInterceptor).addPathPatterns("/**");
        
     }
     
@@ -77,15 +77,15 @@ public class WebMvcConfig2 implements WebMvcConfigurer {
 ```
 
 
-## 注入 IdempotentComponent  调用 createToken()方法生成幂等性校验码，在需要携带幂等性校验码的接口携带此方法返回的数据
+## 注入 cn.aaron911.idempotent.core.IdempotentCoreImpl; 使用系统默认对象， 调用 createToken()方法生成幂等性校验码，在需要携带幂等性校验码的接口携带此方法返回的数据
 ```
 	@Autowired
-	private IdempotentComponent idempotentComponent;
+	private IdempotentCoreImpl idempotentCoreImpl;
 	
-	
+	String createToken = idempotentCoreImpl.createToken();
 ```
 
-
+## 用户自定义实现 cn.aaron911.idempotent.core.IIdempotentCore 接口 并实现相关方法
 
 - **测试**
 

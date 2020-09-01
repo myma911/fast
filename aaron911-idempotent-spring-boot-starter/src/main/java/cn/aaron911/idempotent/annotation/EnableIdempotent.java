@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
-import cn.aaron911.idempotent.IdempotentComponent;
 import cn.aaron911.idempotent.config.AutoConfiguration;
 import cn.aaron911.idempotent.config.RedisConfig;
 import cn.aaron911.idempotent.context.LogoApplactionListener;
-import cn.aaron911.idempotent.interceptor.ApiIdempotentInterceptor;
+import cn.aaron911.idempotent.core.IdempotentCoreImpl;
+import cn.aaron911.idempotent.interceptor.IdempotentInterceptor;
 import cn.aaron911.idempotent.property.IdempotentProperties;
 
 /**
@@ -29,8 +29,8 @@ import cn.aaron911.idempotent.property.IdempotentProperties;
 	RedisConfig.class,
 	IdempotentProperties.class,
 	AutoConfiguration.class,
-	IdempotentComponent.class,
-	ApiIdempotentInterceptor.class
+	IdempotentCoreImpl.class,
+	IdempotentInterceptor.class
 })
 public @interface EnableIdempotent{
 
