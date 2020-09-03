@@ -1,8 +1,5 @@
 package cn.aaron911.encrypt.api.advice;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -15,18 +12,19 @@ import org.springframework.http.HttpInputMessage;
 import cn.aaron911.encrypt.api.util.Base64Util;
 import cn.aaron911.encrypt.api.util.RSAUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
  **/
-public class DecryptHttpInputMessage implements HttpInputMessage{
+@Slf4j
+public class DecryptHttpInputMessage3 implements HttpInputMessage{
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
     private HttpHeaders headers;
     private InputStream body;
 
 
-    public DecryptHttpInputMessage(HttpInputMessage inputMessage, String privateKey, String charset, boolean showLog) throws Exception {
+    public DecryptHttpInputMessage3(HttpInputMessage inputMessage, String privateKey, String charset, boolean showLog) throws Exception {
 
         if (StrUtil.isEmpty(privateKey)) {
             throw new IllegalArgumentException("privateKey is null");

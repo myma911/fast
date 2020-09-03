@@ -1,6 +1,6 @@
 package cn.aaron911.encrypt.api.advice;
 
-
+import java.io.ByteArrayInputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,63 +15,100 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import cn.aaron911.encrypt.api.annotation.Encrypt;
-import cn.aaron911.encrypt.api.config.SecretKeyConfig;
+import cn.aaron911.encrypt.api.config.EncryptConfig;
 import cn.aaron911.encrypt.api.util.Base64Util;
 import cn.aaron911.encrypt.api.util.RSAUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.RSA;
 import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * 
+ * 实现ResponseBodyAdvice接口 数据返回加密
  **/
 @ControllerAdvice
+@Slf4j
 public class EncryptResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+	private boolean encrypt;
 
-    private boolean encrypt;
+	@Autowired
+	private EncryptConfig encryptConfig;
 
-    @Autowired
-    private SecretKeyConfig secretKeyConfig;
+	private static ThreadLocal<Boolean> encryptLocal = new ThreadLocal<>();
 
-    private static ThreadLocal<Boolean> encryptLocal = new ThreadLocal<>();
+	@Override
+	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
+		encrypt = false;
+		if (returnType.getMethod().isAnnotationPresent(Encrypt.class) && encryptConfig.isOpen()) {
+			encrypt = true;
+		}
+		return encrypt;
+	}
 
-    @Override
-    public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        encrypt = false;
-        if (returnType.getMethod().isAnnotationPresent(Encrypt.class) && secretKeyConfig.isOpen()) {
-            encrypt = true;
-        }
-        return encrypt;
-    }
+	@Override
+	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
+			Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
+			ServerHttpResponse response) {
+		// EncryptResponseBodyAdvice.setEncryptStatus(false);
+		// Dynamic Settings Not Encrypted
+		Boolean status = encryptLocal.get();
+		if (null != status && !status) {
+			encryptLocal.remove();
+			return body;
+		}
+		if (encrypt) {
 
-    @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
-                                  Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        // EncryptResponseBodyAdvice.setEncryptStatus(false);
-        // Dynamic Settings Not Encrypted
-        Boolean status = encryptLocal.get();
-        if (null != status && !status) {
-            encryptLocal.remove();
-            return body;
-        }
-        if (encrypt) {
-            String publicKey = secretKeyConfig.getPublicKey();
-            try {
-                String content = JSONUtil.toJsonStr(body);
-                if (!StringUtils.hasText(publicKey)) {
-                    throw new NullPointerException("Please configure rsa.encrypt.privatekeyc parameter!");
-                }
-                byte[] data = content.getBytes();
-                byte[] encodedData = RSAUtil.encrypt(data, publicKey);
-                String result = Base64Util.encode(encodedData);
-                if(secretKeyConfig.isShowLog()) {
-                    log.info("Pre-encrypted data：{}，After encryption：{}", content, result);
-                }
-                return result;
-            } catch (Exception e) {
-                log.error("Encrypted data exception", e);
-            }
-        }
-        return body;
-    }
+			try {
+				String content = JSONUtil.toJsonStr(body);
+
+				if ("aes".equalsIgnoreCase(encryptConfig.getType().trim())) { // 对称加密
+
+					if (StrUtil.isEmpty(encryptConfig.getKey())) {
+						throw new IllegalArgumentException("encrypt.key is illegalArgument, 秘钥未配置");
+					}
+					// aes对称加密
+					String result = SecureUtil.aes(encryptConfig.getKey().getBytes()).encryptBase64(content);
+					if (encryptConfig.isShowLog()) {
+						log.info("加密前数据：{}，aes对称加密后数据：{}", content, result);
+					}
+					return result;
+
+				} else if ("des".equalsIgnoreCase(encryptConfig.getType().trim())) { // 对称加密
+
+					if (StrUtil.isEmpty(encryptConfig.getKey())) {
+						throw new IllegalArgumentException("encrypt.key is illegalArgument, 秘钥未配置");
+					}
+					// des对称加密
+
+					String result = SecureUtil.des(encryptConfig.getKey().getBytes()).encryptBase64(content);
+					if (encryptConfig.isShowLog()) {
+						log.info("加密前数据：{}，des加密后数据：{}", content, result);
+					}
+					return result;
+
+				} else if ("rsa".equalsIgnoreCase(encryptConfig.getType().trim())) { // 非对称加密
+
+					if (StrUtil.isEmpty(encryptConfig.getPrivateKey())) {
+						throw new IllegalArgumentException("encrypt.privateKey is illegalArgument, 私钥未配置");
+					}
+
+					RSA rsa = SecureUtil.rsa(encryptConfig.getPrivateKey(), encryptConfig.getPublicKey());
+					String encryptBase64 = rsa.encryptBase64(content, KeyType.PrivateKey);
+					if (encryptConfig.isShowLog()) {
+						log.info("加密前数据：{}，rsa加密后数据：{}", content, encryptBase64);
+					}
+					return encryptBase64;
+
+				} else {
+					throw new IllegalArgumentException("encrypt.type is illegalArgument, 暂未实现的加密方式");
+				}
+			} catch (Exception e) {
+				log.error("加密数据失败", e);
+			}
+		}
+		return body;
+	}
 }

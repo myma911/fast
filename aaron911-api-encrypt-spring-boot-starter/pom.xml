@@ -7,7 +7,7 @@
 		<artifactId>aaron911-fast</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>aaron911-api-encrypt-springb-boot-starter</artifactId>
+	<artifactId>aaron911-encrypt-springb-boot-starter</artifactId>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

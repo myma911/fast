@@ -1,8 +1,8 @@
 package cn.aaron911.encrypt.api.advice;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.lang.reflect.Type;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpInputMessage;
@@ -11,29 +11,28 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice;
 
 import cn.aaron911.encrypt.api.annotation.Decrypt;
-import cn.aaron911.encrypt.api.config.SecretKeyConfig;
-
-import java.lang.reflect.Type;
+import cn.aaron911.encrypt.api.config.EncryptConfig;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * 
+ * 实现RequestBodyAdvice接口
+ * 实现接收数据时解密
  **/
 @ControllerAdvice
-public class EncryptRequestBodyAdvice  implements RequestBodyAdvice {
+@Slf4j
+public class DecryptRequestBodyAdvice  implements RequestBodyAdvice {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
-
-    private boolean encrypt;
+    private boolean decrypt;
 
     @Autowired
-    private SecretKeyConfig secretKeyConfig;
+    private EncryptConfig encryptConfig;
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
-        if (methodParameter.getMethod().isAnnotationPresent(Decrypt.class) && secretKeyConfig.isOpen()) {
-            encrypt = true;
+        if (methodParameter.getMethod().isAnnotationPresent(Decrypt.class) && encryptConfig.isOpen()) {
+        	decrypt = true;
         }
-        return encrypt;
+        return decrypt;
     }
 
     @Override
@@ -44,9 +43,9 @@ public class EncryptRequestBodyAdvice  implements RequestBodyAdvice {
     @Override
     public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType,
                                            Class<? extends HttpMessageConverter<?>> converterType){
-        if (encrypt) {
+        if (decrypt) {
             try {
-                return new DecryptHttpInputMessage(inputMessage, secretKeyConfig.getPrivateKey(), secretKeyConfig.getCharset(),secretKeyConfig.isShowLog());
+                return new DecryptHttpInputMessage(inputMessage, encryptConfig);
             } catch (Exception e) {
                 log.error("Decryption failed", e);
             }
