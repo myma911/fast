@@ -37,7 +37,6 @@
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
-			<version>4.6.8</version>
 			<optional>true</optional>
 		</dependency>
 

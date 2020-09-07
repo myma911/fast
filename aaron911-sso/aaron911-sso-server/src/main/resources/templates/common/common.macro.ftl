@@ -58,7 +58,7 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
                         <a href="${request.contextPath}/logout"   >
-                            <span class="hidden-xs">注销【${xxlUser.username}】</span>
+                            <span class="hidden-xs">注销【${ssoUser.username}】</span>
                         </a>
                     </li>
                 </ul>

@@ -1,0 +1,6 @@
+# sso
+sso: 
+  redis: 
+    address: redis://192.168.3.193:6379
+    expire: 
+      minite: 1440
