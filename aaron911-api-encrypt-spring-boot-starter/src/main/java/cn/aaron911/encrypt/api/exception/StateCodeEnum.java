@@ -1,23 +1,20 @@
-package cn.aaron911.idempotent.exception;
+package cn.aaron911.encrypt.api.exception;
 
 /**
- * aaron911-idempotent-spring-boot-starter 状态码类
+ *  状态码类
  * 
- * @ClassName: StateCodeEnum
- * @author Aaron
- * @date 2020年8月31日 上午10:00:08
  */
 public enum StateCodeEnum {
-    SUCCESS        (911000, "成功"),
-    EMPTY		   (911001, "请求头或请求参数中没有携带幂等性校验码"),
-    INVALID        (911002, "幂等性校验码校验失败"),
-    CREATE_FAILED  (911003, "幂等性校验码生成失败"),
-
+    SUCCESS        			(911000, "成功"),
+    DecryptFailed		    (911001, "解密失败"),
+    DecryptMethodNotFound   (911002, "解密方法未找到"),
+    EncryptFailed  			(911003, "加密失败"),
+    EncryptMethodNotFound   (911004, "加密方法未找到"),
+    KeyNotConfigured   		(911005, "key未配置"),
     
     
     
-    
-    SYSTEM_ERROR   (911999, "系统错误");
+    SYSTEM_ERROR   			(911999, "系统错误");
     
    
    

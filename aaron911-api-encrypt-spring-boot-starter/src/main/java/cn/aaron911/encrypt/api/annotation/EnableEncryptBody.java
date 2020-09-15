@@ -19,6 +19,6 @@ import java.lang.annotation.*;
 @Import({EncryptConfig.class,
         EncryptResponseBodyAdvice.class,
         DecryptRequestBodyAdvice.class})
-public @interface EnableSecurity{
+public @interface EnableEncryptBody{
 
 }

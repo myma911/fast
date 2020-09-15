@@ -14,6 +14,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import cn.aaron911.lock.redisson.annotation.RedissonLock;
+import cn.aaron911.lock.redisson.property.RedissonProperties;
 import cn.aaron911.lock.redisson.util.RedissonLockUtil;
 
 /**
@@ -33,6 +34,9 @@ public class LockAspect {
 	@Autowired
 	private RedissonLockUtil redissLockUtil;
 	
+    @Autowired
+    private RedissonProperties redssionProperties;
+	
 	
 	//切点
 	@Pointcut("@annotation(cn.aaron911.lock.redisson.annotation.RedissonLock)")  
@@ -48,7 +52,7 @@ public class LockAspect {
     	boolean getLock = false;
     	Object obj = null;
 		try {
-			getLock = redissLockUtil.tryLock(redissonLock.description(), TimeUnit.SECONDS, 3, 20);
+			getLock = redissLockUtil.tryLock(redissonLock.description(), TimeUnit.SECONDS, redssionProperties.getWaitTime(), redssionProperties.getLeaseTime());
 			if (getLock) {
 				obj = pjp.proceed();				
 			}else {

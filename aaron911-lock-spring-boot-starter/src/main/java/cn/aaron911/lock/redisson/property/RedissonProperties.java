@@ -24,8 +24,35 @@ public class RedissonProperties {
     private String[] sentinelAddresses;
 
     private String masterName;
+    
+    /**
+     * 最多等待时间, 锁申请等待默认5秒
+     */
+    private int waitTime = 5;
+    
+    /**
+     * 上锁后自动释放锁时间 , 默认60秒
+     */
+    private int leaseTime = 60;
+    
 
-    public int getTimeout() {
+    public int getWaitTime() {
+		return waitTime;
+	}
+
+	public void setWaitTime(int waitTime) {
+		this.waitTime = waitTime;
+	}
+
+	public int getLeaseTime() {
+		return leaseTime;
+	}
+
+	public void setLeaseTime(int leaseTime) {
+		this.leaseTime = leaseTime;
+	}
+
+	public int getTimeout() {
         return timeout;
     }
 

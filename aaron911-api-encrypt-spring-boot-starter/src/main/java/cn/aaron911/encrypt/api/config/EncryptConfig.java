@@ -16,13 +16,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class EncryptConfig{
 	
-	/**
-	 * 对称加密aes/des
-	 * 非对称加密rsa
-	 * type 取值为“aes”或者“des”或者“rsa”
-	 * 默认aes
-	 */
-	private String type = "aes";
+    private String aesKey;
+
+    private String desKey;
 
     private String charset = "UTF-8";
 
