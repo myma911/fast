@@ -11,6 +11,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
 import cn.aaron911.file.BaseApiClient;
+import cn.aaron911.file.IProgressListener;
 import cn.aaron911.file.entity.VirtualFile;
 import cn.aaron911.file.exception.LocalApiException;
 import cn.aaron911.file.util.FileUtil;
@@ -18,6 +19,7 @@ import cn.aaron911.file.util.StreamUtil;
 
 /**
  * @version 1.0
+ * 带监听器进度， 还没实现
  */
 public class LocalApiClient extends BaseApiClient {
     private static final String DEFAULT_PREFIX = "fileupload/";
@@ -25,9 +27,15 @@ public class LocalApiClient extends BaseApiClient {
     private String url;
     private String rootPath;
     private String pathPrefix;
-
+    private IProgressListener listener;
+    
     public LocalApiClient() {
         super("Nginx文件服务器");
+    }
+
+    public LocalApiClient(IProgressListener listener) {
+        super("Nginx文件服务器", listener);
+        this.listener = listener;
     }
 
     public LocalApiClient init(String url, String rootPath, String uploadType) {
@@ -35,9 +43,13 @@ public class LocalApiClient extends BaseApiClient {
         this.rootPath = rootPath;
 
         this.pathPrefix = StringUtils.isEmpty(uploadType) ? DEFAULT_PREFIX : uploadType.endsWith("/") ? uploadType : uploadType + "/";
+        
         return this;
     }
-
+    
+    /**
+     * 不带监听器
+     */
     @Override
     public VirtualFile uploadImg(InputStream is, String imageUrl) {
         this.check();
@@ -51,7 +63,46 @@ public class LocalApiClient extends BaseApiClient {
         try (InputStream uploadIs = StreamUtil.clone(is);
              InputStream fileHashIs = StreamUtil.clone(is);
              FileOutputStream fos = new FileOutputStream(realFilePath)) {
-            FileCopyUtils.copy(uploadIs, fos);
+             FileCopyUtils.copy(uploadIs, fos);
+            return new VirtualFile()
+                    .setOriginalFileName(FileUtil.getName(key))
+                    .setSuffix(this.suffix)
+                    .setUploadStartTime(startTime)
+                    .setUploadEndTime(new Date())
+                    .setFilePath(this.newFileName)
+                    .setFileHash(DigestUtils.md5DigestAsHex(fileHashIs))
+                    .setFullFilePath(this.url + this.newFileName);
+        } catch (Exception e) {
+            throw new LocalApiException("[" + this.storageType + "]文件上传失败：" + e.getMessage() + imageUrl);
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
+
+    /**
+     * 带监听器
+     */
+    @Override
+    public VirtualFile uploadImg(InputStream is, String imageUrl, IProgressListener listener) {
+        this.check();
+
+        String key = FileUtil.generateTempFileName(imageUrl);
+        this.createNewFileName(key, this.pathPrefix);
+        Date startTime = new Date();
+
+        String realFilePath = this.rootPath + this.newFileName;
+        FileUtil.checkFilePath(realFilePath);
+        try (InputStream uploadIs = StreamUtil.clone(is);
+             InputStream fileHashIs = StreamUtil.clone(is);
+             FileOutputStream fos = new FileOutputStream(realFilePath)) {
+             FileCopyUtils.copy(uploadIs, fos);
             return new VirtualFile()
                     .setOriginalFileName(FileUtil.getName(key))
                     .setSuffix(this.suffix)

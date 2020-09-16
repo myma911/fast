@@ -11,9 +11,10 @@ import java.io.InputStream;
  * @version 1.0
  */
 public interface FileUploader {
+	
 
     /**
-     * 上传文件
+     * 上传文件，不带监听器
      *
      * @param file       待上传的文件流
      * @param uploadType 文件上传类型，用来区分文件
@@ -23,7 +24,7 @@ public interface FileUploader {
     VirtualFile upload(InputStream file, String uploadType, String suffix, boolean save);
 
     /**
-     * 上传文件
+     * 上传文件，不带监听器
      *
      * @param file       待上传的文件
      * @param uploadType 文件上传类型，用来区分文件
@@ -32,13 +33,43 @@ public interface FileUploader {
     VirtualFile upload(File file, String uploadType, boolean save);
 
     /**
-     * 上传文件
+     * 上传文件，不带监听器
      *
      * @param file       待上传的文件
      * @param uploadType 文件上传类型，用来区分文件
      * @param save       是否保存
      */
     VirtualFile upload(MultipartFile file, String uploadType, boolean save);
+	
+	
+
+    /**
+     * 上传文件，带监听器
+     *
+     * @param file       待上传的文件流
+     * @param uploadType 文件上传类型，用来区分文件
+     * @param suffix     文件后缀
+     * @param save       是否保存
+     */
+    VirtualFile upload(InputStream file, String uploadType, String suffix, boolean save, IProgressListener listener);
+
+    /**
+     * 上传文件
+     *
+     * @param file       待上传的文件
+     * @param uploadType 文件上传类型，用来区分文件
+     * @param save       是否保存
+     */
+    VirtualFile upload(File file, String uploadType, boolean save, IProgressListener listener);
+
+    /**
+     * 上传文件
+     *
+     * @param file       待上传的文件
+     * @param uploadType 文件上传类型，用来区分文件
+     * @param save       是否保存
+     */
+    VirtualFile upload(MultipartFile file, String uploadType, boolean save, IProgressListener listener);
 
     /**
      * 删除文件

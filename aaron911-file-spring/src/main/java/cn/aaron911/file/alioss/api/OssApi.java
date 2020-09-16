@@ -18,10 +18,12 @@ import com.aliyun.oss.model.ListObjectsRequest;
 import com.aliyun.oss.model.OSSObjectSummary;
 import com.aliyun.oss.model.ObjectListing;
 import com.aliyun.oss.model.ObjectPermission;
+import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import com.aliyun.oss.model.SetBucketCORSRequest;
 import com.aliyun.oss.model.StorageClass;
 
+import cn.aaron911.file.IProgressListener;
 import cn.aaron911.file.alioss.entity.BucketEntity;
 import cn.aaron911.file.alioss.entity.CorsRoleEntity;
 import cn.aaron911.file.alioss.entity.ObjectsRequestEntity;
@@ -325,24 +327,45 @@ public class OssApi {
             this.shutdown();
         }
     }
-
+    
     /**
      * @param localFile 待上传的文件
      * @param fileName  文件名:最终保存到云端的文件名
      * @param bucket    需要上传到的目标bucket
+     * 
      */
     public String uploadFile(File localFile, String fileName, String bucket) {
         try {
             InputStream inputStream = new FileInputStream(localFile);
-            return this.uploadFile(inputStream, fileName, bucket);
+            return this.uploadFile(inputStream, fileName, bucket, null);
         } catch (Exception e) {
             throw new OssApiException("[阿里云OSS] 文件上传失败！" + localFile, e);
         } finally {
             this.shutdown();
         }
     }
+    
 
     /**
+     * @param localFile 待上传的文件
+     * @param fileName  文件名:最终保存到云端的文件名
+     * @param bucket    需要上传到的目标bucket
+     * @param IProgressListener    上传进度监听器
+     */
+    public String uploadFile(File localFile, String fileName, String bucket, IProgressListener listener) {
+        try {
+            InputStream inputStream = new FileInputStream(localFile);
+            return this.uploadFile(inputStream, fileName, bucket, listener);
+        } catch (Exception e) {
+            throw new OssApiException("[阿里云OSS] 文件上传失败！" + localFile, e);
+        } finally {
+            this.shutdown();
+        }
+    }
+    
+    
+    /**
+     *不 带进度监听器
      * @param inputStream 待上传的文件流
      * @param fileName    文件名:最终保存到云端的文件名
      * @param bucketName  需要上传到的目标bucket
@@ -358,8 +381,36 @@ public class OssApi {
             this.shutdown();
         }
     }
+    
+    
+
+    /**
+     * 带进度监听器
+     * @param inputStream 待上传的文件流
+     * @param fileName    文件名:最终保存到云端的文件名
+     * @param bucketName  需要上传到的目标bucket
+     */
+    public String uploadFile(InputStream inputStream, String fileName, String bucketName, IProgressListener listener) {
+        try {
+            if (!this.client.doesBucketExist(bucketName)) {
+                throw new OssApiException("[阿里云OSS] 无法上传文件！Bucket不存在：" + bucketName);
+            }
+            PutObjectResult result = null;
+            if (null != listener) {
+            	// 上传文件的同时指定了进度条参数。
+                PutObjectRequest withProgressListener = new PutObjectRequest(bucketName, fileName, inputStream).<PutObjectRequest>withProgressListener(listener);
+                result = this.client.putObject(withProgressListener);
+            } else {
+            	result = this.client.putObject(bucketName, fileName, inputStream);
+            }
+            return result.getETag();
+        } finally {
+            this.shutdown();
+        }
+    }
 
     private void shutdown() {
         this.client.shutdown();
     }
 }
+

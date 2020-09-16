@@ -24,6 +24,8 @@ public class FileProperties {
      */
 	private String localFilePath = "";
 	
+/*****************************************************/	
+	
     /**
      * 七牛云Bucket 名称
      */
@@ -40,6 +42,9 @@ public class FileProperties {
      * 七牛云cdn域名
      */
 	private String qiniuBasePath = "";
+	
+/*****************************************************/
+	
     /**
      * 阿里云Bucket 名称
      */
@@ -61,7 +66,7 @@ public class FileProperties {
      */
 	private String aliyunAccessKeySecret = "";
 	
-	
+/*****************************************************/	
 	
 	/**
 	 * MinIo 存储
@@ -75,7 +80,8 @@ public class FileProperties {
 	 * MinIo 存储
 	 */
     private String minioSecretKey = "";
-	
+
+/*****************************************************/
 	
     public String getMinioEndpoint() {
 		return minioEndpoint;

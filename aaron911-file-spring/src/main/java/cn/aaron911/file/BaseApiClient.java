@@ -26,9 +26,18 @@ public abstract class BaseApiClient implements ApiClient {
     protected String storageType;
     protected String newFileName;
     protected String suffix;
-
+    protected IProgressListener listener;
+    
+    /**
+     * 不带监听器进度
+     */
     public BaseApiClient(String storageType) {
+        this.storageType = storageType; 
+    }
+
+    public BaseApiClient(String storageType, IProgressListener listener) {
         this.storageType = storageType;
+        this.listener = listener; 
     }
 
     @Override
@@ -38,7 +47,7 @@ public abstract class BaseApiClient implements ApiClient {
             throw new OssApiException("[" + this.storageType + "]文件上传失败：文件不可为空");
         }
         try {
-            VirtualFile res = this.uploadImg(file.getInputStream(), file.getOriginalFilename());
+            VirtualFile res = this.uploadImg(file.getInputStream(), file.getOriginalFilename(), listener);
             VirtualFile imageInfo = ImageUtil.getInfo(file);
             return res.setSize(imageInfo.getSize())
                     .setOriginalFileName(file.getOriginalFilename())
@@ -57,7 +66,7 @@ public abstract class BaseApiClient implements ApiClient {
         }
         try {
             InputStream is = new BufferedInputStream(new FileInputStream(file));
-            VirtualFile res = this.uploadImg(is, "temp" + FileUtil.getSuffix(file));
+            VirtualFile res = this.uploadImg(is, "temp" + FileUtil.getSuffix(file), listener);
             VirtualFile imageInfo = ImageUtil.getInfo(file);
             return res.setSize(imageInfo.getSize())
                     .setOriginalFileName(file.getName())

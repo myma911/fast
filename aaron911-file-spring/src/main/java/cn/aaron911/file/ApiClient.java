@@ -17,6 +17,8 @@ public interface ApiClient {
     VirtualFile uploadImg(File file);
 
     VirtualFile uploadImg(InputStream is, String key);
+    
+    VirtualFile uploadImg(InputStream is, String key, IProgressListener listener);
 
     boolean removeFile(String key);
 }

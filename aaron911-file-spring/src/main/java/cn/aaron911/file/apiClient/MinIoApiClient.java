@@ -9,6 +9,7 @@ import org.springframework.util.DigestUtils;
 import com.qiniu.util.StringUtils;
 
 import cn.aaron911.file.BaseApiClient;
+import cn.aaron911.file.IProgressListener;
 import cn.aaron911.file.alioss.api.MinIoApi;
 import cn.aaron911.file.entity.VirtualFile;
 import cn.aaron911.file.exception.MinIoApiException;
@@ -70,6 +71,32 @@ public class MinIoApiClient extends BaseApiClient {
 			}
 		}
 	}
+	
+	/**
+	 * 带监听器， 还未实现
+	 */
+	@Override
+	public VirtualFile uploadImg(InputStream is, String imageUrl, IProgressListener listener) {
+		this.check();
+
+		String key = FileUtil.generateTempFileName(imageUrl);
+		this.createNewFileName(key, this.pathPrefix);
+		Date startTime = new Date();
+		try (InputStream uploadIs = StreamUtil.clone(is); InputStream fileHashIs = StreamUtil.clone(is)) {
+			minIoApi.putObject(bucketName, this.newFileName, uploadIs);
+			return new VirtualFile().setOriginalFileName(FileUtil.getName(key)).setSuffix(this.suffix)
+					.setUploadStartTime(startTime).setUploadEndTime(new Date()).setFilePath(this.newFileName)
+					.setFileHash(DigestUtils.md5DigestAsHex(fileHashIs)).setFullFilePath(this.url + this.newFileName);
+		} catch (Exception e) {
+			throw new MinIoApiException("[" + this.storageType + "]文件上传失败：" + e.getMessage());
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {}
+			}
+		}
+	}
 
 	/**
 	 * 删除
@@ -96,6 +123,8 @@ public class MinIoApiClient extends BaseApiClient {
 			throw new MinIoApiException("[" + this.storageType + "]尚未配置MinIO，文件上传功能暂时不可用！");
 		}
 	}
+
+	
 
 //	public String getPath() {
 //		return this.path;

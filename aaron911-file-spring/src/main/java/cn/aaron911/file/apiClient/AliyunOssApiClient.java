@@ -4,6 +4,7 @@ import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import cn.aaron911.file.BaseApiClient;
+import cn.aaron911.file.IProgressListener;
 import cn.aaron911.file.alioss.api.OssApi;
 import cn.aaron911.file.entity.VirtualFile;
 import cn.aaron911.file.exception.OssApiException;
@@ -23,9 +24,22 @@ public class AliyunOssApiClient extends BaseApiClient {
     private String url;
     private String bucketName;
     private String pathPrefix;
-
+    private IProgressListener listener;
+    
+    /**
+     * 不带进度监听器
+     */
     public AliyunOssApiClient() {
         super("阿里云OSS");
+    }
+
+    
+    /**
+     * 带进度监听器
+     */
+    public AliyunOssApiClient(IProgressListener listener) {
+        super("阿里云OSS", listener);
+        this.listener = listener;
     }
 
     public AliyunOssApiClient init(String endpoint, String accessKeyId, String accessKeySecret, String url, String bucketName, String uploadType) {
@@ -36,7 +50,10 @@ public class AliyunOssApiClient extends BaseApiClient {
         this.pathPrefix = StringUtils.isEmpty(uploadType) ? DEFAULT_PREFIX : uploadType.endsWith("/") ? uploadType : uploadType + "/";
         return this;
     }
-
+    
+    /**
+     * 不带进度监听器
+     */
     @Override
     public VirtualFile uploadImg(InputStream is, String imageUrl) {
         this.check();
@@ -47,6 +64,40 @@ public class AliyunOssApiClient extends BaseApiClient {
         try (InputStream uploadIs = StreamUtil.clone(is);
              InputStream fileHashIs = StreamUtil.clone(is)) {
             ossApi.uploadFile(uploadIs, this.newFileName, bucketName);
+            return new VirtualFile()
+                    .setOriginalFileName(FileUtil.getName(key))
+                    .setSuffix(this.suffix)
+                    .setUploadStartTime(startTime)
+                    .setUploadEndTime(new Date())
+                    .setFilePath(this.newFileName)
+                    .setFileHash(DigestUtils.md5DigestAsHex(fileHashIs))
+                    .setFullFilePath(this.url + this.newFileName);
+        } catch (IOException e) {
+            throw new OssApiException("[" + this.storageType + "]文件上传失败：" + e.getMessage());
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * 带进度监听器
+     */
+    @Override
+    public VirtualFile uploadImg(InputStream is, String imageUrl, IProgressListener listener) {
+        this.check();
+
+        String key = FileUtil.generateTempFileName(imageUrl);
+        this.createNewFileName(key, this.pathPrefix);
+        Date startTime = new Date();
+        try (InputStream uploadIs = StreamUtil.clone(is);
+             InputStream fileHashIs = StreamUtil.clone(is)) {
+            ossApi.uploadFile(uploadIs, this.newFileName, bucketName, listener);
             return new VirtualFile()
                     .setOriginalFileName(FileUtil.getName(key))
                     .setSuffix(this.suffix)
