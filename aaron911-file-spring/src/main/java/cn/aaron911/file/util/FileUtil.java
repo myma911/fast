@@ -60,6 +60,9 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         return getSuffix(file.getName());
     }
 
+    /**
+     * 获取文件后缀
+     */
     public static String getSuffix(String fileName) {
         int index = fileName.lastIndexOf(".");
         index = -1 == index ? fileName.length() : index;

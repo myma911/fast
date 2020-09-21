@@ -14,14 +14,7 @@ public class VirtualFile {
      * 文件后缀（Suffix）
      */
     public String suffix;
-    /**
-     * 图片文件的宽
-     */
-    public Integer width;
-    /**
-     * 图片文件的高
-     */
-    public Integer height;
+   
     /**
      * 文件hash
      */
@@ -97,15 +90,7 @@ public class VirtualFile {
         return this;
     }
 
-    public VirtualFile setWidth(int width) {
-        this.width = width;
-        return this;
-    }
-
-    public VirtualFile setHeight(int height) {
-        this.height = height;
-        return this;
-    }
+ 
     
     public Long getSize() {
 		return size;
@@ -116,23 +101,6 @@ public class VirtualFile {
 		return this;
 	}
 
-	public Integer getWidth() {
-		return width;
-	}
-
-	public VirtualFile setWidth(Integer width) {
-		this.width = width;
-		return this;
-	}
-
-	public Integer getHeight() {
-		return height;
-	}
-
-	public VirtualFile setHeight(Integer height) {
-		this.height = height;
-		return this;
-	}
 
 	public String getSuffix() {
 		return suffix;

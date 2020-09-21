@@ -55,7 +55,7 @@ public class AliyunOssApiClient extends BaseApiClient {
      * 不带进度监听器
      */
     @Override
-    public VirtualFile uploadImg(InputStream is, String imageUrl) {
+    public VirtualFile uploadFile(InputStream is, String imageUrl) {
         this.check();
 
         String key = FileUtil.generateTempFileName(imageUrl);
@@ -89,7 +89,7 @@ public class AliyunOssApiClient extends BaseApiClient {
      * 带进度监听器
      */
     @Override
-    public VirtualFile uploadImg(InputStream is, String imageUrl, IProgressListener listener) {
+    public VirtualFile uploadFile(InputStream is, String imageUrl, IProgressListener listener) {
         this.check();
 
         String key = FileUtil.generateTempFileName(imageUrl);

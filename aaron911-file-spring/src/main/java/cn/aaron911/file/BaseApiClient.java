@@ -15,8 +15,8 @@ import cn.aaron911.file.exception.GlobalFileException;
 import cn.aaron911.file.exception.OssApiException;
 import cn.aaron911.file.exception.QiniuApiException;
 import cn.aaron911.file.util.FileUtil;
-import cn.aaron911.file.util.ImageUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.IdUtil;
 
 /**
  * @version 1.0
@@ -41,48 +41,38 @@ public abstract class BaseApiClient implements ApiClient {
     }
 
     @Override
-    public VirtualFile uploadImg(MultipartFile file) {
+    public VirtualFile uploadFile(MultipartFile file) {
         this.check();
         if (file == null) {
             throw new OssApiException("[" + this.storageType + "]文件上传失败：文件不可为空");
         }
         try {
-            VirtualFile res = this.uploadImg(file.getInputStream(), file.getOriginalFilename(), listener);
-            VirtualFile imageInfo = ImageUtil.getInfo(file);
-            return res.setSize(imageInfo.getSize())
-                    .setOriginalFileName(file.getOriginalFilename())
-                    .setWidth(imageInfo.getWidth())
-                    .setHeight(imageInfo.getHeight());
+            VirtualFile res = this.uploadFile(file.getInputStream(), file.getOriginalFilename(), listener);
+            return res.setSize(file.getSize()).setOriginalFileName(file.getOriginalFilename());
         } catch (IOException e) {
             throw new GlobalFileException("[" + this.storageType + "]文件上传失败：" + e.getMessage());
         }
     }
 
     @Override
-    public VirtualFile uploadImg(File file) {
+    public VirtualFile uploadFile(File file) {
         this.check();
         if (file == null) {
             throw new QiniuApiException("[" + this.storageType + "]文件上传失败：文件不可为空");
         }
         try {
             InputStream is = new BufferedInputStream(new FileInputStream(file));
-            VirtualFile res = this.uploadImg(is, "temp" + FileUtil.getSuffix(file), listener);
-            VirtualFile imageInfo = ImageUtil.getInfo(file);
-            return res.setSize(imageInfo.getSize())
-                    .setOriginalFileName(file.getName())
-                    .setWidth(imageInfo.getWidth())
-                    .setHeight(imageInfo.getHeight());
-        } catch (FileNotFoundException e) {
+            int available = is.available();
+            VirtualFile res = this.uploadFile(is, "temp" + FileUtil.getSuffix(file), listener);
+            return res.setSize(available).setOriginalFileName(file.getName());
+        } catch (IOException e) {
             throw new GlobalFileException("[" + this.storageType + "]文件上传失败：" + e.getMessage());
         }
     }
 
     protected void createNewFileName(String key, String pathPrefix) {
         this.suffix = FileUtil.getSuffix(key);
-        if (!FileUtil.isPicture(this.suffix)) {
-            throw new GlobalFileException("[" + this.storageType + "] 非法的图片文件[" + key + "]！目前只支持以下图片格式：[jpg, jpeg, png, gif, bmp]");
-        }
-        String fileName = DateUtil.format(new Date(), "yyyyMMddHHmmssSSS");
+        String fileName = DateUtil.format(new Date(), "yyyyMMddHHmmssSSS") + "_" + IdUtil.fastSimpleUUID();
         this.newFileName = pathPrefix + (fileName + this.suffix);
     }
 

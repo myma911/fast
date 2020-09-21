@@ -12,13 +12,13 @@ import java.io.InputStream;
  */
 public interface ApiClient {
 
-    VirtualFile uploadImg(MultipartFile file);
+    VirtualFile uploadFile(MultipartFile file);
 
-    VirtualFile uploadImg(File file);
+    VirtualFile uploadFile(File file);
 
-    VirtualFile uploadImg(InputStream is, String key);
+    VirtualFile uploadFile(InputStream is, String key);
     
-    VirtualFile uploadImg(InputStream is, String key, IProgressListener listener);
+    VirtualFile uploadFile(InputStream is, String key, IProgressListener listener);
 
     boolean removeFile(String key);
 }

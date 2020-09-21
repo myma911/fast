@@ -50,7 +50,7 @@ public class MinIoApiClient extends BaseApiClient {
 	 * @return 上传后的路径
 	 */
 	@Override
-	public VirtualFile uploadImg(InputStream is, String imageUrl) {
+	public VirtualFile uploadFile(InputStream is, String imageUrl) {
 		this.check();
 
 		String key = FileUtil.generateTempFileName(imageUrl);
@@ -76,7 +76,7 @@ public class MinIoApiClient extends BaseApiClient {
 	 * 带监听器， 还未实现
 	 */
 	@Override
-	public VirtualFile uploadImg(InputStream is, String imageUrl, IProgressListener listener) {
+	public VirtualFile uploadFile(InputStream is, String imageUrl, IProgressListener listener) {
 		this.check();
 
 		String key = FileUtil.generateTempFileName(imageUrl);

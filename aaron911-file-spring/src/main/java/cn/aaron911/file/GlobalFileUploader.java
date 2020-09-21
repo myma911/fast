@@ -20,7 +20,7 @@ public class GlobalFileUploader extends BaseFileUploader implements FileUploader
 	@Override
 	public VirtualFile upload(InputStream is, String uploadType, String imageUrl, boolean save) {
 		ApiClient apiClient = this.getApiClient(uploadType);
-		VirtualFile virtualFile = apiClient.uploadImg(is, imageUrl);
+		VirtualFile virtualFile = apiClient.uploadFile(is, imageUrl);
 		return virtualFile;
 	}
 
@@ -30,7 +30,7 @@ public class GlobalFileUploader extends BaseFileUploader implements FileUploader
 	@Override
 	public VirtualFile upload(File file, String uploadType, boolean save) {
 		ApiClient apiClient = this.getApiClient(uploadType);
-		VirtualFile virtualFile = apiClient.uploadImg(file);
+		VirtualFile virtualFile = apiClient.uploadFile(file);
 		return virtualFile;
 	}
 
@@ -40,7 +40,7 @@ public class GlobalFileUploader extends BaseFileUploader implements FileUploader
 	@Override
 	public VirtualFile upload(MultipartFile file, String uploadType, boolean save) {
 		ApiClient apiClient = this.getApiClient(uploadType);
-		VirtualFile virtualFile = apiClient.uploadImg(file);
+		VirtualFile virtualFile = apiClient.uploadFile(file);
 		return virtualFile;
 	}
 
@@ -52,7 +52,7 @@ public class GlobalFileUploader extends BaseFileUploader implements FileUploader
 	@Override
 	public VirtualFile upload(InputStream is, String uploadType, String imageUrl, boolean save, IProgressListener listener) {
 		ApiClient apiClient = this.getApiClient(uploadType, listener);
-		VirtualFile virtualFile = apiClient.uploadImg(is, imageUrl, listener);
+		VirtualFile virtualFile = apiClient.uploadFile(is, imageUrl, listener);
 		return virtualFile;
 	}
 
@@ -62,7 +62,7 @@ public class GlobalFileUploader extends BaseFileUploader implements FileUploader
 	@Override
 	public VirtualFile upload(File file, String uploadType, boolean save, IProgressListener listener) {
 		ApiClient apiClient = this.getApiClient(uploadType, listener);
-		VirtualFile virtualFile = apiClient.uploadImg(file);
+		VirtualFile virtualFile = apiClient.uploadFile(file);
 		return virtualFile;
 	}
 
@@ -72,7 +72,7 @@ public class GlobalFileUploader extends BaseFileUploader implements FileUploader
 	@Override
 	public VirtualFile upload(MultipartFile file, String uploadType, boolean save, IProgressListener listener) {
 		ApiClient apiClient = this.getApiClient(uploadType, listener);
-		VirtualFile virtualFile = apiClient.uploadImg(file);
+		VirtualFile virtualFile = apiClient.uploadFile(file);
 		return virtualFile;
 	}
 
