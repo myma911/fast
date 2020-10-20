@@ -1,4 +1,4 @@
-package org.zxp.esclientrhl.auto.intfproxy;
+package cn.aaron911.esclientrhl.auto.proxy;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -15,8 +15,9 @@ import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
-import org.zxp.esclientrhl.annotation.EnableESTools;
-import org.zxp.esclientrhl.auto.util.GetBasePackage;
+
+import cn.aaron911.esclientrhl.auto.util.EnableESTools;
+import cn.aaron911.esclientrhl.auto.util.GetBasePackage;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
@@ -27,10 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * program: esclientrhl
  * description: 用于生成ESCRepository的代理bean
- * author: X-Pacific zhang
- * create: 2019-09-02 23:09
  **/
 public class RepositoryFactorySupport<T extends ESCRepository<S, ID>, S, ID> implements ApplicationContextAware, ResourceLoaderAware, InitializingBean, FactoryBean<T>, BeanClassLoaderAware,
         BeanFactoryAware, ApplicationEventPublisherAware {
@@ -86,7 +84,7 @@ public class RepositoryFactorySupport<T extends ESCRepository<S, ID>, S, ID> imp
         String domainClassName = parameterized.getActualTypeArguments()[0].getTypeName();
         //实体类主键类型名称
         String idClassName = parameterized.getActualTypeArguments()[1].getTypeName();
-        if (org.zxp.esclientrhl.auto.util.EnableESTools.isPrintregmsg()) {
+        if (EnableESTools.isPrintregmsg()) {
             logger.info("domainClassName：" + domainClassName + " idClassName：" + idClassName);
         }
         //按照实体类类型名称匹配实体类类型

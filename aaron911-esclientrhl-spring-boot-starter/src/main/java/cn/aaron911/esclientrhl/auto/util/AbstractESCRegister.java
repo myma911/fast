@@ -1,4 +1,4 @@
-package org.zxp.esclientrhl.auto.util;
+package cn.aaron911.esclientrhl.auto.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +16,9 @@ import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-import org.zxp.esclientrhl.auto.intfproxy.ESCRepository;
-import org.zxp.esclientrhl.auto.intfproxy.RepositoryFactorySupport;
+
+import cn.aaron911.esclientrhl.auto.proxy.ESCRepository;
+import cn.aaron911.esclientrhl.auto.proxy.RepositoryFactorySupport;
 
 import java.io.IOException;
 import java.util.stream.Stream;
@@ -41,7 +42,7 @@ public abstract class AbstractESCRegister {
             BeanDefinition bd = beanDefinitionBuilder.getRawBeanDefinition();
             //生成beanname
             String beanName = beanClassName.substring(beanClassName.lastIndexOf(".") + 1);
-            if(org.zxp.esclientrhl.auto.util.EnableESTools.isPrintregmsg()){
+            if(EnableESTools.isPrintregmsg()){
                 logger.info("generate ESCRegistrar beanClassName:" + beanClassName);
                 logger.info("generate ESCRegistrar beanName:" + beanName);
             }

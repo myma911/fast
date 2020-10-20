@@ -1,9 +1,12 @@
-package org.zxp.esclientrhl.auto.autoindex;
+package cn.aaron911.esclientrhl.auto.index;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.core.type.AnnotationMetadata;
-import org.zxp.esclientrhl.annotation.EnableESTools;
+
+import cn.aaron911.esclientrhl.annotation.EnableESTools;
+import cn.aaron911.esclientrhl.auto.util.GetBasePackage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -13,14 +16,10 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
-import org.zxp.esclientrhl.auto.util.GetBasePackage;
 
 /**
- * program: esdemo
  * description: spring初始化完成后通过读取启动类EnableESTools注解上entity的路径（或者不配置，取启动类所在包），得到路径后委托ESEntityScanner扫描相关路径
  * ESCRegistrar进行调用
- * author: X-Pacific zhang
- * create: 2019-01-30 17:22
  **/
 //@Configuration
 public class ESIndexProcessor {//implements BeanFactoryPostProcessor, ApplicationContextAware, BeanFactoryAware {

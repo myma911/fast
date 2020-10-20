@@ -1,7 +1,5 @@
-package org.zxp.esclientrhl.auto.util;
+package cn.aaron911.esclientrhl.auto.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.ClassUtils;
@@ -11,10 +9,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 /**
- * program: esclientrhl
  * description: 获取basepackage列表
- * author: X-Pacific zhang
- * create: 2019-09-02 22:12
  **/
 public class GetBasePackage {
     //缓存的entitypaths

@@ -1,4 +1,4 @@
-package org.zxp.esclientrhl.auto.intfproxy;
+package cn.aaron911.esclientrhl.auto.proxy;
 
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -6,19 +6,15 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.index.query.QueryBuilder;
-import org.zxp.esclientrhl.enums.AggsType;
-import org.zxp.esclientrhl.repository.PageList;
-import org.zxp.esclientrhl.repository.PageSortHighLight;
+
+import cn.aaron911.esclientrhl.enums.AggsTypeEnum;
+import cn.aaron911.esclientrhl.repository.PageList;
+import cn.aaron911.esclientrhl.repository.PageSortHighLight;
 
 import java.util.List;
 import java.util.Map;
 
-/**
- * program: esclientrhl
- * description:
- * author: X-Pacific zhang
- * create: 2019-09-02 17:29
- **/
+
 public interface ESCRepository<T,M> {
 
     /**
@@ -142,6 +138,6 @@ public interface ESCRepository<T,M> {
      * @param aggsType
      * @return
      */
-    public Map aggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, String bucketName) throws Exception;
+    public Map aggs(String metricName, AggsTypeEnum aggsType, QueryBuilder queryBuilder, String bucketName) throws Exception;
 
 }

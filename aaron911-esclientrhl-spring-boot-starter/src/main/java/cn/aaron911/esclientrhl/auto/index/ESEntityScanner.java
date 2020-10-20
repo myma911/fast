@@ -1,19 +1,18 @@
-package org.zxp.esclientrhl.auto.autoindex;
+package cn.aaron911.esclientrhl.auto.index;
 
-import org.zxp.esclientrhl.annotation.ESMetaData;
+
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 
+import cn.aaron911.esclientrhl.annotation.ESMetaData;
+
 import java.util.Set;
 
 /**
- * program: esdemo
  * description: 扫描ESMetaData的注解的bean（就是es数据结构的实体类）给spring管理
- * author: X-Pacific zhang
- * create: 2019-01-24 15:24
  **/
 public class ESEntityScanner extends ClassPathBeanDefinitionScanner {
     public ESEntityScanner(BeanDefinitionRegistry registry) {

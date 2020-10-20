@@ -66,12 +66,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import cn.aaron911.esclientrhl.annotation.ESID;
+import cn.aaron911.esclientrhl.annotation.ESMapping;
 import cn.aaron911.esclientrhl.config.ElasticsearchProperties;
 import cn.aaron911.esclientrhl.enums.AggsTypeEnum;
+import cn.aaron911.esclientrhl.enums.DataTypeEnum;
 import cn.aaron911.esclientrhl.enums.SqlFormatEnum;
 import cn.aaron911.esclientrhl.index.ElasticsearchIndex;
 import cn.aaron911.esclientrhl.repository.response.ScrollResponse;
 import cn.aaron911.esclientrhl.repository.response.UriResponse;
+import cn.aaron911.esclientrhl.util.BeanTools;
 import cn.aaron911.esclientrhl.util.Constant;
 import cn.aaron911.esclientrhl.util.IndexTools;
 import cn.aaron911.esclientrhl.util.MetaData;
@@ -723,23 +726,23 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
                 Down down = new Down();
                 down.setLevel_1_key(bucket.getKey().toString());
                 down.setLevel_2_key(bucket2.getKey().toString());
-                if (AggsType.count == aggsType) {
+                if (AggsTypeEnum.count == aggsType) {
                     ValueCount count = bucket2.getAggregations().get(me);
                     long value = count.getValue();
                     down.setValue(value);
-                } else if (AggsType.min == aggsType) {
+                } else if (AggsTypeEnum.min == aggsType) {
                     ParsedMin min = bucket2.getAggregations().get(me);
                     double value = min.getValue();
                     down.setValue(value);
-                } else if (AggsType.max == aggsType) {
+                } else if (AggsTypeEnum.max == aggsType) {
                     ParsedMax max = bucket2.getAggregations().get(me);
                     double value = max.getValue();
                     down.setValue(value);
-                } else if (AggsType.sum == aggsType) {
+                } else if (AggsTypeEnum.sum == aggsType) {
                     ParsedSum sum = bucket2.getAggregations().get(me);
                     double value = sum.getValue();
                     down.setValue(value);
-                } else if (AggsType.avg == aggsType) {
+                } else if (AggsTypeEnum.avg == aggsType) {
                     ParsedAvg avg = bucket2.getAggregations().get(me);
                     double value = avg.getValue();
                     down.setValue(value);
@@ -775,7 +778,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         }
         //配了注解，但是类型是字符串，默认keyword是true
         else {
-            if (esMapping.datatype() == DataType.text_type && esMapping.keyword() == true) {
+            if (esMapping.datatype() == DataTypeEnum.text_type && esMapping.keyword() == true) {
                 return name + keyword;
             }
         }
@@ -783,14 +786,14 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     }
 
     @Override
-    public double aggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz) throws Exception {
+    public double aggs(String metricName, AggsTypeEnum aggsType, QueryBuilder queryBuilder, Class<T> clazz) throws Exception {
         MetaData metaData = IndexTools.getIndexType(clazz);
         String[] indexname = metaData.getSearchIndexNames();
         return aggs(metricName, aggsType, queryBuilder, clazz, indexname);
     }
 
     @Override
-    public double aggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz, String... indexs) throws Exception {
+	public double aggs(String metricName, AggsTypeEnum aggsType, QueryBuilder queryBuilder, Class<T> clazz, String... indexs) throws Exception {
         String[] indexname = indexs;
         String me = aggsType.toString() + "_" + metricName.replaceAll(keyword, "");
         Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
@@ -803,37 +806,37 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
             searchSourceBuilder.query(queryBuilder);
         }
         searchSourceBuilder.size(0);
-        if (AggsType.count == aggsType) {
+        if (AggsTypeEnum.count == aggsType) {
             searchSourceBuilder.aggregation(AggregationBuilders.count(me).field(metricName));
-        } else if (AggsType.min == aggsType) {
+        } else if (AggsTypeEnum.min == aggsType) {
             searchSourceBuilder.aggregation(AggregationBuilders.min(me).field(metricName));
-        } else if (AggsType.max == aggsType) {
+        } else if (AggsTypeEnum.max == aggsType) {
             searchSourceBuilder.aggregation(AggregationBuilders.max(me).field(metricName));
-        } else if (AggsType.sum == aggsType) {
+        } else if (AggsTypeEnum.sum == aggsType) {
             searchSourceBuilder.aggregation(AggregationBuilders.sum(me).field(metricName));
-        } else if (AggsType.avg == aggsType) {
+        } else if (AggsTypeEnum.avg == aggsType) {
             searchSourceBuilder.aggregation(AggregationBuilders.avg(me).field(metricName));
         }
         SearchRequest searchRequest = new SearchRequest(indexname);
         searchRequest.source(searchSourceBuilder);
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-        if (AggsType.count == aggsType) {
+        if (AggsTypeEnum.count == aggsType) {
             ValueCount count = searchResponse.getAggregations().get(me);
             long value = count.getValue();
             return Double.parseDouble(String.valueOf(value));
-        } else if (AggsType.min == aggsType) {
+        } else if (AggsTypeEnum.min == aggsType) {
             ParsedMin min = searchResponse.getAggregations().get(me);
             double value = min.getValue();
             return value;
-        } else if (AggsType.max == aggsType) {
+        } else if (AggsTypeEnum.max == aggsType) {
             ParsedMax max = searchResponse.getAggregations().get(me);
             double value = max.getValue();
             return value;
-        } else if (AggsType.sum == aggsType) {
+        } else if (AggsTypeEnum.sum == aggsType) {
             ParsedSum sum = searchResponse.getAggregations().get(me);
             double value = sum.getValue();
             return value;
-        } else if (AggsType.avg == aggsType) {
+        } else if (AggsTypeEnum.avg == aggsType) {
             ParsedAvg avg = searchResponse.getAggregations().get(me);
             double value = avg.getValue();
             return value;
@@ -1059,14 +1062,14 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
 
 
     @Override
-    public Map filterAggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz, FiltersAggregator.KeyedFilter... filters) throws Exception {
+    public Map filterAggs(String metricName, AggsTypeEnum aggsType, QueryBuilder queryBuilder, Class<T> clazz, FiltersAggregator.KeyedFilter... filters) throws Exception {
         MetaData metaData = IndexTools.getIndexType(clazz);
         String[] indexname = metaData.getSearchIndexNames();
         return filterAggs(metricName, aggsType, queryBuilder, clazz, filters, indexname);
     }
 
     @Override
-    public Map filterAggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz, FiltersAggregator.KeyedFilter[] filters, String... indexs) throws Exception {
+    public Map filterAggs(String metricName, AggsTypeEnum aggsType, QueryBuilder queryBuilder, Class<T> clazz, FiltersAggregator.KeyedFilter[] filters, String... indexs) throws Exception {
         String[] indexname = indexs;
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         if (filters == null) {
@@ -1080,15 +1083,15 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         String me = aggsType.toString() + "_" + metricName.replaceAll(keyword, "");
         AggregationBuilder aggregation = AggregationBuilders.filters("filteragg", filters);
         searchSourceBuilder.size(0);
-        if (AggsType.count == aggsType) {
+        if (AggsTypeEnum.count == aggsType) {
             aggregation.subAggregation(AggregationBuilders.count(me).field(metricName));
-        } else if (AggsType.min == aggsType) {
+        } else if (AggsTypeEnum.min == aggsType) {
             aggregation.subAggregation(AggregationBuilders.min(me).field(metricName));
-        } else if (AggsType.max == aggsType) {
+        } else if (AggsTypeEnum.max == aggsType) {
             aggregation.subAggregation(AggregationBuilders.max(me).field(metricName));
-        } else if (AggsType.sum == aggsType) {
+        } else if (AggsTypeEnum.sum == aggsType) {
             aggregation.subAggregation(AggregationBuilders.sum(me).field(metricName));
-        } else if (AggsType.avg == aggsType) {
+        } else if (AggsTypeEnum.avg == aggsType) {
             aggregation.subAggregation(AggregationBuilders.avg(me).field(metricName));
         }
         if (queryBuilder != null) {
@@ -1101,23 +1104,23 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         Filters agg = searchResponse.getAggregations().get("filteragg");
         Map map = new LinkedHashMap();
         for (Filters.Bucket entry : agg.getBuckets()) {
-            if (AggsType.count == aggsType) {
+            if (AggsTypeEnum.count == aggsType) {
                 ValueCount count = entry.getAggregations().get(me);
                 long value = count.getValue();
                 map.put(entry.getKey(), value);
-            } else if (AggsType.min == aggsType) {
+            } else if (AggsTypeEnum.min == aggsType) {
                 ParsedMin min = entry.getAggregations().get(me);
                 double value = min.getValue();
                 map.put(entry.getKey(), value);
-            } else if (AggsType.max == aggsType) {
+            } else if (AggsTypeEnum.max == aggsType) {
                 ParsedMax max = entry.getAggregations().get(me);
                 double value = max.getValue();
                 map.put(entry.getKey(), value);
-            } else if (AggsType.sum == aggsType) {
+            } else if (AggsTypeEnum.sum == aggsType) {
                 ParsedSum sum = entry.getAggregations().get(me);
                 double value = sum.getValue();
                 map.put(entry.getKey(), value);
-            } else if (AggsType.avg == aggsType) {
+            } else if (AggsTypeEnum.avg == aggsType) {
                 ParsedAvg avg = entry.getAggregations().get(me);
                 double value = avg.getValue();
                 map.put(entry.getKey(), value);
@@ -1127,14 +1130,14 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     }
 
     @Override
-    public Map histogramAggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz, String bucketName, double interval) throws Exception {
+    public Map histogramAggs(String metricName, AggsTypeEnum aggsType, QueryBuilder queryBuilder, Class<T> clazz, String bucketName, double interval) throws Exception {
         MetaData metaData = IndexTools.getIndexType(clazz);
         String[] indexname = metaData.getSearchIndexNames();
         return histogramAggs(metricName, aggsType, queryBuilder, clazz, bucketName, interval, indexname);
     }
 
     @Override
-    public Map histogramAggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz, String bucketName, double interval, String... indexs) throws Exception {
+    public Map histogramAggs(String metricName, AggsTypeEnum aggsType, QueryBuilder queryBuilder, Class<T> clazz, String bucketName, double interval, String... indexs) throws Exception {
         String[] indexname = indexs;
         Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
         Field f_bucket = clazz.getDeclaredField(bucketName.replaceAll(keyword, ""));
@@ -1152,15 +1155,15 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         AggregationBuilder aggregation = AggregationBuilders.histogram(by).field(bucketName).interval(interval);
         searchSourceBuilder.size(0);
-        if (AggsType.count == aggsType) {
+        if (AggsTypeEnum.count == aggsType) {
             aggregation.subAggregation(AggregationBuilders.count(me).field(metricName));
-        } else if (AggsType.min == aggsType) {
+        } else if (AggsTypeEnum.min == aggsType) {
             aggregation.subAggregation(AggregationBuilders.min(me).field(metricName));
-        } else if (AggsType.max == aggsType) {
+        } else if (AggsTypeEnum.max == aggsType) {
             aggregation.subAggregation(AggregationBuilders.max(me).field(metricName));
-        } else if (AggsType.sum == aggsType) {
+        } else if (AggsTypeEnum.sum == aggsType) {
             aggregation.subAggregation(AggregationBuilders.sum(me).field(metricName));
-        } else if (AggsType.avg == aggsType) {
+        } else if (AggsTypeEnum.avg == aggsType) {
             aggregation.subAggregation(AggregationBuilders.avg(me).field(metricName));
         }
         if (queryBuilder != null) {
@@ -1173,23 +1176,23 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         ParsedHistogram agg = searchResponse.getAggregations().get(by);
         Map map = new LinkedHashMap();
         for (Histogram.Bucket entry : agg.getBuckets()) {
-            if (AggsType.count == aggsType) {
+            if (AggsTypeEnum.count == aggsType) {
                 ValueCount count = entry.getAggregations().get(me);
                 long value = count.getValue();
                 map.put(entry.getKey(), value);
-            } else if (AggsType.min == aggsType) {
+            } else if (AggsTypeEnum.min == aggsType) {
                 ParsedMin min = entry.getAggregations().get(me);
                 double value = min.getValue();
                 map.put(entry.getKey(), value);
-            } else if (AggsType.max == aggsType) {
+            } else if (AggsTypeEnum.max == aggsType) {
                 ParsedMax max = entry.getAggregations().get(me);
                 double value = max.getValue();
                 map.put(entry.getKey(), value);
-            } else if (AggsType.sum == aggsType) {
+            } else if (AggsTypeEnum.sum == aggsType) {
                 ParsedSum sum = entry.getAggregations().get(me);
                 double value = sum.getValue();
                 map.put(entry.getKey(), value);
-            } else if (AggsType.avg == aggsType) {
+            } else if (AggsTypeEnum.avg == aggsType) {
                 ParsedAvg avg = entry.getAggregations().get(me);
                 double value = avg.getValue();
                 map.put(entry.getKey(), value);
@@ -1199,14 +1202,14 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     }
 
     @Override
-    public Map dateHistogramAggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz, String bucketName, DateHistogramInterval interval) throws Exception {
+    public Map dateHistogramAggs(String metricName, AggsTypeEnum aggsType, QueryBuilder queryBuilder, Class<T> clazz, String bucketName, DateHistogramInterval interval) throws Exception {
         MetaData metaData = IndexTools.getIndexType(clazz);
         String[] indexname = metaData.getSearchIndexNames();
         return dateHistogramAggs(metricName, aggsType, queryBuilder, clazz, bucketName, interval, indexname);
     }
 
     @Override
-    public Map dateHistogramAggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz, String bucketName, DateHistogramInterval interval, String... indexs) throws Exception {
+    public Map dateHistogramAggs(String metricName, AggsTypeEnum aggsType, QueryBuilder queryBuilder, Class<T> clazz, String bucketName, DateHistogramInterval interval, String... indexs) throws Exception {
         String[] indexname = indexs;
         Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
         Field f_bucket = clazz.getDeclaredField(bucketName.replaceAll(keyword, ""));
@@ -1219,7 +1222,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
             throw new Exception("bucket type is not support");
         }
         ESMapping esMapping = f_bucket.getAnnotation(ESMapping.class);
-        if (esMapping != null && esMapping.datatype() != DataType.date_type) {
+        if (esMapping != null && esMapping.datatype() != DataTypeEnum.date_type) {
             throw new Exception("bucket type is not support");
         }
         metricName = genKeyword(f_metric, metricName);
@@ -1255,19 +1258,19 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
                 ValueCount count = entry.getAggregations().get(me);
                 long value = count.getValue();
                 map.put(entry.getKey(), value);
-            } else if (AggsType.min == aggsType) {
+            } else if (AggsTypeEnum.min == aggsType) {
                 ParsedMin min = entry.getAggregations().get(me);
                 double value = min.getValue();
                 map.put(entry.getKey(), value);
-            } else if (AggsType.max == aggsType) {
+            } else if (AggsTypeEnum.max == aggsType) {
                 ParsedMax max = entry.getAggregations().get(me);
                 double value = max.getValue();
                 map.put(entry.getKey(), value);
-            } else if (AggsType.sum == aggsType) {
+            } else if (AggsTypeEnum.sum == aggsType) {
                 ParsedSum sum = entry.getAggregations().get(me);
                 double value = sum.getValue();
                 map.put(entry.getKey(), value);
-            } else if (AggsType.avg == aggsType) {
+            } else if (AggsTypeEnum.avg == aggsType) {
                 ParsedAvg avg = entry.getAggregations().get(me);
                 double value = avg.getValue();
                 map.put(entry.getKey(), value);
@@ -1423,16 +1426,14 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
             //替换高亮字段
             if (highLightFlag) {
                 Map<String, HighlightField> hmap = hit.getHighlightFields();
-                hmap.forEach((k, v) ->
-                        {
-                            try {
-                                Object obj = mapToObject(hmap, clazz);
-                                BeanUtils.copyProperties(obj, t, BeanTools.getNoValuePropertyNames(obj));
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                );
+                hmap.forEach((k, v) -> {
+                    try {
+                        Object obj = mapToObject(hmap, clazz);
+                        BeanUtils.copyProperties(obj, t, BeanTools.getNoValuePropertyNames(obj));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+               });
             }
             list.add(t);
             //最后一条SearchAfter用于searchAfter

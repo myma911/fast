@@ -1,4 +1,4 @@
-package org.zxp.esclientrhl.auto.intfproxy;
+package cn.aaron911.esclientrhl.auto.proxy;
 
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -7,20 +7,15 @@ import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.springframework.context.ApplicationContext;
-import org.zxp.esclientrhl.enums.AggsType;
-import org.zxp.esclientrhl.repository.ElasticsearchTemplate;
-import org.zxp.esclientrhl.repository.PageList;
-import org.zxp.esclientrhl.repository.PageSortHighLight;
+
+import cn.aaron911.esclientrhl.enums.AggsTypeEnum;
+import cn.aaron911.esclientrhl.repository.ElasticsearchTemplate;
+import cn.aaron911.esclientrhl.repository.PageList;
+import cn.aaron911.esclientrhl.repository.PageSortHighLight;
 
 import java.util.List;
 import java.util.Map;
 
-/**
- * program: esclientrhl
- * description:
- * author: X-Pacific zhang
- * create: 2019-09-03 13:21
- **/
 public class SimpleESCRepository<T,M> implements ESCRepository<T,M> {
     private Class<T> domainClass;
     private Class<M> idClass;
@@ -107,7 +102,7 @@ public class SimpleESCRepository<T,M> implements ESCRepository<T,M> {
     }
 
     @Override
-    public Map aggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, String bucketName) throws Exception {
+    public Map aggs(String metricName, AggsTypeEnum aggsType, QueryBuilder queryBuilder, String bucketName) throws Exception {
         return getElasticsearchTemplate().aggs(metricName, aggsType, queryBuilder, domainClass,bucketName);
     }
 

@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties("aaron911.elasticsearch")
 public class ElasticsearchProperties {
-    private String host = "127.0.0.1";
-    private int port = 9200;
+    private String host = "127.0.0.1:9200";
 	private String username;
     private String password;
 
@@ -23,14 +22,7 @@ public class ElasticsearchProperties {
         this.host = host;
     }
     
-    public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-
+    
     public String getUsername() {
         return username;
     }
