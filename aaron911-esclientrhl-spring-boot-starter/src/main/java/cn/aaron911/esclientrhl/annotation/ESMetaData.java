@@ -26,6 +26,7 @@ public @interface ESMetaData {
     /**
      * 索引类型，可以不配置，不配置默认和indexName相同，墙裂建议每个index下只有一个type
      */
+    @Deprecated
     String indexType() default "";
     /**
      * 主分片数量
