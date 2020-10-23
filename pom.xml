@@ -29,6 +29,7 @@
 		<module>aaron911-lock-spring-boot-starter</module>
 		<module>aaron911-idempotent-spring-boot-starter</module>
 		<module>aaron911-esclientrhl-spring-boot-starter</module>
+		<module>aaron911-trace-log</module>
 	</modules>
 
 	<properties>
