@@ -1,9 +1,6 @@
 package cn.aaron911.buron.util;
 
-/**
- * @version 1.0
- * 
- */
+
 public enum GlobalBraumUtil {
 
     INSTANCE;

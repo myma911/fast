@@ -4,9 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import cn.aaron911.buron.util.RequestUtil;
 
-/**
- * @version 1.0
- */
+
 public class BuronResponse {
 
     private int code;

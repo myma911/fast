@@ -9,16 +9,14 @@ import org.springframework.util.Assert;
 
 import cn.aaron911.buron.property.BuronProperties;
 
-/**
- * @version 1.0
- */
+
 public class RedisCache implements Cache {
 
     @Autowired
-    RedisTemplate<String, Object> buronRedisTemplate;
+    private RedisTemplate<String, Object> buronRedisTemplate;
     
     @Autowired
-    BuronProperties properties;
+    private BuronProperties properties;
 
     @Override
     public void set(String key, Integer value, long delay, TimeUnit unit) {
@@ -33,7 +31,7 @@ public class RedisCache implements Cache {
         Assert.notNull(key, "The object argument [key] must be null");
         Assert.notNull(value, "The object argument [value] must be null");
 
-        ValueOperations operations = buronRedisTemplate.opsForValue();
+        ValueOperations<String, Object> operations = buronRedisTemplate.opsForValue();
         CacheObj cacheObj = (CacheObj) operations.get(key);
         if (null == cacheObj) {
             this.set(key, value, properties.getInterval(), TimeUnit.MILLISECONDS);

@@ -12,9 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-/**
- * @version 1.0
- */
+
 public class ConcurrentHashMapCache implements Cache {
 
     private static final Map<String, CacheObj> STORE = new ConcurrentHashMap<>();
@@ -26,7 +24,7 @@ public class ConcurrentHashMapCache implements Cache {
     private final Lock readLock = lock.readLock();
     
     @Autowired
-    BuronProperties properties;
+    private BuronProperties properties;
 
     public ConcurrentHashMapCache() {
         /*

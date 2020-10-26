@@ -14,9 +14,7 @@ import cn.aaron911.buron.util.RequestUtil;
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @version 1.0
- */
+
 public class BuronShieldProcessor implements BuronProcessor{
     private static final Logger log = LoggerFactory.getLogger(BuronShieldProcessor.class);
 
@@ -42,7 +40,9 @@ public class BuronShieldProcessor implements BuronProcessor{
             int blocklistCount = this.getBlacklistCount(key);
             long expire = cache.getExpire(lockKey);
             String msg = String.format(lockMsgTpl, ip, blocklistCount, expire);
-            log.debug(msg);
+            if(log.isDebugEnabled()) {
+            	log.debug(msg);
+            }
             return new BuronResponse().isError()
                     .setMsg(msg)
                     .setExpire(expire)
@@ -57,7 +57,9 @@ public class BuronShieldProcessor implements BuronProcessor{
             long expire = cache.getExpire(lockKey);
             int blocklistCount = this.getBlacklistCount(key);
             String msg = String.format(lockMsgTpl, ip, blocklistCount, expire);
-            log.debug(msg);
+            if(log.isDebugEnabled()) {
+            	log.debug(msg);
+            }
             return new BuronResponse().isError()
                     .setMsg(msg)
                     .setExpire(expire)
@@ -66,7 +68,9 @@ public class BuronShieldProcessor implements BuronProcessor{
         }
 
         String msg = String.format(accessMsgTpl, ip, properties.getInterval(), cache.get(key).getValue());
-        log.debug(msg);
+        if(log.isDebugEnabled()) {
+        	log.debug(msg);
+        }
         return new BuronResponse()
                 .isSuccess()
                 .setMsg(msg)

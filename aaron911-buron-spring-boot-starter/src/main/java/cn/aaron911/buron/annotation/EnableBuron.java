@@ -6,13 +6,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.springframework.context.annotation.Import;
+
+import cn.aaron911.buron.BuronAutoConfiguration;
+import cn.aaron911.buron.context.LogoApplactionListener;
+import cn.aaron911.buron.property.BuronProperties;
+
 /**
  * Enable Buron for spring boot application
- *
- * @version 1.0
+ * 
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface EnableBuronConfiguration {
+@Import({BuronAutoConfiguration.class, BuronProperties.class, LogoApplactionListener.class})
+public @interface EnableBuron {
 }

@@ -7,9 +7,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * @version 1.0
- */
 public enum CacheScheduler {
 
     INSTANCE;
