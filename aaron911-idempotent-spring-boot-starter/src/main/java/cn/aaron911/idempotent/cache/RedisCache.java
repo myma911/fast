@@ -2,20 +2,17 @@ package cn.aaron911.idempotent.cache;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Resource;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import cn.hutool.core.util.StrUtil;
-import lombok.extern.slf4j.Slf4j;
 
-/**
- * @version 1.0
- */
-@Slf4j
 public class RedisCache implements Cache {
+	private static final Logger log = LoggerFactory.getLogger(RedisCache.class);
 
-    @Resource
+    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
     
 

@@ -1,13 +1,8 @@
 package cn.aaron911.file.alioss.entity;
 
-import lombok.Data;
 
 import java.util.List;
 
-/**
- * @version 1.0
- */
-@Data
 public class RefererEntity extends AbstractEntity {
 
     List<String> refererList;
@@ -19,4 +14,9 @@ public class RefererEntity extends AbstractEntity {
     public void setRefererList(List<String> refererList) {
         this.refererList = refererList;
     }
+
+	public List<String> getRefererList() {
+		return refererList;
+	}
+    
 }

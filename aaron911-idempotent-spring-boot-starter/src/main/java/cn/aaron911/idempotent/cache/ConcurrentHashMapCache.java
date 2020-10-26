@@ -6,17 +6,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import cn.aaron911.idempotent.property.IdempotentProperties;
-import lombok.extern.slf4j.Slf4j;
 
-/**
- * @version 1.0
- */
-@Slf4j
+
 public class ConcurrentHashMapCache implements Cache {
+	private static final Logger log = LoggerFactory.getLogger(ConcurrentHashMapCache.class);
 
     private static final Map<String, CacheObj> STORE = new ConcurrentHashMap<>();
     private static final int DEFAULT_CLEAR_CACHE_DELAY = 5;
@@ -27,7 +24,7 @@ public class ConcurrentHashMapCache implements Cache {
     private final Lock readLock = lock.readLock();
     
     @Autowired
-    IdempotentProperties properties;
+    private IdempotentProperties properties;
 
     public ConcurrentHashMapCache() {
         /*

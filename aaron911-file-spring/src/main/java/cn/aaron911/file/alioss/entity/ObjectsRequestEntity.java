@@ -1,13 +1,10 @@
 package cn.aaron911.file.alioss.entity;
 
-import lombok.Data;
 
 /**
  * https://help.aliyun.com/document_detail/32015.html?spm=5176.doc32021.6.665.PqGkRT
  *
- * @version 1.0
  */
-@Data
 public class ObjectsRequestEntity {
 
     /*
@@ -56,4 +53,25 @@ public class ObjectsRequestEntity {
         this.encodingType = encodingType;
         return this;
     }
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public String getMarker() {
+		return marker;
+	}
+
+	public Integer getMaxKeys() {
+		return maxKeys;
+	}
+
+	public String getDelimiter() {
+		return delimiter;
+	}
+
+	public String getEncodingType() {
+		return encodingType;
+	}
+    
 }

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>cn.aaron911</groupId>
 		<artifactId>aaron911-fast</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>aaron911-trace-log</artifactId>
 	<packaging>pom</packaging>
@@ -17,9 +17,6 @@
 		<kafka.version>2.5.0</kafka.version>
 		<elasticsearch.version>7.7.0</elasticsearch.version>
 	</properties>
-
-
-
 
 
 	<modules>

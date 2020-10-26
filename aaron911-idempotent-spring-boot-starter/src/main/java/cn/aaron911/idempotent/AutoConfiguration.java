@@ -1,4 +1,4 @@
-package cn.aaron911.buron;
+package cn.aaron911.idempotent;
 
 
 import org.slf4j.Logger;
@@ -14,49 +14,37 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import cn.aaron911.buron.cache.BuronCacheType;
-import cn.aaron911.buron.cache.Cache;
-import cn.aaron911.buron.cache.ConcurrentHashMapCache;
-import cn.aaron911.buron.cache.RedisCache;
-import cn.aaron911.buron.property.BuronProperties;
+import cn.aaron911.idempotent.cache.Cache;
+import cn.aaron911.idempotent.cache.ConcurrentHashMapCache;
+import cn.aaron911.idempotent.cache.RedisCache;
+import cn.aaron911.idempotent.property.IdempotentProperties;
 import redis.clients.jedis.JedisPoolConfig;
-
-import javax.annotation.PostConstruct;
 
 
 @Configuration
-public class BuronAutoConfiguration {
-
-    private static final Logger log = LoggerFactory.getLogger(BuronAutoConfiguration.class);
-
+public class AutoConfiguration {
+	private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+	
     @Autowired
-    private BuronProperties properties;
-
-    @PostConstruct
-    public void init() {
-    	if (log.isDebugEnabled()) {
-    		log.debug("Buron starts to work");
-    	}
-    }
+    private IdempotentProperties properties;
 
     @Bean
-    public BuronProcessor buronProcessor() {
-        return new BuronShieldProcessor();
-    }
-
-    @Bean
-    public Cache buronCache() {
-        BuronCacheType type = properties.getType();
-        if (type == BuronCacheType.REDIS) {
+    public Cache cache() {
+        if ("redis".equals(properties.getType())) {
         	if (log.isDebugEnabled()) {
-        		log.debug("Enabling Buron cache: [Redis]");        		
+        		log.debug("Enabling Idempotent cache: [Redis]");
         	}
             return new RedisCache();
+        } 
+        else if ("map".equals(properties.getType())) {
+        	if (log.isDebugEnabled()) {
+            	log.debug("Enabling Idempotent cache: [Map]");        	
+            }
+            return new ConcurrentHashMapCache();
         }
-    	if (log.isDebugEnabled()) {
-    		log.debug("Enabling Buron cache: [Map]");        		
-    	}
-        return new ConcurrentHashMapCache();
+        log.error("Idempotent cache Type Error");        
+        return null;
+        
     }
     
     

@@ -18,9 +18,7 @@ import org.springframework.context.annotation.Import;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@Import({
-	cn.aaron911.file.FileAutoConfiguration.class
-})
+@Import({cn.aaron911.file.FileAutoConfiguration.class})
 public @interface EnableAaron911FileUpload{
 
 }

@@ -1,37 +1,35 @@
 package cn.aaron911.file;
 
 import javax.annotation.PostConstruct;
-
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import cn.aaron911.file.property.FileProperties;
-import lombok.extern.slf4j.Slf4j;
-
-/**
- * @version 1.0.0
- * 
- */
 @Configuration
-@EnableConfigurationProperties(FileProperties.class)
-@Slf4j
 public class FileAutoConfiguration {
+	private static final Logger log = LoggerFactory.getLogger(FileAutoConfiguration.class);
 	
 	@PostConstruct
 	public void init() {
-		log.debug("cn.aaron911.file 文件上传开始初始化");
+		if (log.isDebugEnabled()) {
+			log.debug("aaron911文件上传开始初始化");
+		}
 	}
 	
     @Bean
-    BaseFileUploader baseFileUploader() {
-    	log.debug("cn.aaron911.file 文件上传BaseFileUploader初始化");
+    public BaseFileUploader baseFileUploader() {
+		if (log.isDebugEnabled()) {
+			log.debug("cn.aaron911.file 文件上传BaseFileUploader初始化");
+		}
         return new BaseFileUploader();
     }
     
     @Bean
-    GlobalFileUploader globalFileUploader() {
-    	log.debug("cn.aaron911.file 文件上传GlobalFileUploader初始化");
+    public GlobalFileUploader globalFileUploader() {
+		if (log.isDebugEnabled()) {
+			log.debug("cn.aaron911.file 文件上传GlobalFileUploader初始化");
+		}
         return new GlobalFileUploader();
     }
 

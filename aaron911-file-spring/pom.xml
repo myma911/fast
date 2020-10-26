@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>cn.aaron911</groupId>
 		<artifactId>aaron911-fast</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>aaron911-file-spring</artifactId>
 	<packaging>jar</packaging>
@@ -19,33 +19,37 @@
 
 
 	<dependencies>
+
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
 
 		<dependency>
 			<groupId>com.qiniu</groupId>
 			<artifactId>qiniu-java-sdk</artifactId>
 			<version>${qiniu.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.aliyun.oss</groupId>
 			<artifactId>aliyun-sdk-oss</artifactId>
 			<version>${aliyun.oss.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>io.minio</groupId>
 			<artifactId>minio</artifactId>
 			<version>${minio.version}</version>
+			<scope>provided</scope>
 		</dependency>
-
-		<!-- lombok -->
+		
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -54,7 +58,7 @@
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
 		</dependency>
-	
+
 
 	</dependencies>
 </project>

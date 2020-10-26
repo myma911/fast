@@ -5,11 +5,9 @@
 	<parent>
 		<groupId>cn.aaron911</groupId>
 		<artifactId>aaron911-trace-log</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>log-server</artifactId>
-
-
 
 
 
@@ -35,7 +33,6 @@
 		<dependency>
 			<groupId>org.elasticsearch.client</groupId>
 			<artifactId>elasticsearch-rest-client</artifactId>
-			<version>${elasticsearch.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -57,14 +54,13 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 		
 		<dependency>
     		<groupId>cn.aaron911</groupId>
   			<artifactId>log-logback</artifactId>
-    		<version>0.0.1-SNAPSHOT</version>
+    		<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 	<build>

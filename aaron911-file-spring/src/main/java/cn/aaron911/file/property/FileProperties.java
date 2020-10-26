@@ -1,14 +1,16 @@
 package cn.aaron911.file.property;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
-@ConfigurationProperties("aaron911.file")
+@Configuration
 public class FileProperties {
 
     /**
      * 存储类型
      * StorageTypeEnum 中的一种
      */
+	@Value("${aaron911.file.storageType: }")
 	private String storageType = "";
 	
 	
@@ -17,11 +19,13 @@ public class FileProperties {
     /**
      * 文件服务器域名
      */
+	@Value("${aaron911.file.localFileUrl: }")
 	private String localFileUrl = "";
 	
     /**
      * 文件存储路径
      */
+	@Value("${aaron911.file.localFilePath: }")
 	private String localFilePath = "";
 	
 /*****************************************************/	
@@ -29,18 +33,25 @@ public class FileProperties {
     /**
      * 七牛云Bucket 名称
      */
+	@Value("${aaron911.file.qiniuBucketName: }")
 	private String qiniuBucketName = "";
+	
     /**
      * 七牛云AccessKey
      */
+	@Value("${aaron911.file.qiniuAccessKey: }")
 	private String qiniuAccessKey = "";
+	
     /**
      * 七牛云Secret Key
      */
+	@Value("${aaron911.file.qiniuSecretKey: }")
 	private String qiniuSecretKey = "";
+	
     /**
      * 七牛云cdn域名
      */
+	@Value("${aaron911.file.qiniuBasePath: }")
 	private String qiniuBasePath = "";
 	
 /*****************************************************/
@@ -48,22 +59,31 @@ public class FileProperties {
     /**
      * 阿里云Bucket 名称
      */
+	@Value("${aaron911.file.aliyunBucketName: }")
 	private String aliyunBucketName = "";
+	
     /**
      * 阿里云地域节点（EndPoint）
      */
+	@Value("${aaron911.file.aliyunEndpoint: }")
 	private String aliyunEndpoint = "";
+	
     /**
      * 阿里云Bucket 域名
      */
+	@Value("${aaron911.file.aliyunFileUrl: }")
 	private String aliyunFileUrl = "";
+	
     /**
      * 阿里云Access Key
      */
+	@Value("${aaron911.file.aliyunAccessKey: }")
 	private String aliyunAccessKey = "";
+	
     /**
      * 阿里云Access Key Secret
      */
+	@Value("${aaron911.file.aliyunAccessKeySecret: }")
 	private String aliyunAccessKeySecret = "";
 	
 /*****************************************************/	
@@ -71,14 +91,19 @@ public class FileProperties {
 	/**
 	 * MinIo 存储
 	 */
+	@Value("${aaron911.file.minioEndpoint: }")
     private String minioEndpoint = "";
+    
 	/**
 	 * MinIo 存储 
 	 */
+	@Value("${aaron911.file.minioAccessKey: }")
 	private String minioAccessKey = "";
+	
 	/**
 	 * MinIo 存储
 	 */
+	@Value("${aaron911.file.minioSecretKey: }")
     private String minioSecretKey = "";
 
 /*****************************************************/

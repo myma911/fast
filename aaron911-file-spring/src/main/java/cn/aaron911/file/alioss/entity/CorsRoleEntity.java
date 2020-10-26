@@ -1,13 +1,8 @@
 package cn.aaron911.file.alioss.entity;
 
-import lombok.Data;
-
 import java.util.ArrayList;
 
-/**
- * @version 1.0
- */
-@Data
+
 public class CorsRoleEntity extends AbstractEntity {
     private ArrayList<String> allowedOrigin; // 指定允许跨域请求的来源
     private ArrayList<String> allowedMethod; // 指定允许的跨域请求方法(GET/PUT/DELETE/POST/HEAD)
@@ -44,4 +39,24 @@ public class CorsRoleEntity extends AbstractEntity {
         this.maxAgeSeconds = maxAgeSeconds;
     }
 
+	public ArrayList<String> getAllowedOrigin() {
+		return allowedOrigin;
+	}
+
+	public ArrayList<String> getAllowedMethod() {
+		return allowedMethod;
+	}
+
+	public ArrayList<String> getAllowedHeader() {
+		return allowedHeader;
+	}
+
+	public ArrayList<String> getExposedHeader() {
+		return exposedHeader;
+	}
+
+	public int getMaxAgeSeconds() {
+		return maxAgeSeconds;
+	}
+    
 }

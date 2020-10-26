@@ -5,9 +5,9 @@
 	<parent>
 		<groupId>cn.aaron911</groupId>
 		<artifactId>aaron911-fast</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
-	<artifactId>aaron911-idempotent-spring-boot-starter</artifactId>
+	<artifactId>aaron911-idempotent-spring</artifactId>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,25 +16,23 @@
 	</properties>
 
 	<dependencies>
-		<!-- SpringBoot -->
+	
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
-			<optional>true</optional>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
 			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-			<optional>true</optional>
 		</dependency>
 
 		<!-- hutool -->
@@ -43,12 +41,21 @@
 			<artifactId>hutool-all</artifactId>
 			<optional>true</optional>
 		</dependency>
-
+		
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson</artifactId>
+			<version>3.5.5</version>
+		</dependency>
+
 	</dependencies>
 
 

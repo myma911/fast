@@ -1,12 +1,8 @@
 package cn.aaron911.file.alioss.entity;
 
 import com.aliyun.oss.model.CannedAccessControlList;
-import lombok.Data;
 
-/**
- * @version 1.0
- */
-@Data
+
 public class BucketEntity extends AbstractEntity {
 
     /*
@@ -24,4 +20,9 @@ public class BucketEntity extends AbstractEntity {
         this.acl = acl;
         return this;
     }
+
+	public CannedAccessControlList getAcl() {
+		return acl;
+	}
+    
 }

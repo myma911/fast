@@ -20,14 +20,13 @@
 		<module>aaron911-encrypt-spring</module>
 		<module>aaron911-file-spring</module>
 		<module>aaron911-generator</module>
-		<module>aaron911-minio-spring-boot-starter</module>
 		<module>aaron911-oauth</module>
 		<module>aaron911-pay</module>
 		<module>aaron911-spider</module>
 		<module>aaron911-sso</module>
 		<module>aaron911-limiter-spring-boot-starter</module>
 		<module>aaron911-lock-spring-boot-starter</module>
-		<module>aaron911-idempotent-spring-boot-starter</module>
+		<module>aaron911-idempotent-spring</module>
 		<module>aaron911-esclientrhl-spring-boot-starter</module>
 		<module>aaron911-trace-log</module>
 	</modules>

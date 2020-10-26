@@ -1,13 +1,13 @@
 package cn.aaron911.idempotent.core;
 
 import java.util.concurrent.TimeUnit;
-
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
 import cn.aaron911.idempotent.cache.Cache;
 import cn.aaron911.idempotent.exception.IdempotentCreateFailedException;
 import cn.aaron911.idempotent.exception.IdempotentEmptyException;
@@ -16,13 +16,13 @@ import cn.aaron911.idempotent.property.IdempotentProperties;
 import cn.hutool.core.text.StrBuilder;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import lombok.extern.slf4j.Slf4j;
+
 
 @Component
-@Slf4j
 /**最小值,最先读取这个配置**/
 @Order(Integer.MIN_VALUE)
 public class IdempotentCoreImpl implements IIdempotentCore{
+	private static final Logger log = LoggerFactory.getLogger(IdempotentCoreImpl.class);
     
     @Autowired
     private IdempotentProperties idempotentProperties;

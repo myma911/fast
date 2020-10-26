@@ -30,9 +30,7 @@ import cn.aaron911.file.alioss.entity.ObjectsRequestEntity;
 import cn.aaron911.file.alioss.entity.RefererEntity;
 import cn.aaron911.file.exception.OssApiException;
 
-/**
- * @version 1.0
- */
+
 public class OssApi {
 
     private OSSClient client;
