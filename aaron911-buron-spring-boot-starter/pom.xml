@@ -7,7 +7,7 @@
 		<artifactId>aaron911-fast</artifactId>
 		<version>1.0.0</version>
 	</parent>
-	<artifactId>aaron911-buron</artifactId>
+	<artifactId>aaron911-buron-spring</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>

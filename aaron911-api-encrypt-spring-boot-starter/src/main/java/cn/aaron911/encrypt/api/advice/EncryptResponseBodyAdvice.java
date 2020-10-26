@@ -1,5 +1,18 @@
 package cn.aaron911.encrypt.api.advice;
 
+import java.lang.annotation.Annotation;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.MethodParameter;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.MediaType;
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,17 +33,6 @@ import cn.aaron911.encrypt.api.util.CheckUtils;
 import cn.aaron911.encrypt.api.util.DESEncryptUtil;
 import cn.aaron911.encrypt.api.util.MD5EncryptUtil;
 import cn.aaron911.encrypt.api.util.SHAEncryptUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.MethodParameter;
-import org.springframework.core.annotation.Order;
-import org.springframework.http.MediaType;
-import org.springframework.http.server.ServerHttpRequest;
-import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
-
-import java.lang.annotation.Annotation;
 
 
 /**
@@ -40,9 +42,10 @@ import java.lang.annotation.Annotation;
  */
 @Order(1)
 @ControllerAdvice
-@Slf4j
 public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {
-
+	private static final Logger log = LoggerFactory.getLogger(EncryptResponseBodyAdvice.class);
+	
+	
     private final ObjectMapper objectMapper;
 
     private final EncryptConfig config;
@@ -86,23 +89,23 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {
         try {
             str = objectMapper.writeValueAsString(body);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             log.error("数据转换错误", e);
             throw new EncryptBodyFailException();
         }
         EncryptAnnotationInfoBean classAnnotation = getClassAnnotation(returnType.getDeclaringClass());
         if(classAnnotation != null){
         	String encryptContent = switchEncrypt(str, classAnnotation);
-        	if(config.isShowLog()) {
-                log.info("加密前：{},加密后：{}", str, encryptContent);
+        	
+        	if(log.isDebugEnabled()) {
+                log.debug("加密前：{},加密后：{}", str, encryptContent);
             }
             return encryptContent;
         }
         EncryptAnnotationInfoBean methodAnnotation = getMethodAnnotation(returnType);
         if(methodAnnotation != null){
         	String encryptContent = switchEncrypt(str, methodAnnotation);
-        	if(config.isShowLog()) {
-                log.info("加密前：{},加密后：{}", str, encryptContent);
+        	if(log.isDebugEnabled()) {
+                log.debug("加密前：{},加密后：{}", str, encryptContent);
             }
             return encryptContent;
         }
@@ -117,34 +120,22 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {
     private EncryptAnnotationInfoBean getMethodAnnotation(MethodParameter methodParameter){
         if(methodParameter.getMethod().isAnnotationPresent(EncryptBody.class)){
             EncryptBody encryptBody = methodParameter.getMethodAnnotation(EncryptBody.class);
-            return EncryptAnnotationInfoBean.builder()
-                    .encryptBodyMethod(encryptBody.value())
-                    .key(encryptBody.otherKey())
-                    .shaEncryptType(encryptBody.shaType())
-                    .build();
+            return new EncryptAnnotationInfoBean(encryptBody.value(), encryptBody.otherKey(), encryptBody.shaType());
         }
         if(methodParameter.getMethod().isAnnotationPresent(MD5EncryptBody.class)){
-            return EncryptAnnotationInfoBean.builder()
-                    .encryptBodyMethod(EncryptBodyMethod.MD5)
-                    .build();
+        	return new EncryptAnnotationInfoBean(EncryptBodyMethod.MD5);
         }
         if(methodParameter.getMethod().isAnnotationPresent(SHAEncryptBody.class)){
-            return EncryptAnnotationInfoBean.builder()
-                    .encryptBodyMethod(EncryptBodyMethod.SHA)
-                    .shaEncryptType(methodParameter.getMethodAnnotation(SHAEncryptBody.class).value())
-                    .build();
+        	SHAEncryptType SHAEncryptType = methodParameter.getMethodAnnotation(SHAEncryptBody.class).value();
+        	return new EncryptAnnotationInfoBean(EncryptBodyMethod.SHA, SHAEncryptType);
         }
         if(methodParameter.getMethod().isAnnotationPresent(DESEncryptBody.class)){
-            return EncryptAnnotationInfoBean.builder()
-                    .encryptBodyMethod(EncryptBodyMethod.DES)
-                    .key(methodParameter.getMethodAnnotation(DESEncryptBody.class).otherKey())
-                    .build();
+        	String key = methodParameter.getMethodAnnotation(DESEncryptBody.class).otherKey();
+        	return new EncryptAnnotationInfoBean(EncryptBodyMethod.DES, key);
         }
         if(methodParameter.getMethod().isAnnotationPresent(AESEncryptBody.class)){
-            return EncryptAnnotationInfoBean.builder()
-                    .encryptBodyMethod(EncryptBodyMethod.AES)
-                    .key(methodParameter.getMethodAnnotation(AESEncryptBody.class).otherKey())
-                    .build();
+        	return new EncryptAnnotationInfoBean(EncryptBodyMethod.AES, methodParameter.getMethodAnnotation(AESEncryptBody.class).otherKey());
+
         }
         return null;
     }
@@ -160,34 +151,19 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {
             for (Annotation annotation : annotations) {
                 if(annotation instanceof EncryptBody){
                     EncryptBody encryptBody = (EncryptBody) annotation;
-                    return EncryptAnnotationInfoBean.builder()
-                            .encryptBodyMethod(encryptBody.value())
-                            .key(encryptBody.otherKey())
-                            .shaEncryptType(encryptBody.shaType())
-                            .build();
+                    return new EncryptAnnotationInfoBean(encryptBody.value(), encryptBody.otherKey(), encryptBody.shaType());
                 }
                 if(annotation instanceof MD5EncryptBody){
-                    return EncryptAnnotationInfoBean.builder()
-                            .encryptBodyMethod(EncryptBodyMethod.MD5)
-                            .build();
+                	return new EncryptAnnotationInfoBean(EncryptBodyMethod.MD5);
                 }
                 if(annotation instanceof SHAEncryptBody){
-                    return EncryptAnnotationInfoBean.builder()
-                            .encryptBodyMethod(EncryptBodyMethod.SHA)
-                            .shaEncryptType(((SHAEncryptBody) annotation).value())
-                            .build();
+                	return new EncryptAnnotationInfoBean(EncryptBodyMethod.SHA, ((SHAEncryptBody) annotation).value());
                 }
                 if(annotation instanceof DESEncryptBody){
-                    return EncryptAnnotationInfoBean.builder()
-                            .encryptBodyMethod(EncryptBodyMethod.DES)
-                            .key(((DESEncryptBody) annotation).otherKey())
-                            .build();
+                	return new EncryptAnnotationInfoBean(EncryptBodyMethod.DES, ((DESEncryptBody) annotation).otherKey());
                 }
                 if(annotation instanceof AESEncryptBody){
-                    return EncryptAnnotationInfoBean.builder()
-                            .encryptBodyMethod(EncryptBodyMethod.AES)
-                            .key(((AESEncryptBody) annotation).otherKey())
-                            .build();
+                	return new EncryptAnnotationInfoBean(EncryptBodyMethod.AES, ((AESEncryptBody) annotation).otherKey());
                 }
             }
         }

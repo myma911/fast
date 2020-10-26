@@ -1,6 +1,5 @@
 package cn.aaron911.encrypt.api.advice;
 
-
 import cn.aaron911.encrypt.api.annotation.decrypt.AESDecryptBody;
 import cn.aaron911.encrypt.api.annotation.decrypt.DESDecryptBody;
 import cn.aaron911.encrypt.api.annotation.decrypt.DecryptBody;
@@ -17,7 +16,8 @@ import cn.aaron911.encrypt.api.util.DESEncryptUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
@@ -38,8 +38,8 @@ import java.lang.reflect.Type;
  */
 @Order(1)
 @ControllerAdvice
-@Slf4j
 public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
+	private static final Logger log = LoggerFactory.getLogger(DecryptRequestBodyAdvice.class);
 
     @Autowired
     private EncryptConfig config;
@@ -100,7 +100,7 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
         try {
         	InputStream inputStream = IoUtil.toStream(decryptBody, config.getCharset());
         	DecryptHttpInputMessage decryptHttpInputMessage = new DecryptHttpInputMessage(inputStream, inputMessage.getHeaders());
-        	if (config.isShowLog()) {
+        	if (log.isDebugEnabled()) {
         		log.info("解密前数据{}，解密后数据{}", body, decryptBody);
         	}
             return decryptHttpInputMessage;
@@ -122,22 +122,13 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
     private DecryptAnnotationInfoBean getMethodAnnotation(MethodParameter methodParameter){
         if(methodParameter.getMethod().isAnnotationPresent(DecryptBody.class)){
             DecryptBody decryptBody = methodParameter.getMethodAnnotation(DecryptBody.class);
-            return DecryptAnnotationInfoBean.builder()
-                    .decryptBodyMethod(decryptBody.value())
-                    .key(decryptBody.otherKey())
-                    .build();
+            return new DecryptAnnotationInfoBean(decryptBody.value(), decryptBody.otherKey());
         }
         if(methodParameter.getMethod().isAnnotationPresent(DESDecryptBody.class)){
-            return DecryptAnnotationInfoBean.builder()
-                    .decryptBodyMethod(DecryptBodyMethod.DES)
-                    .key(methodParameter.getMethodAnnotation(DESDecryptBody.class).otherKey())
-                    .build();
+        	return new DecryptAnnotationInfoBean(DecryptBodyMethod.DES, methodParameter.getMethodAnnotation(DESDecryptBody.class).otherKey());
         }
         if(methodParameter.getMethod().isAnnotationPresent(AESDecryptBody.class)){
-            return DecryptAnnotationInfoBean.builder()
-                    .decryptBodyMethod(DecryptBodyMethod.AES)
-                    .key(methodParameter.getMethodAnnotation(AESDecryptBody.class).otherKey())
-                    .build();
+        	return new DecryptAnnotationInfoBean(DecryptBodyMethod.AES, methodParameter.getMethodAnnotation(AESDecryptBody.class).otherKey());
         }
         return null;
     }
@@ -147,28 +138,19 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
      * @param clazz 控制器类
      * @return 加密注解信息
      */
-    private DecryptAnnotationInfoBean getClassAnnotation(Class clazz){
+    private DecryptAnnotationInfoBean getClassAnnotation(Class<?> clazz){
         Annotation[] annotations = clazz.getDeclaredAnnotations();
         if(annotations!=null && annotations.length>0){
             for (Annotation annotation : annotations) {
                 if(annotation instanceof DecryptBody){
                     DecryptBody decryptBody = (DecryptBody) annotation;
-                    return DecryptAnnotationInfoBean.builder()
-                            .decryptBodyMethod(decryptBody.value())
-                            .key(decryptBody.otherKey())
-                            .build();
+                    return new DecryptAnnotationInfoBean(decryptBody.value(), decryptBody.otherKey());
                 }
                 if(annotation instanceof DESDecryptBody){
-                    return DecryptAnnotationInfoBean.builder()
-                            .decryptBodyMethod(DecryptBodyMethod.DES)
-                            .key(((DESDecryptBody) annotation).otherKey())
-                            .build();
+                	return new DecryptAnnotationInfoBean(DecryptBodyMethod.DES, ((DESDecryptBody) annotation).otherKey());
                 }
                 if(annotation instanceof AESDecryptBody){
-                    return DecryptAnnotationInfoBean.builder()
-                            .decryptBodyMethod(DecryptBodyMethod.AES)
-                            .key(((AESDecryptBody) annotation).otherKey())
-                            .build();
+                	return new DecryptAnnotationInfoBean(DecryptBodyMethod.AES, ((AESDecryptBody) annotation).otherKey());
                 }
             }
         }

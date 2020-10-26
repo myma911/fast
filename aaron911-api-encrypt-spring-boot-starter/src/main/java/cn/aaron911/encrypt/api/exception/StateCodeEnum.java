@@ -26,38 +26,22 @@ public enum StateCodeEnum {
         this.message = message;
     }
 
-    /**
-     * Getter method for property <tt>code</tt>.
-     *
-     * @return property value of code
-     */
+  
     public int getCode() {
         return code;
     }
 
-    /**
-     * Setter method for property <tt>code</tt>.
-     *
-     * @param code value to be assigned to property code
-     */
+   
     public void setCode(int code) {
         this.code = code;
     }
 
-    /**
-     * Getter method for property <tt>message</tt>.
-     *
-     * @return property value of message
-     */
+   
     public String getMessage() {
         return message;
     }
 
-    /**
-     * Setter method for property <tt>message</tt>.
-     *
-     * @param message value to be assigned to property message
-     */
+   
     public void setMessage(String message) {
         this.message = message;
     }

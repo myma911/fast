@@ -14,9 +14,10 @@
 	<modules>
 		<module>aaron911-admin</module>
 		<module>aaron911-api</module>
-		<module>aaron911-buron-spring-boot-starter</module>
+		<module>aaron911-buron-spring</module>
 		<module>aaron911-common-spring-boot-starter</module>
 		<module>aaron911-dynamic-datasource-spring-boot-starter</module>
+		<module>aaron911-encrypt-spring</module>
 		<module>aaron911-file-spring</module>
 		<module>aaron911-generator</module>
 		<module>aaron911-minio-spring-boot-starter</module>
@@ -24,7 +25,6 @@
 		<module>aaron911-pay</module>
 		<module>aaron911-spider</module>
 		<module>aaron911-sso</module>
-		<module>aaron911-encrypt-spring-boot-starter</module>
 		<module>aaron911-limiter-spring-boot-starter</module>
 		<module>aaron911-lock-spring-boot-starter</module>
 		<module>aaron911-idempotent-spring-boot-starter</module>
