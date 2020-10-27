@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.aaron911.api.annotation.Login;
 import cn.aaron911.api.annotation.LoginUser;
 import cn.aaron911.api.entity.UserEntity;
-import cn.aaron911.common.utils.R;
+import cn.aaron911.common.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
@@ -24,23 +24,23 @@ import springfox.documentation.annotations.ApiIgnore;
 public class ApiTestController {
 
     @Login
-    @GetMapping("userInfo")
+    @GetMapping("/userInfo")
     @ApiOperation(value="获取用户信息", response=UserEntity.class)
-    public R userInfo(@ApiIgnore @LoginUser UserEntity user){
-        return R.ok().put("user", user);
+    public Result<UserEntity> userInfo(@ApiIgnore @LoginUser UserEntity user){
+        return Result.ok(user);
     }
 
     @Login
-    @GetMapping("userId")
+    @GetMapping("/userId")
     @ApiOperation("获取用户ID")
-    public R userInfo(@ApiIgnore @RequestAttribute("userId") Integer userId){
-        return R.ok().put("userId", userId);
+    public Result<Integer> userInfo(@ApiIgnore @RequestAttribute("userId") Integer userId){
+        return Result.ok(userId);
     }
 
-    @GetMapping("notToken")
+    @GetMapping("/notToken")
     @ApiOperation("忽略Token验证测试")
-    public R notToken(){
-        return R.ok().put("msg", "无需token也能访问。。。");
+    public Result<String> notToken(){
+        return Result.ok("无需token也能访问。。。");
     }
 
 }

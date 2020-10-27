@@ -6,7 +6,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import cn.aaron911.common.xss.XssFilter;
+import cn.aaron911.api.xxs.XssFilter;
 
 /**
  * Filter配置
@@ -16,11 +16,11 @@ import cn.aaron911.common.xss.XssFilter;
 public class FilterConfig {
 
     @Bean
-    public FilterRegistrationBean xssFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
+    public FilterRegistrationBean<XssFilter> xssFilterRegistration() {
+        FilterRegistrationBean<XssFilter> registration = new FilterRegistrationBean<XssFilter>();
         registration.setDispatcherTypes(DispatcherType.REQUEST);
         registration.setFilter(new XssFilter());
-        registration.addUrlPatterns("/*");
+        registration.addUrlPatterns("/**");
         registration.setName("xssFilter");
         return registration;
     }

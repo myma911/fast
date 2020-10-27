@@ -6,9 +6,9 @@
 	<parent>
 		<groupId>cn.aaron911</groupId>
 		<artifactId>aaron911-fast</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
-	<artifactId>aaron911-common-spring-boot-starter</artifactId>
+	<artifactId>aaron911-common</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -65,6 +65,14 @@
 			<artifactId>mybatis-plus-core</artifactId>
 			<version>3.3.2</version>
 			<scope>provided</scope>
+		</dependency>
+		
+			<!-- TransmittableThreadLocal 是Alibaba开源的、用于解决 “在使用线程池等会缓存线程的组件情况下传递ThreadLocal” 
+			问题的 InheritableThreadLocal 扩展 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>transmittable-thread-local</artifactId>
+			<version>2.11.5</version>
 		</dependency>
 	</dependencies>
 </project>

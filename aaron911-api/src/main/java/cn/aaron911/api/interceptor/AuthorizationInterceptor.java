@@ -12,7 +12,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import cn.aaron911.api.annotation.Login;
 import cn.aaron911.api.entity.TokenEntity;
 import cn.aaron911.api.service.TokenService;
-import cn.aaron911.common.exception.AException;
+import cn.aaron911.common.exception.TokenEmptyException;
+import cn.aaron911.common.exception.TokenInvalidException;
 import cn.hutool.core.util.StrUtil;
 
 /**
@@ -24,8 +25,6 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 	
     @Autowired
     private TokenService tokenService;
-
-    public static final String USER_KEY = "userId";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -49,18 +48,15 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
         //token为空
         if(StrUtil.isBlank(token)){
-            throw new AException("token不能为空");
+            throw new TokenEmptyException();
         }
 
         //查询token信息
         TokenEntity tokenEntity = tokenService.queryByToken(token);
         if(tokenEntity == null || tokenEntity.getExpireTime().getTime() < System.currentTimeMillis()){
-            throw new AException("token失效，请重新登录");
+        	throw new TokenInvalidException();
         }
-
-        //设置userId到request里，后续根据userId，获取用户信息
-        request.setAttribute(USER_KEY, tokenEntity.getUserId());
-
+        
         return true;
     }
 }

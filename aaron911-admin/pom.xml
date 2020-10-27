@@ -25,11 +25,17 @@
 	<dependencies>
 	
 		<!-- aaron911-common-spring-boot-starter -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>cn.aaron911</groupId>
 			<artifactId>aaron911-common-spring-boot-starter</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		</dependency> -->
+		
+		
+		
+		
+		
+		
 		<!-- 集群环境，需要打开注释 -->
 		<!--<dependency> -->
 		<!--<groupId>org.springframework.session</groupId> -->

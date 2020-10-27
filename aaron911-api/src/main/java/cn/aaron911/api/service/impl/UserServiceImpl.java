@@ -16,7 +16,7 @@ import cn.aaron911.api.entity.UserEntity;
 import cn.aaron911.api.form.LoginForm;
 import cn.aaron911.api.service.TokenService;
 import cn.aaron911.api.service.UserService;
-import cn.aaron911.common.exception.AException;
+import cn.aaron911.common.exception.LoginErrorException;
 import cn.hutool.crypto.digest.MD5;
 
 @Service
@@ -31,23 +31,18 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 	}
 
 	@Override
-	public Map<String, Object> login(LoginForm form) {
+	public TokenEntity login(LoginForm form) {
 		UserEntity user = queryByMobile(form.getMobile());
 		cn.hutool.core.lang.Assert.isNull(user, "手机号或密码错误");
 
 		//密码错误
 		if(!user.getPassword().equals(MD5.create().digestHex(form.getPassword()))){
-			throw new AException("手机号或密码错误");
+			throw new LoginErrorException();
 		}
 
 		//获取登录token
 		TokenEntity tokenEntity = tokenService.createToken(user.getUserId());
-
-		Map<String, Object> map = new HashMap<>(2);
-		map.put("token", tokenEntity.getToken());
-		map.put("expire", tokenEntity.getExpireTime().getTime() - System.currentTimeMillis());
-
-		return map;
+		return tokenEntity;
 	}
 
 }

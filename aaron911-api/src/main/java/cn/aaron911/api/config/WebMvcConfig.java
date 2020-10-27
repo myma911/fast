@@ -9,14 +9,18 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import cn.aaron911.api.interceptor.AuthorizationInterceptor;
+import cn.aaron911.api.interceptor.TraceIdInterceptor;
 import cn.aaron911.api.resolver.LoginUserHandlerMethodArgumentResolver;
 
 /**
- * MVC配置
+ * MVC配置WebMvcConfigurer
  *
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+	
+	@Autowired
+	private TraceIdInterceptor traceIDInterceptor;
 	
     @Autowired
     private AuthorizationInterceptor authorizationInterceptor;
@@ -26,7 +30,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authorizationInterceptor).addPathPatterns("/api/**");
+        registry.addInterceptor(traceIDInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(authorizationInterceptor).addPathPatterns("/**");
     }
 
     @Override

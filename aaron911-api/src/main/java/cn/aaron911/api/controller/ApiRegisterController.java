@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cn.aaron911.api.entity.UserEntity;
 import cn.aaron911.api.form.RegisterForm;
 import cn.aaron911.api.service.UserService;
-import cn.aaron911.common.utils.R;
+import cn.aaron911.common.result.Result;
 import cn.aaron911.common.validator.ValidatorUtils;
 import cn.hutool.crypto.digest.MD5;
 import io.swagger.annotations.Api;
@@ -28,9 +28,9 @@ public class ApiRegisterController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("register")
+    @PostMapping("/register")
     @ApiOperation("注册")
-    public R register(@RequestBody RegisterForm form){
+    public Result<String> register(@RequestBody RegisterForm form){
         //表单校验
         ValidatorUtils.validateEntity(form);
 
@@ -40,7 +40,6 @@ public class ApiRegisterController {
         user.setPassword(MD5.create().digestHex(form.getPassword()));
         user.setCreateTime(new Date());
         userService.save(user);
-
-        return R.ok();
+        return Result.ok();
     }
 }
