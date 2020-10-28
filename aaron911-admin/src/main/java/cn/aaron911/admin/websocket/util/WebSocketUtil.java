@@ -1,21 +1,23 @@
-package cn.aaron911.websocket.util;
+package cn.aaron911.admin.websocket.util;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.Charsets;
-import org.springframework.util.CollectionUtils;
-
-import javax.websocket.Session;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Set;
 
+import javax.websocket.Session;
+
+import org.apache.commons.codec.Charsets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
+
 /**
  * websocket工具类，支持单条发送和批量发送
  *
  */
-@Slf4j
 public class WebSocketUtil {
+    private static final Logger log = LoggerFactory.getLogger(WebSocketUtil.class);
 
     private static final String ONLINE_MSG_KEY = "online";
     private static final String NOTIFICATION_MSG_KEY = "notification";

@@ -7,27 +7,48 @@
 	<artifactId>aaron911-fast</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
-	<description>快速开发脚手架</description>
+	<description>快速开发功能集合</description>
 	<name>aaron911-fast</name>
 
+	<developers>
+		<developer>
+			<id>aaron911</id>
+			<name>aaron</name>
+			<url>aaron911.cn</url>
+			<email>450870442@qq.com</email>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:git@github.com:myma911/fast.git</connection>
+		<developerConnection>scm:git:git@github.com:myma911/fast.git</developerConnection>
+		<url>git@github.com:myma911/fast.git</url>
+	</scm>
 
 	<modules>
 		<module>aaron911-admin</module>
 		<module>aaron911-api</module>
 		<module>aaron911-buron-spring</module>
-		<module>aaron911-common-spring-boot-starter</module>
+		<module>aaron911-common</module>
 		<module>aaron911-dynamic-datasource-spring-boot-starter</module>
 		<module>aaron911-encrypt-spring</module>
+		<module>aaron911-esclientrhl-spring-boot-starter</module>
 		<module>aaron911-file-spring</module>
 		<module>aaron911-generator</module>
+		<module>aaron911-idempotent-spring</module>
+		<module>aaron911-limiter-spring-boot-starter</module>
+		<module>aaron911-lock-spring-boot-starter</module>
 		<module>aaron911-oauth</module>
 		<module>aaron911-pay</module>
 		<module>aaron911-spider</module>
 		<module>aaron911-sso</module>
-		<module>aaron911-limiter-spring-boot-starter</module>
-		<module>aaron911-lock-spring-boot-starter</module>
-		<module>aaron911-idempotent-spring</module>
-		<module>aaron911-esclientrhl-spring-boot-starter</module>
 		<module>aaron911-trace-log</module>
 	</modules>
 
@@ -152,35 +173,25 @@
 		</dependencies>
 	</dependencyManagement>
 
-
-
-	<!-- 阿里云maven仓库 -->
-	<repositories>
-		<repository>
-			<id>public</id>
-			<name>aliyun nexus</name>
-			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>public</id>
-			<name>aliyun nexus</name>
-			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.2.1</version>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -190,7 +201,28 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.1.1</version>
+				<configuration>
+					<doclint>none</doclint>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+		<snapshotRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>

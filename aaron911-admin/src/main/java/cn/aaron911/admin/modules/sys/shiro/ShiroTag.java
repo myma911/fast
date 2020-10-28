@@ -1,4 +1,4 @@
-package cn.aaron911.modules.sys.shiro;
+package cn.aaron911.admin.modules.sys.shiro;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;

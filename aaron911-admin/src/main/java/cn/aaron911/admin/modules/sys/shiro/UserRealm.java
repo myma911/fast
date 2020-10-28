@@ -1,15 +1,19 @@
-package cn.aaron911.modules.sys.shiro;
+package cn.aaron911.admin.modules.sys.shiro;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-
-import cn.aaron911.common.utils.Constant;
-import cn.aaron911.modules.sys.dao.SysMenuDao;
-import cn.aaron911.modules.sys.dao.SysUserDao;
-import cn.aaron911.modules.sys.entity.SysMenuEntity;
-import cn.aaron911.modules.sys.entity.SysUserEntity;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -20,7 +24,13 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
+import cn.aaron911.admin.common.utils.Constant;
+import cn.aaron911.admin.modules.sys.dao.SysMenuDao;
+import cn.aaron911.admin.modules.sys.dao.SysUserDao;
+import cn.aaron911.admin.modules.sys.entity.SysMenuEntity;
+import cn.aaron911.admin.modules.sys.entity.SysUserEntity;
 
 /**
  * 认证

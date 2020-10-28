@@ -1,4 +1,4 @@
-package cn.aaron911.modules.oss.cloud;
+package cn.aaron911.admin.modules.oss.cloud;
 
 import org.apache.commons.lang.StringUtils;
 

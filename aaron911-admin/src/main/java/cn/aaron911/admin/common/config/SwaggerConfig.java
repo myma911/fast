@@ -1,4 +1,4 @@
-package cn.aaron911.common.config;
+package cn.aaron911.admin.common.config;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
@@ -26,8 +26,6 @@ public class SwaggerConfig{
             .select()
             //加了ApiOperation注解的类，生成接口文档
             .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-            //包下的类，生成接口文档
-            .apis(RequestHandlerSelectors.basePackage("cn.aaron911.modules.job.controller"))
             .paths(PathSelectors.any())
             .build();
     }

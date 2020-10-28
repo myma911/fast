@@ -1,4 +1,4 @@
-package cn.aaron911.modules.oss.controller;
+package cn.aaron911.admin.modules.oss.controller;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -12,22 +12,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.google.gson.Gson;
 
-import cn.aaron911.admin.common.exception.AException;
-import cn.aaron911.admin.common.utils.PageUtils;
-import cn.aaron911.admin.common.utils.R;
-import cn.aaron911.admin.common.validator.ValidatorUtils;
-import cn.aaron911.common.utils.ConfigConstant;
-import cn.aaron911.common.utils.Constant;
-import cn.aaron911.common.validator.group.AliyunGroup;
-import cn.aaron911.common.validator.group.QcloudGroup;
-import cn.aaron911.common.validator.group.QiniuGroup;
-import cn.aaron911.modules.oss.cloud.CloudStorageConfig;
-import cn.aaron911.modules.oss.cloud.OSSFactory;
-import cn.aaron911.modules.oss.entity.SysOssEntity;
-import cn.aaron911.modules.oss.service.SysOssService;
-import cn.aaron911.modules.sys.service.SysConfigService;
+import cn.aaron911.admin.common.utils.ConfigConstant;
+import cn.aaron911.admin.common.utils.Constant;
+import cn.aaron911.admin.common.validator.group.AliyunGroup;
+import cn.aaron911.admin.common.validator.group.QcloudGroup;
+import cn.aaron911.admin.common.validator.group.QiniuGroup;
+import cn.aaron911.admin.modules.oss.cloud.CloudStorageConfig;
+import cn.aaron911.admin.modules.oss.cloud.OSSFactory;
+import cn.aaron911.admin.modules.oss.entity.SysOssEntity;
+import cn.aaron911.admin.modules.oss.service.SysOssService;
+import cn.aaron911.admin.modules.sys.service.SysConfigService;
+import cn.aaron911.common.exception.FailedException;
+import cn.aaron911.common.result.Result;
+import cn.aaron911.common.validator.ValidatorUtils;
 
 /**
  * 文件上传
@@ -50,10 +51,10 @@ public class SysOssController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:oss:all")
-	public R list(@RequestParam Map<String, Object> params){
-		PageUtils page = sysOssService.queryPage(params);
+	public Result list(@RequestParam Map<String, Object> params){
+		IPage page = sysOssService.queryPage(params);
 
-		return R.ok().put("page", page);
+		return Result.ok(page);
 	}
 
 
@@ -62,10 +63,10 @@ public class SysOssController {
      */
     @RequestMapping("/config")
     @RequiresPermissions("sys:oss:all")
-    public R config(){
+    public Result config(){
         CloudStorageConfig config = sysConfigService.getConfigObject(KEY, CloudStorageConfig.class);
 
-        return R.ok().put("config", config);
+        return Result.ok(config);
     }
 
 
@@ -74,7 +75,7 @@ public class SysOssController {
 	 */
 	@RequestMapping("/saveConfig")
 	@RequiresPermissions("sys:oss:all")
-	public R saveConfig(@RequestBody CloudStorageConfig config){
+	public Result saveConfig(@RequestBody CloudStorageConfig config){
 		//校验类型
 		ValidatorUtils.validateEntity(config);
 
@@ -91,7 +92,7 @@ public class SysOssController {
 
         sysConfigService.updateValueByKey(KEY, new Gson().toJson(config));
 
-		return R.ok();
+		return Result.ok();
 	}
 	
 
@@ -100,9 +101,9 @@ public class SysOssController {
 	 */
 	@RequestMapping("/upload")
 	@RequiresPermissions("sys:oss:all")
-	public R upload(@RequestParam("file") MultipartFile file) throws Exception {
+	public Result upload(@RequestParam("file") MultipartFile file) throws Exception {
 		if (file.isEmpty()) {
-			throw new AException("上传文件不能为空");
+			throw new FailedException("上传文件不能为空");
 		}
 
 		//上传文件
@@ -115,7 +116,7 @@ public class SysOssController {
 		ossEntity.setCreateDate(new Date());
 		sysOssService.save(ossEntity);
 
-		return R.ok().put("url", url);
+		return Result.ok(url);
 	}
 
 
@@ -124,10 +125,10 @@ public class SysOssController {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:oss:all")
-	public R delete(@RequestBody Long[] ids){
+	public Result delete(@RequestBody Long[] ids){
 		sysOssService.removeByIds(Arrays.asList(ids));
 
-		return R.ok();
+		return Result.ok();
 	}
 
 }

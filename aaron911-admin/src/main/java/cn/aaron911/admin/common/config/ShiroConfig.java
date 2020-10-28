@@ -1,4 +1,4 @@
-package cn.aaron911.common.config;
+package cn.aaron911.admin.common.config;
 
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
@@ -18,7 +18,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import cn.aaron911.modules.sys.shiro.UserRealm;
+import cn.aaron911.admin.modules.sys.shiro.UserRealm;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

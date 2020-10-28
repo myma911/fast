@@ -1,4 +1,4 @@
-package cn.aaron911.modules.job.dao;
+package cn.aaron911.admin.modules.job.dao;
 
 import java.util.Map;
 
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import cn.aaron911.modules.job.entity.ScheduleJobEntity;
+import cn.aaron911.admin.modules.job.entity.ScheduleJobEntity;
 
 /**
  * 定时任务

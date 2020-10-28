@@ -1,17 +1,17 @@
-package cn.aaron911.modules.oss.cloud;
+package cn.aaron911.admin.modules.oss.cloud;
 
+
+import java.io.InputStream;
 
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.request.UploadFileRequest;
 import com.qcloud.cos.sign.Credentials;
 
-import cn.aaron911.admin.common.exception.AException;
+import cn.aaron911.common.exception.FailedException;
 import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.io.IoUtil;
 import net.sf.json.JSONObject;
-
-import java.io.InputStream;
 
 /**
  * 腾讯云存储
@@ -52,7 +52,7 @@ public class QcloudCloudStorageService extends CloudStorageService {
 
         JSONObject jsonObject = JSONObject.fromObject(response);
         if(jsonObject.getInt("code") != 0) {
-            throw new AException("文件上传失败，" + jsonObject.getString("message"));
+        	throw new FailedException("文件上传失败，" + jsonObject.getString("message"));
         }
 
         return config.getQcloudDomain() + path;
@@ -64,7 +64,7 @@ public class QcloudCloudStorageService extends CloudStorageService {
             byte[] data = IoUtil.readBytes(inputStream);
             return this.upload(data, path);
         } catch (IORuntimeException e) {
-            throw new AException("上传文件失败", e);
+        	throw new FailedException("上传文件失败", e);
         }
     }
 

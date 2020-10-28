@@ -1,27 +1,47 @@
-package cn.aaron911.modules.sys.service;
+package cn.aaron911.admin.modules.sys.service;
 
 import java.util.List;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import cn.aaron911.modules.sys.entity.SysRoleDeptEntity;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import cn.aaron911.admin.modules.sys.dao.SysRoleDeptDao;
+import cn.aaron911.admin.modules.sys.entity.SysRoleDeptEntity;
 
 
 /**
  * 角色与部门对应关系
  *
  */
-public interface SysRoleDeptService extends IService<SysRoleDeptEntity> {
-	
-	void saveOrUpdate(Long roleId, List<Long> deptIdList);
-	
-	/**
-	 * 根据角色ID，获取部门ID列表
-	 */
-	List<Long> queryDeptIdList(Long[] roleIds) ;
+@Service("sysRoleDeptService")
+public class SysRoleDeptService extends ServiceImpl<SysRoleDeptDao, SysRoleDeptEntity>  {
 
-	/**
-	 * 根据角色ID数组，批量删除
-	 */
-	int deleteBatch(Long[] roleIds);
+	@Transactional(rollbackFor = Exception.class)
+	public void saveOrUpdate(Long roleId, List<Long> deptIdList) {
+		//先删除角色与部门关系
+		deleteBatch(new Long[]{roleId});
+
+		if(deptIdList.size() == 0){
+			return ;
+		}
+
+		//保存角色与菜单关系
+		for(Long deptId : deptIdList){
+			SysRoleDeptEntity sysRoleDeptEntity = new SysRoleDeptEntity();
+			sysRoleDeptEntity.setDeptId(deptId);
+			sysRoleDeptEntity.setRoleId(roleId);
+
+			this.save(sysRoleDeptEntity);
+		}
+	}
+
+	public List<Long> queryDeptIdList(Long[] roleIds) {
+		return baseMapper.queryDeptIdList(roleIds);
+	}
+
+	public int deleteBatch(Long[] roleIds){
+		return baseMapper.deleteBatch(roleIds);
+	}
 }

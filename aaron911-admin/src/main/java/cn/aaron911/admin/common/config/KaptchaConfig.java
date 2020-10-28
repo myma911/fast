@@ -1,4 +1,4 @@
-package cn.aaron911.common.config;
+package cn.aaron911.admin.common.config;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;

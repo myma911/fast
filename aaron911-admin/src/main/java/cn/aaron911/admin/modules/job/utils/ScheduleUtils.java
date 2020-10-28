@@ -1,4 +1,4 @@
-package cn.aaron911.modules.job.utils;
+package cn.aaron911.admin.modules.job.utils;
 
 
 import org.quartz.CronScheduleBuilder;
@@ -12,9 +12,9 @@ import org.quartz.SchedulerException;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 
-import cn.aaron911.admin.common.exception.AException;
-import cn.aaron911.common.utils.Constant;
-import cn.aaron911.modules.job.entity.ScheduleJobEntity;
+import cn.aaron911.admin.common.utils.Constant;
+import cn.aaron911.admin.modules.job.entity.ScheduleJobEntity;
+import cn.aaron911.common.exception.FailedException;
 
 /**
  * 定时任务工具类
@@ -44,7 +44,7 @@ public class ScheduleUtils {
         try {
             return (CronTrigger) scheduler.getTrigger(getTriggerKey(jobId));
         } catch (SchedulerException e) {
-            throw new AException("获取定时任务CronTrigger出现异常", e);
+        	throw new FailedException("获取定时任务CronTrigger出现异常", e);
         }
     }
 
@@ -73,7 +73,7 @@ public class ScheduleUtils {
             	pauseJob(scheduler, scheduleJob.getJobId());
             }
         } catch (SchedulerException e) {
-            throw new AException("创建定时任务失败", e);
+            throw new FailedException("创建定时任务失败", e);
         }
     }
     
@@ -104,7 +104,7 @@ public class ScheduleUtils {
             }
             
         } catch (SchedulerException e) {
-            throw new AException("更新定时任务失败", e);
+        	throw new FailedException("更新定时任务失败", e);
         }
     }
 
@@ -119,7 +119,7 @@ public class ScheduleUtils {
         	
             scheduler.triggerJob(getJobKey(scheduleJob.getJobId()), dataMap);
         } catch (SchedulerException e) {
-            throw new AException("立即执行定时任务失败", e);
+        	throw new FailedException("立即执行定时任务失败", e);
         }
     }
 
@@ -130,7 +130,7 @@ public class ScheduleUtils {
         try {
             scheduler.pauseJob(getJobKey(jobId));
         } catch (SchedulerException e) {
-            throw new AException("暂停定时任务失败", e);
+        	throw new FailedException("暂停定时任务失败", e);
         }
     }
 
@@ -141,7 +141,7 @@ public class ScheduleUtils {
         try {
             scheduler.resumeJob(getJobKey(jobId));
         } catch (SchedulerException e) {
-            throw new AException("暂停定时任务失败", e);
+        	throw new FailedException("恢复定时任务失败", e);
         }
     }
 
@@ -152,7 +152,7 @@ public class ScheduleUtils {
         try {
             scheduler.deleteJob(getJobKey(jobId));
         } catch (SchedulerException e) {
-            throw new AException("删除定时任务失败", e);
+        	throw new FailedException("删除定时任务失败", e);
         }
     }
 }

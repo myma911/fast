@@ -12,15 +12,16 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.google.gson.Gson;
 
 import cn.aaron911.admin.common.annotation.SysLog;
-import cn.aaron911.admin.common.utils.HttpContextUtils;
-import cn.aaron911.admin.common.utils.IPUtils;
 import cn.aaron911.admin.modules.sys.entity.SysLogEntity;
 import cn.aaron911.admin.modules.sys.service.SysLogService;
 import cn.aaron911.admin.modules.sys.shiro.ShiroUtils;
+import cn.aaron911.common.utils.IPUtils;
 
 /**
  * 系统日志，切面处理类
@@ -32,7 +33,7 @@ public class SysLogAspect {
 	@Autowired
 	private SysLogService sysLogService;
 	
-	@Pointcut("@annotation(cn.aaron911.common.annotation.SysLog)")
+	@Pointcut("@annotation(cn.aaron911.admin.common.annotation.SysLog)")
 	public void logPointCut() { 
 		
 	}
@@ -77,7 +78,7 @@ public class SysLogAspect {
 		}
 
 		//获取request
-		HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+		HttpServletRequest request =  ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		//设置IP地址
 		sysLog.setIp(IPUtils.getIpAddr(request));
 

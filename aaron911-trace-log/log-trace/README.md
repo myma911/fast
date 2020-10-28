@@ -7,7 +7,7 @@
                     <dependency>
                        <groupId>cn.aaron911</groupId>
                        <artifactId>log-trace</artifactId>
-                       <version>0.0.1</version>
+                       <version>1.0.0</version>
                    </dependency>
 
 ```

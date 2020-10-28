@@ -1,10 +1,10 @@
-package cn.aaron911.modules.oss.dao;
+package cn.aaron911.admin.modules.oss.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import cn.aaron911.modules.oss.entity.SysOssEntity;
+import cn.aaron911.admin.modules.oss.entity.SysOssEntity;
 
 /**
  * 文件上传

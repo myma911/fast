@@ -1,4 +1,4 @@
-package cn.aaron911.modules.sys.controller;
+package cn.aaron911.admin.modules.sys.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

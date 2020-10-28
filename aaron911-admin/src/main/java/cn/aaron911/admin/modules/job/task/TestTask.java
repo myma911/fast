@@ -1,4 +1,4 @@
-package cn.aaron911.modules.job.task;
+package cn.aaron911.admin.modules.job.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

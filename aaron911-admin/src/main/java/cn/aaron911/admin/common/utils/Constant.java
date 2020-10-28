@@ -1,4 +1,4 @@
-package cn.aaron911.common.utils;
+package cn.aaron911.admin.common.utils;
 
 /**
  * 常量

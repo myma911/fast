@@ -1,4 +1,4 @@
-package cn.aaron911.common.utils;
+package cn.aaron911.admin.common.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -25,6 +25,10 @@ public class SpringContextUtils implements ApplicationContextAware {
 
 	public static <T> T getBean(String name, Class<T> requiredType) {
 		return applicationContext.getBean(name, requiredType);
+	}
+	
+	public static <T> T getBean(Class<T> requiredType) {
+		return applicationContext.getBean(requiredType);
 	}
 
 	public static boolean containsBean(String name) {

@@ -1,26 +1,26 @@
-package cn.aaron911.websocket.server;
+package cn.aaron911.admin.websocket.server;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-import cn.aaron911.websocket.util.WebSocketUtil;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * @version 1.0
- */
-@Slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import cn.aaron911.admin.websocket.util.WebSocketUtil;
+
+
 @ServerEndpoint(value = "/websocket")
 @Component
 public class WebsocketServer {
-
+    private static final Logger log = LoggerFactory.getLogger(WebsocketServer.class);
+    
     /**
      * 线程安全的socket集合
      */

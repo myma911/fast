@@ -10,7 +10,7 @@
 | -------------------|---------------------------------------------------------------------------------- |
 | aaron911-admin     |     后台权限管理系统                                              |
 | aaron911-api       |     快速实现后台接口功能                  |
-| aaron911-buron-spring-boot-starter       |     限流过滤器实现                                                                     |
+| aaron911-buron-spring       |     限流过滤器实现                                                                     |
 | aaron911-dynamic-datasource-spring-boot-starter       |     基于springboot 的动态数据源                                               |
 | aaron911-encrypt-spring-boot-starter       |     Spring Boot接口加密，可以对返回值、参数值通过注解的方式自动加解密                                          |
 | aaron911-esclientrhl-spring-boot-starter      |     基于注解及springboot的elasticsearch 快速集成                                          |

@@ -1,5 +1,5 @@
 
-package cn.aaron911.modules.job.controller;
+package cn.aaron911.admin.modules.job.controller;
 
 
 import java.util.Map;
@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.aaron911.admin.common.utils.PageUtils;
-import cn.aaron911.admin.common.utils.R;
-import cn.aaron911.modules.job.entity.ScheduleJobLogEntity;
-import cn.aaron911.modules.job.service.ScheduleJobLogService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+
+import cn.aaron911.admin.modules.job.entity.ScheduleJobLogEntity;
+import cn.aaron911.admin.modules.job.service.ScheduleJobLogService;
+import cn.aaron911.common.result.Result;
 
 /**
  * 定时任务日志
@@ -23,6 +24,7 @@ import cn.aaron911.modules.job.service.ScheduleJobLogService;
 @RestController
 @RequestMapping("/sys/scheduleLog")
 public class ScheduleJobLogController {
+	
 	@Autowired
 	private ScheduleJobLogService scheduleJobLogService;
 	
@@ -31,19 +33,18 @@ public class ScheduleJobLogController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:schedule:log")
-	public R list(@RequestParam Map<String, Object> params){
-		PageUtils page = scheduleJobLogService.queryPage(params);
-		
-		return R.ok().put("page", page);
+	public Result list(@RequestParam Map<String, Object> params){
+		IPage page = scheduleJobLogService.queryPage(params);
+		return Result.ok(page);
 	}
 	
 	/**
 	 * 定时任务日志信息
 	 */
 	@RequestMapping("/info/{logId}")
-	public R info(@PathVariable("logId") Long logId){
+	public Result info(@PathVariable("logId") Long logId){
 		ScheduleJobLogEntity log = scheduleJobLogService.getById(logId);
-		
-		return R.ok().put("log", log);
+	
+		return Result.ok(log);
 	}
 }

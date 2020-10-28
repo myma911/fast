@@ -1,4 +1,4 @@
-package cn.aaron911.common.config;
+package cn.aaron911.admin.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

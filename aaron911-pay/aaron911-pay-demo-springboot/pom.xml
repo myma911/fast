@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>cn.aaron911</groupId>
 		<artifactId>aaron911-pay</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>aaron911-pay-demo-springboot</artifactId>
 
 
 	<properties>
-		<ijapy.version>0.0.1-SNAPSHOT</ijapy.version>
+		<ijapy.version>1.0.0</ijapy.version>
 		<enjoy.version>4.3</enjoy.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 		<fastjson.version>1.2.70</fastjson.version>

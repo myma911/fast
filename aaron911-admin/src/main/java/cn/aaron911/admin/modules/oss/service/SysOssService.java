@@ -1,17 +1,26 @@
-package cn.aaron911.modules.oss.service;
+package cn.aaron911.admin.modules.oss.service;
 
 import java.util.Map;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.stereotype.Service;
 
-import cn.aaron911.admin.common.utils.PageUtils;
-import cn.aaron911.modules.oss.entity.SysOssEntity;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-/**
- * 文件上传
- *
- */
-public interface SysOssService extends IService<SysOssEntity> {
+import cn.aaron911.admin.common.utils.Query;
+import cn.aaron911.admin.modules.oss.dao.SysOssDao;
+import cn.aaron911.admin.modules.oss.entity.SysOssEntity;
 
-	PageUtils queryPage(Map<String, Object> params);
+
+@Service("sysOssService")
+public class SysOssService extends ServiceImpl<SysOssDao, SysOssEntity> {
+
+	public IPage queryPage(Map<String, Object> params) {
+		IPage<SysOssEntity> page = this.page(
+			new Query<SysOssEntity>().getPage(params)
+		);
+
+		return page;
+	}
+	
 }

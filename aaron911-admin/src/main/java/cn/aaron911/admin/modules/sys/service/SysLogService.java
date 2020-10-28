@@ -1,20 +1,30 @@
-package cn.aaron911.modules.sys.service;
-
+package cn.aaron911.admin.modules.sys.service;
 
 import java.util.Map;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
 
-import cn.aaron911.admin.common.utils.PageUtils;
-import cn.aaron911.modules.sys.entity.SysLogEntity;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import cn.aaron911.admin.common.utils.Query;
+import cn.aaron911.admin.modules.sys.dao.SysLogDao;
+import cn.aaron911.admin.modules.sys.entity.SysLogEntity;
 
 
-/**
- * 系统日志
- *
- */
-public interface SysLogService extends IService<SysLogEntity> {
+@Service("sysLogService")
+public class SysLogService extends ServiceImpl<SysLogDao, SysLogEntity>  {
 
-    PageUtils queryPage(Map<String, Object> params);
+    public IPage queryPage(Map<String, Object> params) {
+        String key = (String)params.get("key");
 
+        IPage<SysLogEntity> page = this.page(
+            new Query<SysLogEntity>().getPage(params),
+            new QueryWrapper<SysLogEntity>().like(StringUtils.isNotBlank(key),"username", key)
+        );
+
+        return page;
+    }
 }

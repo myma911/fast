@@ -1,9 +1,9 @@
-package cn.aaron911.modules.oss.cloud;
+package cn.aaron911.admin.modules.oss.cloud;
 
+import cn.aaron911.admin.common.utils.ConfigConstant;
+import cn.aaron911.admin.common.utils.Constant;
 import cn.aaron911.admin.common.utils.SpringContextUtils;
-import cn.aaron911.common.utils.ConfigConstant;
-import cn.aaron911.common.utils.Constant;
-import cn.aaron911.modules.sys.service.SysConfigService;
+import cn.aaron911.admin.modules.sys.service.SysConfigService;
 
 /**
  * 文件上传Factory

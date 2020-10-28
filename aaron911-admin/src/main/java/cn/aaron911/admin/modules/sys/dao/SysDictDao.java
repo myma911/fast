@@ -1,10 +1,10 @@
-package cn.aaron911.modules.sys.dao;
+package cn.aaron911.admin.modules.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import cn.aaron911.modules.sys.entity.SysDictEntity;
+import cn.aaron911.admin.modules.sys.entity.SysDictEntity;
 
 /**
  * 数据字典

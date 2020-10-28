@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>cn.aaron911</groupId>
 		<artifactId>aaron911-fast</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>aaron-admin</artifactId>
 	<packaging>jar</packaging>
@@ -18,18 +18,16 @@
 		<qiniu.version>7.2.23</qiniu.version>
 		<aliyun.oss.version>2.5.0</aliyun.oss.version>
 		<qcloud.cos.version>4.4</qcloud.cos.version>
-		<lombok.version>1.18.4</lombok.version>
 		<swagger.version>2.7.0</swagger.version>
 	</properties>
 
 	<dependencies>
 	
-		<!-- aaron911-common-spring-boot-starter -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>cn.aaron911</groupId>
-			<artifactId>aaron911-common-spring-boot-starter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency> -->
+			<artifactId>aaron911-common</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 		
 		
 		
@@ -183,16 +181,9 @@
 		<dependency>
 			<groupId>cn.aaron911</groupId>
 			<artifactId>aaron911-dynamic-datasource-spring-boot-starter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- lombok -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-		</dependency>
-
 
 		<!-- springfox-swagger2 -->
 		<dependency>
@@ -203,8 +194,6 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 		</dependency>
-
-
 
 	</dependencies>
 

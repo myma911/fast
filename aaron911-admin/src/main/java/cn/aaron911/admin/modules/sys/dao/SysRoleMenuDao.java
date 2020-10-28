@@ -1,4 +1,4 @@
-package cn.aaron911.modules.sys.dao;
+package cn.aaron911.admin.modules.sys.dao;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import cn.aaron911.modules.sys.entity.SysRoleMenuEntity;
+import cn.aaron911.admin.modules.sys.entity.SysRoleMenuEntity;
 
 /**
  * 角色与菜单对应关系

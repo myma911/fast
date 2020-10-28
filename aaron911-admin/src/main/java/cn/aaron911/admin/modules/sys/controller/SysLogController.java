@@ -1,4 +1,4 @@
-package cn.aaron911.modules.sys.controller;
+package cn.aaron911.admin.modules.sys.controller;
 
 import java.util.Map;
 
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.aaron911.admin.common.utils.PageUtils;
-import cn.aaron911.admin.common.utils.R;
-import cn.aaron911.modules.sys.service.SysLogService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import cn.aaron911.admin.modules.sys.service.SysLogService;
+import cn.aaron911.common.result.Result;
 
 
 /**
@@ -30,10 +30,9 @@ public class SysLogController {
 	@ResponseBody
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:log:list")
-	public R list(@RequestParam Map<String, Object> params){
-		PageUtils page = sysLogService.queryPage(params);
-
-		return R.ok().put("page", page);
+	public Result list(@RequestParam Map<String, Object> params){
+		IPage page = sysLogService.queryPage(params);
+		return Result.ok(page);
 	}
 	
 }

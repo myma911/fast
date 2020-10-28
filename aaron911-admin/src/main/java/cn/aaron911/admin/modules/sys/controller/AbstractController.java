@@ -1,9 +1,10 @@
-package cn.aaron911.modules.sys.controller;
+package cn.aaron911.admin.modules.sys.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import cn.aaron911.modules.sys.entity.SysUserEntity;
-import cn.aaron911.modules.sys.shiro.ShiroUtils;
+
+import cn.aaron911.admin.modules.sys.entity.SysUserEntity;
+import cn.aaron911.admin.modules.sys.shiro.ShiroUtils;
 
 /**
  * Controller公共组件

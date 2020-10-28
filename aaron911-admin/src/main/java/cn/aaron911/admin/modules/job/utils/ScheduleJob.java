@@ -1,4 +1,4 @@
-package cn.aaron911.modules.job.utils;
+package cn.aaron911.admin.modules.job.utils;
 
 
 import java.lang.reflect.Method;
@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import cn.aaron911.admin.common.utils.SpringContextUtils;
-import cn.aaron911.modules.job.entity.ScheduleJobEntity;
-import cn.aaron911.modules.job.entity.ScheduleJobLogEntity;
-import cn.aaron911.modules.job.service.ScheduleJobLogService;
+import cn.aaron911.admin.modules.job.entity.ScheduleJobEntity;
+import cn.aaron911.admin.modules.job.entity.ScheduleJobLogEntity;
+import cn.aaron911.admin.modules.job.service.ScheduleJobLogService;
 
 
 /**
@@ -30,7 +30,7 @@ public class ScheduleJob extends QuartzJobBean {
         		.get(ScheduleJobEntity.JOB_PARAM_KEY);
         
         //获取spring bean
-        ScheduleJobLogService scheduleJobLogService = (ScheduleJobLogService) SpringContextUtils.getBean("scheduleJobLogService");
+        ScheduleJobLogService scheduleJobLogService = SpringContextUtils.getBean(ScheduleJobLogService.class);
         
         //数据库保存执行记录
         ScheduleJobLogEntity log = new ScheduleJobLogEntity();

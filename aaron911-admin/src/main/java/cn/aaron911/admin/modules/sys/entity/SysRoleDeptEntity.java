@@ -1,17 +1,15 @@
-package cn.aaron911.modules.sys.entity;
+package cn.aaron911.admin.modules.sys.entity;
 
+
+import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * 角色与部门对应关系
  *
  */
-@Data
 @TableName("sys_role_dept")
 public class SysRoleDeptEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -28,6 +26,30 @@ public class SysRoleDeptEntity implements Serializable {
 	 * 部门ID
 	 */
 	private Long deptId;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+
+	public Long getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(Long deptId) {
+		this.deptId = deptId;
+	}
 
 	
 }

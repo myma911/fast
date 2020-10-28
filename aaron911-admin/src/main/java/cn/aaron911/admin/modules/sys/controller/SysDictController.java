@@ -1,17 +1,21 @@
-package cn.aaron911.modules.sys.controller;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import cn.aaron911.admin.common.utils.PageUtils;
-import cn.aaron911.admin.common.utils.R;
-import cn.aaron911.admin.common.validator.ValidatorUtils;
-import cn.aaron911.modules.sys.entity.SysDictEntity;
-import cn.aaron911.modules.sys.service.SysDictService;
+package cn.aaron911.admin.modules.sys.controller;
 
 import java.util.Arrays;
 import java.util.Map;
+
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import cn.aaron911.admin.modules.sys.entity.SysDictEntity;
+import cn.aaron911.admin.modules.sys.service.SysDictService;
+import cn.aaron911.common.result.Result;
+import cn.aaron911.common.validator.ValidatorUtils;
 
 /**
  * 数据字典
@@ -29,10 +33,9 @@ public class SysDictController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:dict:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = sysDictService.queryPage(params);
-
-        return R.ok().put("page", page);
+    public Result list(@RequestParam Map<String, Object> params){
+        IPage page = sysDictService.queryPage(params);
+        return Result.ok(page);
     }
 
 
@@ -41,10 +44,9 @@ public class SysDictController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("sys:dict:info")
-    public R info(@PathVariable("id") Long id){
+    public Result info(@PathVariable("id") Long id){
         SysDictEntity dict = sysDictService.getById(id);
-
-        return R.ok().put("dict", dict);
+        return Result.ok(dict);
     }
 
     /**
@@ -52,13 +54,13 @@ public class SysDictController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("sys:dict:save")
-    public R save(@RequestBody SysDictEntity dict){
+    public Result save(@RequestBody SysDictEntity dict){
         //校验类型
         ValidatorUtils.validateEntity(dict);
 
         sysDictService.save(dict);
 
-        return R.ok();
+        return Result.ok();
     }
 
     /**
@@ -66,13 +68,13 @@ public class SysDictController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("sys:dict:update")
-    public R update(@RequestBody SysDictEntity dict){
+    public Result update(@RequestBody SysDictEntity dict){
         //校验类型
         ValidatorUtils.validateEntity(dict);
 
         sysDictService.updateById(dict);
 
-        return R.ok();
+        return Result.ok();
     }
 
     /**
@@ -80,10 +82,10 @@ public class SysDictController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("sys:dict:delete")
-    public R delete(@RequestBody Long[] ids){
+    public Result delete(@RequestBody Long[] ids){
         sysDictService.removeByIds(Arrays.asList(ids));
 
-        return R.ok();
+        return Result.ok();
     }
 
 }

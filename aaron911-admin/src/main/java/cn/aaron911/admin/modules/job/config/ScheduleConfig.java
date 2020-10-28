@@ -1,5 +1,5 @@
 
-package cn.aaron911.modules.job.config;
+package cn.aaron911.admin.modules.job.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

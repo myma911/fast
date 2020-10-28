@@ -1,4 +1,7 @@
-package cn.aaron911.modules.sys.controller;
+package cn.aaron911.admin.modules.sys.controller;
+
+import java.util.HashMap;
+import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.aaron911.admin.common.utils.R;
-import cn.aaron911.common.utils.Constant;
-import cn.aaron911.modules.sys.entity.SysDeptEntity;
-import cn.aaron911.modules.sys.service.SysDeptService;
+import com.baomidou.mybatisplus.extension.api.R;
 
-import java.util.HashMap;
-import java.util.List;
+import cn.aaron911.admin.common.utils.Constant;
+import cn.aaron911.admin.modules.sys.entity.SysDeptEntity;
+import cn.aaron911.admin.modules.sys.service.SysDeptService;
+import cn.aaron911.common.result.Result;
 
 
 /**
@@ -42,7 +44,7 @@ public class SysDeptController extends AbstractController {
 	 */
 	@RequestMapping("/select")
 	@RequiresPermissions("sys:dept:select")
-	public R select(){
+	public Result select(){
 		List<SysDeptEntity> deptList = sysDeptService.queryList(new HashMap<String, Object>());
 
 		//添加一级部门
@@ -55,7 +57,7 @@ public class SysDeptController extends AbstractController {
 			deptList.add(root);
 		}
 
-		return R.ok().put("deptList", deptList);
+		return Result.ok(deptList);
 	}
 
 	/**
@@ -63,7 +65,7 @@ public class SysDeptController extends AbstractController {
 	 */
 	@RequestMapping("/info")
 	@RequiresPermissions("sys:dept:list")
-	public R info(){
+	public Result info(){
 		long deptId = 0;
 		if(getUserId() != Constant.SUPER_ADMIN){
 			List<SysDeptEntity> deptList = sysDeptService.queryList(new HashMap<String, Object>());
@@ -81,7 +83,7 @@ public class SysDeptController extends AbstractController {
 			deptId = parentId;
 		}
 
-		return R.ok().put("deptId", deptId);
+		return Result.ok(deptId);
 	}
 	
 	/**
@@ -89,10 +91,10 @@ public class SysDeptController extends AbstractController {
 	 */
 	@RequestMapping("/info/{deptId}")
 	@RequiresPermissions("sys:dept:info")
-	public R info(@PathVariable("deptId") Long deptId){
+	public Result info(@PathVariable("deptId") Long deptId){
 		SysDeptEntity dept = sysDeptService.getById(deptId);
 		
-		return R.ok().put("dept", dept);
+		return Result.ok(dept);
 	}
 	
 	/**
@@ -100,10 +102,10 @@ public class SysDeptController extends AbstractController {
 	 */
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:dept:save")
-	public R save(@RequestBody SysDeptEntity dept){
+	public Result save(@RequestBody SysDeptEntity dept){
 		sysDeptService.save(dept);
 		
-		return R.ok();
+		return Result.ok();
 	}
 	
 	/**
@@ -111,10 +113,10 @@ public class SysDeptController extends AbstractController {
 	 */
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:dept:update")
-	public R update(@RequestBody SysDeptEntity dept){
+	public Result update(@RequestBody SysDeptEntity dept){
 		sysDeptService.updateById(dept);
 		
-		return R.ok();
+		return Result.ok();
 	}
 	
 	/**
@@ -122,16 +124,16 @@ public class SysDeptController extends AbstractController {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:dept:delete")
-	public R delete(long deptId){
+	public Result delete(long deptId){
 		//判断是否有子部门
 		List<Long> deptList = sysDeptService.queryDetpIdList(deptId);
 		if(deptList.size() > 0){
-			return R.error("请先删除子部门");
+			return Result.failed("请先删除子部门");
 		}
 
 		sysDeptService.removeById(deptId);
 		
-		return R.ok();
+		return Result.ok();
 	}
 	
 }

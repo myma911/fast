@@ -1,11 +1,11 @@
-package cn.aaron911.modules.sys.redis;
+package cn.aaron911.admin.modules.sys.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cn.aaron911.admin.common.utils.RedisKeys;
 import cn.aaron911.admin.common.utils.RedisUtils;
-import cn.aaron911.common.utils.RedisKeys;
-import cn.aaron911.modules.sys.entity.SysConfigEntity;
+import cn.aaron911.admin.modules.sys.entity.SysConfigEntity;
 
 /**
  * 系统配置Redis

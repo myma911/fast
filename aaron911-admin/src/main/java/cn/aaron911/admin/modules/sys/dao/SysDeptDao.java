@@ -1,4 +1,4 @@
-package cn.aaron911.modules.sys.dao;
+package cn.aaron911.admin.modules.sys.dao;
 
 import java.util.List;
 import java.util.Map;
@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import cn.aaron911.modules.sys.entity.SysDeptEntity;
+import cn.aaron911.admin.modules.sys.entity.SysDeptEntity;
 
 /**
  * 部门管理

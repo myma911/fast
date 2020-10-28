@@ -1,12 +1,12 @@
-package cn.aaron911.modules.sys.dao;
+package cn.aaron911.admin.modules.sys.dao;
 
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
-import cn.aaron911.modules.sys.entity.SysConfigEntity;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import cn.aaron911.admin.modules.sys.entity.SysConfigEntity;
 
 /**
  * 系统配置信息

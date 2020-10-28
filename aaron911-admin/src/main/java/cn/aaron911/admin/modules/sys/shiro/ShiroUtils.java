@@ -1,12 +1,12 @@
-package cn.aaron911.modules.sys.shiro;
+package cn.aaron911.admin.modules.sys.shiro;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import cn.aaron911.admin.common.exception.AException;
-import cn.aaron911.modules.sys.entity.SysUserEntity;
+import cn.aaron911.admin.modules.sys.entity.SysUserEntity;
+import cn.aaron911.common.exception.FailedException;
 
 /**
  * Shiro工具类
@@ -59,7 +59,8 @@ public class ShiroUtils {
 	public static String getKaptcha(String key) {
 		Object kaptcha = getSessionAttribute(key);
 		if(kaptcha == null){
-			throw new AException("验证码已失效");
+			
+			throw new FailedException("验证码已失效");
 		}
 		getSession().removeAttribute(key);
 		return kaptcha.toString();

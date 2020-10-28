@@ -15,13 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.aaron911.admin.common.annotation.DataFilter;
-import cn.aaron911.admin.common.exception.AException;
 import cn.aaron911.admin.common.utils.Constant;
 import cn.aaron911.admin.modules.sys.entity.SysUserEntity;
 import cn.aaron911.admin.modules.sys.service.SysDeptService;
 import cn.aaron911.admin.modules.sys.service.SysRoleDeptService;
 import cn.aaron911.admin.modules.sys.service.SysUserRoleService;
 import cn.aaron911.admin.modules.sys.shiro.ShiroUtils;
+import cn.aaron911.common.exception.ErrorException;
 
 /**
  * 数据过滤，切面处理类
@@ -40,7 +40,7 @@ public class DataFilterAspect {
     @Autowired
     private SysRoleDeptService sysRoleDeptService;
 
-    @Pointcut("@annotation(cn.aaron911.common.annotation.DataFilter)")
+    @Pointcut("@annotation(cn.aaron911.admin.common.annotation.DataFilter)")
     public void dataFilterCut() {
 
     }
@@ -59,8 +59,7 @@ public class DataFilterAspect {
 
             return ;
         }
-
-        throw new AException("数据权限接口，只能是Map类型参数，且不能为NULL");
+        throw new ErrorException("数据权限接口，只能是Map类型参数，且不能为NULL");
     }
 
     /**

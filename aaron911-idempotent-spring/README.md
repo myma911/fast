@@ -11,7 +11,7 @@ Spring Boot接口幂等性校验
 <dependency>
   <groupId>cn.aaron911</groupId>
   <artifactId>aaron911-idempotent-spring-boot-starter</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 

@@ -1,27 +1,47 @@
-package cn.aaron911.modules.sys.service;
+package cn.aaron911.admin.modules.sys.service;
 
 import java.util.List;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.stereotype.Service;
 
-import cn.aaron911.modules.sys.entity.SysUserRoleEntity;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import cn.aaron911.admin.modules.sys.dao.SysUserRoleDao;
+import cn.aaron911.admin.modules.sys.entity.SysUserRoleEntity;
 
 
 /**
  * 用户与角色对应关系
  *
  */
-public interface SysUserRoleService extends IService<SysUserRoleEntity> {
-	
-	void saveOrUpdate(Long userId, List<Long> roleIdList);
-	
-	/**
-	 * 根据用户ID，获取角色ID列表
-	 */
-	List<Long> queryRoleIdList(Long userId);
+@Service
+public class SysUserRoleService extends ServiceImpl<SysUserRoleDao, SysUserRoleEntity> {
 
-	/**
-	 * 根据角色ID数组，批量删除
-	 */
-	int deleteBatch(Long[] roleIds);
+	public void saveOrUpdate(Long userId, List<Long> roleIdList) {
+		//先删除用户与角色关系
+		this.remove(new QueryWrapper<SysUserRoleEntity>().eq("user_id", userId));
+
+		if(roleIdList == null || roleIdList.size() == 0){
+			return ;
+		}
+		
+		//保存用户与角色关系
+		for(Long roleId : roleIdList){
+			SysUserRoleEntity sysUserRoleEntity = new SysUserRoleEntity();
+			sysUserRoleEntity.setUserId(userId);
+			sysUserRoleEntity.setRoleId(roleId);
+
+			this.save(sysUserRoleEntity);
+		}
+
+	}
+
+	public List<Long> queryRoleIdList(Long userId) {
+		return baseMapper.queryRoleIdList(userId);
+	}
+
+	public int deleteBatch(Long[] roleIds){
+		return baseMapper.deleteBatch(roleIds);
+	}
 }

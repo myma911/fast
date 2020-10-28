@@ -5,12 +5,9 @@
 	<parent>
 		<groupId>cn.aaron911</groupId>
 		<artifactId>aaron911-fast</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>aaron911-limiter-spring-boot-starter</artifactId>
-
-
-
 
 	<dependencies>
 		<dependency>
@@ -106,12 +103,6 @@
 				</executions>
 			</plugin>
 
-
-			<!-- 文档 插件 -->
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
-				<executions> <execution> <id>attach-javadocs</id> <goals> <goal>jar</goal> 
-				</goals> <configuration> <doclint>none</doclint> </configuration> </execution> 
-				</executions> </plugin> -->
 		</plugins>
 	</build>
 

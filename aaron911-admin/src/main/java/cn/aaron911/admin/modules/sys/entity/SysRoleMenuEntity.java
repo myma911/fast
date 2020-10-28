@@ -1,16 +1,14 @@
-package cn.aaron911.modules.sys.entity;
+package cn.aaron911.admin.modules.sys.entity;
+
+import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * 角色与菜单对应关系
  *
  */
-@Data
 @TableName("sys_role_menu")
 public class SysRoleMenuEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -27,5 +25,28 @@ public class SysRoleMenuEntity implements Serializable {
 	 */
 	private Long menuId;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+
+	public Long getMenuId() {
+		return menuId;
+	}
+
+	public void setMenuId(Long menuId) {
+		this.menuId = menuId;
+	}
 	
 }

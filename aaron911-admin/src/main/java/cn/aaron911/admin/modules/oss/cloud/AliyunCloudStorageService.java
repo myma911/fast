@@ -1,11 +1,12 @@
-package cn.aaron911.modules.oss.cloud;
+package cn.aaron911.admin.modules.oss.cloud;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import com.aliyun.oss.OSSClient;
 
-import cn.aaron911.admin.common.exception.AException;
+import cn.aaron911.common.exception.FailedException;
+
 
 /**
  * 阿里云存储
@@ -36,7 +37,7 @@ public class AliyunCloudStorageService extends CloudStorageService {
         try {
             client.putObject(config.getAliyunBucketName(), path, inputStream);
         } catch (Exception e){
-            throw new AException("上传文件失败，请检查配置信息", e);
+        	throw new FailedException("上传文件失败，请检查配置信息", e);
         }
 
         return config.getAliyunDomain() + "/" + path;
