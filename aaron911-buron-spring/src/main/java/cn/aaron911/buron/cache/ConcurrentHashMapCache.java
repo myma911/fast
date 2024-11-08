@@ -5,6 +5,7 @@ import org.springframework.util.Assert;
 
 import cn.aaron911.buron.property.BuronProperties;
 
+import javax.annotation.Resource;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,7 +24,7 @@ public class ConcurrentHashMapCache implements Cache {
     private final Lock writeLock = lock.writeLock();
     private final Lock readLock = lock.readLock();
     
-    @Autowired
+    @Resource
     private BuronProperties properties;
 
     public ConcurrentHashMapCache() {

@@ -1,18 +1,16 @@
 package cn.aaron911.dynamic.datasource.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.aaron911.dynamic.datasource.properties.DataSourceProperties;
+import cn.aaron911.dynamic.datasource.properties.DynamicDataSourceProperties;
+import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.alibaba.druid.pool.DruidDataSource;
-
-import cn.aaron911.dynamic.datasource.properties.DataSourceProperties;
-import cn.aaron911.dynamic.datasource.properties.DynamicDataSourceProperties;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 配置多数据源
@@ -21,7 +19,8 @@ import cn.aaron911.dynamic.datasource.properties.DynamicDataSourceProperties;
 @Configuration
 @EnableConfigurationProperties(DynamicDataSourceProperties.class)
 public class DynamicDataSourceConfig {
-    @Autowired
+
+    @Resource
     private DynamicDataSourceProperties properties;
 
     @Bean

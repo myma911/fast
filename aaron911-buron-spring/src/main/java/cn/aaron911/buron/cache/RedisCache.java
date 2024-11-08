@@ -1,21 +1,20 @@
 package cn.aaron911.buron.cache;
 
-import java.util.concurrent.TimeUnit;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.aaron911.buron.property.BuronProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.Assert;
 
-import cn.aaron911.buron.property.BuronProperties;
+import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 
 public class RedisCache implements Cache {
 
-    @Autowired
+    @Resource
     private RedisTemplate<String, Object> buronRedisTemplate;
     
-    @Autowired
+    @Resource
     private BuronProperties properties;
 
     @Override

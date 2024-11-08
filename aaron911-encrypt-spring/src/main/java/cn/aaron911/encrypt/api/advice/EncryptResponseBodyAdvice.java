@@ -60,16 +60,14 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
         Annotation[] annotations = returnType.getDeclaringClass().getAnnotations();
-        if(annotations!=null && annotations.length>0){
-            for (Annotation annotation : annotations) {
-                if(annotation instanceof EncryptBody ||
-                    annotation instanceof AESEncryptBody ||
-                    annotation instanceof DESEncryptBody ||
-                    annotation instanceof RSAEncryptBody ||
-                    annotation instanceof MD5EncryptBody ||
-                    annotation instanceof SHAEncryptBody){
-                    return true;
-                }
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof EncryptBody ||
+                annotation instanceof AESEncryptBody ||
+                annotation instanceof DESEncryptBody ||
+                annotation instanceof RSAEncryptBody ||
+                annotation instanceof MD5EncryptBody ||
+                annotation instanceof SHAEncryptBody) {
+                return true;
             }
         }
         return returnType.getMethod().isAnnotationPresent(EncryptBody.class) ||
@@ -147,24 +145,22 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {
      */
     private EncryptAnnotationInfoBean getClassAnnotation(Class clazz){
         Annotation[] annotations = clazz.getDeclaredAnnotations();
-        if(annotations!=null && annotations.length>0){
-            for (Annotation annotation : annotations) {
-                if(annotation instanceof EncryptBody){
-                    EncryptBody encryptBody = (EncryptBody) annotation;
-                    return new EncryptAnnotationInfoBean(encryptBody.value(), encryptBody.otherKey(), encryptBody.shaType());
-                }
-                if(annotation instanceof MD5EncryptBody){
-                	return new EncryptAnnotationInfoBean(EncryptBodyMethod.MD5);
-                }
-                if(annotation instanceof SHAEncryptBody){
-                	return new EncryptAnnotationInfoBean(EncryptBodyMethod.SHA, ((SHAEncryptBody) annotation).value());
-                }
-                if(annotation instanceof DESEncryptBody){
-                	return new EncryptAnnotationInfoBean(EncryptBodyMethod.DES, ((DESEncryptBody) annotation).otherKey());
-                }
-                if(annotation instanceof AESEncryptBody){
-                	return new EncryptAnnotationInfoBean(EncryptBodyMethod.AES, ((AESEncryptBody) annotation).otherKey());
-                }
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof EncryptBody) {
+                EncryptBody encryptBody = (EncryptBody) annotation;
+                return new EncryptAnnotationInfoBean(encryptBody.value(), encryptBody.otherKey(), encryptBody.shaType());
+            }
+            if (annotation instanceof MD5EncryptBody) {
+                return new EncryptAnnotationInfoBean(EncryptBodyMethod.MD5);
+            }
+            if (annotation instanceof SHAEncryptBody) {
+                return new EncryptAnnotationInfoBean(EncryptBodyMethod.SHA, ((SHAEncryptBody) annotation).value());
+            }
+            if (annotation instanceof DESEncryptBody) {
+                return new EncryptAnnotationInfoBean(EncryptBodyMethod.DES, ((DESEncryptBody) annotation).otherKey());
+            }
+            if (annotation instanceof AESEncryptBody) {
+                return new EncryptAnnotationInfoBean(EncryptBodyMethod.AES, ((AESEncryptBody) annotation).otherKey());
             }
         }
         return null;

@@ -9,7 +9,7 @@ import java.util.Enumeration;
  */
 public class RequestUtil {
 
-    private HttpServletRequest request;
+    private final HttpServletRequest request;
 
     public RequestUtil(HttpServletRequest request) {
         this.request = request;
@@ -41,17 +41,7 @@ public class RequestUtil {
     }
 
     public String getIp() {
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
+        return IpUtil.getIp(request);
     }
 
     public String getRequestUrl() {

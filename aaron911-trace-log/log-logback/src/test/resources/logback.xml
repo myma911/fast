@@ -18,7 +18,7 @@
     <!-- easylog日志 -->
     <appender name="aaron911log" class="cn.aaron911.log.logback.appender.RedisAppender">
         <appName>test_job</appName>
-        <redisHost>192.168.3.193</redisHost>
+        <redisHost>127.0.0.1</redisHost>
         <redisPort>6379</redisPort>
         <maxCount>100</maxCount>
         <logQueueSize>100000</logQueueSize>

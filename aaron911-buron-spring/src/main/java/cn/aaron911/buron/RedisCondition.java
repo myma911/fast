@@ -17,10 +17,7 @@ public class RedisCondition implements Condition{
         // 从容器中获取RedisTemplate类型bean
         Map<String, RedisTemplate> map = beanFactory.getBeansOfType(RedisTemplate.class);
         // 当容器中不存在RedisTemplate 才实例化
-        if (map.isEmpty() && "redis".equals(context.getEnvironment().getProperty("aaron911.buron.type"))) {
-        	return true;
-        }
-		return false;
-	}
+        return map.isEmpty() && "redis".equals(context.getEnvironment().getProperty("aaron911.buron.type"));
+    }
 
 }

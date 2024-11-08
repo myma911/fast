@@ -17,7 +17,7 @@ aaron911:
     
   # redisson lock
   redisson:
-    address: redis://192.168.3.193:6379
+    address: redis://127.0.0.1:6379
     password:
 #这里如果不加redis://前缀会报URI构建错误，Caused by: java.net.URISyntaxException: Illegal character in scheme name at index 0
 

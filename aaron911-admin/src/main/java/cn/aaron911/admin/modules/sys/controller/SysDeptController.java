@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.baomidou.mybatisplus.extension.api.R;
-
 import cn.aaron911.admin.common.utils.Constant;
 import cn.aaron911.admin.modules.sys.entity.SysDeptEntity;
 import cn.aaron911.admin.modules.sys.service.SysDeptService;
@@ -33,10 +30,9 @@ public class SysDeptController extends AbstractController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:dept:list")
-	public List<SysDeptEntity> list(){
-		List<SysDeptEntity> deptList = sysDeptService.queryList(new HashMap<String, Object>());
-
-		return deptList;
+	public Result<List<SysDeptEntity>> list(){
+		List<SysDeptEntity> deptList = sysDeptService.queryList(new HashMap<>());
+		return Result.ok(deptList);
 	}
 
 	/**

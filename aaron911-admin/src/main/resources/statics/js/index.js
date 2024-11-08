@@ -48,12 +48,16 @@ var vm = new Vue({
 	methods: {
 		getMenuList: function (event) {
 			$.getJSON("sys/menu/nav?_"+$.now(), function(r){
-				vm.menuList = r.menuList;
+				if (r.code === 911000){
+					vm.menuList = r.data;
+				}
 			});
 		},
 		getUser: function(){
 			$.getJSON("sys/user/info?_"+$.now(), function(r){
-				vm.user = r.user;
+				if (r.code === 911000){
+					vm.user = r.data;
+				}
 			});
 		},
 		updatePassword: function(){
@@ -73,7 +77,7 @@ var vm = new Vue({
 					    data: data,
 					    dataType: "json",
 					    success: function(result){
-							if(result.code == 0){
+							if(result.code === 911000){
 								layer.close(index);
 								layer.alert('修改成功', function(index){
 									location.reload();

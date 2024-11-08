@@ -45,12 +45,16 @@ var vm = new Vue({
     methods: {
         getMenuList: function () {
             $.getJSON("sys/menu/nav", function (r) {
-                vm.menuList = r.menuList;
+                if (r.code === 911000){
+                    vm.menuList = r.data;
+                }
             });
         },
         getUser: function () {
             $.getJSON("sys/user/info?_" + $.now(), function (r) {
-                vm.user = r.user;
+                if (r.code === 911000){
+                    vm.user = r.data;
+                }
             });
         },
         updatePassword: function () {
@@ -70,7 +74,7 @@ var vm = new Vue({
                         data: data,
                         dataType: "json",
                         success: function (result) {
-                            if (result.code == 0) {
+                            if (result.code === 911000) {
                                 layer.close(index);
                                 layer.alert('修改成功', function (index) {
                                     location.reload();
@@ -99,7 +103,7 @@ var vm = new Vue({
         this.getUser();
     },updated:function(){
 
-        if($("#larry-side .layui-nav-item>a").length==0 || !isquery){
+        if($("#larry-side .layui-nav-item>a").length===0 || !isquery){
             return;
         }
         console.log("执行")

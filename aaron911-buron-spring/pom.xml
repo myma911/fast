@@ -10,25 +10,33 @@
 	<artifactId>aaron911-buron-spring</artifactId>
 	<packaging>jar</packaging>
 
+	<properties>
+		<spring-data-redis.version>3.3.5</spring-data-redis.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-redis</artifactId>
+			<version>${spring-data-redis.version}</version>
+
 		</dependency>
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
+			<version>${jedis.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.redisson</groupId>
 			<artifactId>redisson</artifactId>
-			<version>3.5.5</version>
+			<version>${redission.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -41,8 +49,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
-					<attach>true</attach>
+					<!--<attach>true</attach>-->
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>

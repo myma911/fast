@@ -21,12 +21,24 @@ $(function () {
         autowidth:true,
         multiselect: false,
         pager: "#jqGridPager",
-        jsonReader : {
-            root: "page.list",
-            page: "page.currPage",
-            total: "page.totalPage",
-            records: "page.totalCount"
+        loadComplete: function(r) {
+            // 假设后台返回的数据结构不符合 jqGrid 预期
+            // 需要在这里进行调整
+            var adjustedData = {
+                page: r.data.current,  // 当前页
+                total: r.data.pages,   // 总页数
+                records: r.data.total, // 总记录数
+                rows: r.data.records,  // 数据记录
+            };
+            // 刷新 jqGrid 数据
+            $("#jqGrid").jqGrid('setGridParam', { data: adjustedData.rows }).trigger('reloadGrid');
         },
+        // jsonReader : {
+        //     root: "page.list",
+        //     page: "page.currPage",
+        //     total: "page.totalPage",
+        //     records: "page.totalCount"
+        // },
         prmNames : {
             page:"page", 
             rows:"limit", 

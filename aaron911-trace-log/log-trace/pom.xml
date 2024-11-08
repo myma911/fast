@@ -12,6 +12,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+            <version>${springboot.version}</version>
             <scope>provided</scope>
         </dependency>
         

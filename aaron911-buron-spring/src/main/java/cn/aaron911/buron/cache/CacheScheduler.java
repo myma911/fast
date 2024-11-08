@@ -11,8 +11,8 @@ public enum CacheScheduler {
 
     INSTANCE;
 
-    private AtomicInteger cacheTaskNumber = new AtomicInteger(1);
-    private ScheduledExecutorService scheduler;
+    private final AtomicInteger cacheTaskNumber = new AtomicInteger(1);
+    private final ScheduledExecutorService scheduler;
 
     CacheScheduler() {
         this.shutdown();

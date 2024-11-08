@@ -12,14 +12,12 @@
 	<packaging>jar</packaging>
 
 
-
-
 	<dependencies>
-
 		<!-- hutool -->
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
+			<version>${hutool-all.version}</version>
 		</dependency>
 		
 		
@@ -27,6 +25,8 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- 开源多维码生成工具 -->

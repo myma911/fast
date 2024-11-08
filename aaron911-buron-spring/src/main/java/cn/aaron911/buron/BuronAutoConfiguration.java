@@ -1,9 +1,13 @@
 package cn.aaron911.buron;
 
 
+import cn.aaron911.buron.cache.BuronCacheType;
+import cn.aaron911.buron.cache.Cache;
+import cn.aaron911.buron.cache.ConcurrentHashMapCache;
+import cn.aaron911.buron.cache.RedisCache;
+import cn.aaron911.buron.property.BuronProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
@@ -13,15 +17,10 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-
-import cn.aaron911.buron.cache.BuronCacheType;
-import cn.aaron911.buron.cache.Cache;
-import cn.aaron911.buron.cache.ConcurrentHashMapCache;
-import cn.aaron911.buron.cache.RedisCache;
-import cn.aaron911.buron.property.BuronProperties;
 import redis.clients.jedis.JedisPoolConfig;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 
 @Configuration
@@ -29,7 +28,7 @@ public class BuronAutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(BuronAutoConfiguration.class);
 
-    @Autowired
+    @Resource
     private BuronProperties properties;
 
     @PostConstruct

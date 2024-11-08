@@ -2,7 +2,6 @@ package cn.aaron911.buron;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import cn.aaron911.buron.cache.Cache;
@@ -11,6 +10,7 @@ import cn.aaron911.buron.property.BuronProperties;
 import cn.aaron911.buron.util.GlobalBraumUtil;
 import cn.aaron911.buron.util.RequestUtil;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
 
@@ -18,10 +18,10 @@ import java.util.concurrent.TimeUnit;
 public class BuronShieldProcessor implements BuronProcessor{
     private static final Logger log = LoggerFactory.getLogger(BuronShieldProcessor.class);
 
-    @Autowired
+    @Resource
     private BuronProperties properties;
     
-    @Autowired
+    @Resource
     @Qualifier("buronCache")
     private Cache cache;
 

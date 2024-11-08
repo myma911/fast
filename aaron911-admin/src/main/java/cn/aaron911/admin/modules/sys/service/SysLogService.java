@@ -17,7 +17,7 @@ import cn.aaron911.admin.modules.sys.entity.SysLogEntity;
 @Service("sysLogService")
 public class SysLogService extends ServiceImpl<SysLogDao, SysLogEntity>  {
 
-    public IPage queryPage(Map<String, Object> params) {
+    public IPage<SysLogEntity> queryPage(Map<String, Object> params) {
         String key = (String)params.get("key");
 
         IPage<SysLogEntity> page = this.page(

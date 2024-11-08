@@ -74,7 +74,7 @@ var vm = new Vue({
                     contentType: "application/json",
                     data: JSON.stringify(vm.${classname}),
                     success: function(r){
-                        if(r.code === 0){
+                        if(r.code === 911000){
                              layer.msg("操作成功", {icon: 1});
                              vm.reload();
                              $('#btnSaveOrUpdate').button('reset');

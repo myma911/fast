@@ -32,6 +32,7 @@
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
+			<version>${hutool-all.version}</version>
 		</dependency>
 
 		<dependency>
@@ -55,7 +56,7 @@
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
-			<version>${redis.version}</version>
+			<version>${jedis.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -68,7 +69,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.30</version>
+			<version>${slf4j.version}</version>
 		</dependency>
 
 	</dependencies>

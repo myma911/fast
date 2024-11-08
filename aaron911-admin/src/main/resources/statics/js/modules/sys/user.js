@@ -25,10 +25,10 @@ $(function () {
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader : {
-            root: "page.list",
-            page: "page.currPage",
-            total: "page.totalPage",
-            records: "page.totalCount"
+            root: "data.records",
+            page: "data.current",
+            total: "data.pages",
+            records: "data.total"
         },
         prmNames : {
             page:"page", 
@@ -152,7 +152,7 @@ var vm = new Vue({
                 contentType: "application/json",
                 data: JSON.stringify(vm.user),
                 success: function(r){
-                    if(r.code === 0){
+                    if(r.code === 911000){
                         alert('操作成功', function(){
                             vm.reload();
                         });

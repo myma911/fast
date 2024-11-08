@@ -67,7 +67,7 @@ var vm = new Vue({
                     url: baseURL + "sys/dept/delete",
                     data: "deptId=" + deptId,
                     success: function(r){
-                        if(r.code === 0){
+                        if(r.code === 911000){
                             alert('操作成功', function(){
                                 vm.reload();
                             });
@@ -86,7 +86,7 @@ var vm = new Vue({
                 contentType: "application/json",
                 data: JSON.stringify(vm.dept),
                 success: function(r){
-                    if(r.code === 0){
+                    if(r.code === 911000){
                         alert('操作成功', function(){
                             vm.reload();
                         });
@@ -146,7 +146,7 @@ Dept.initColumn = function () {
 
 function getDeptId () {
     var selected = $('#deptTable').bootstrapTreeTable('getSelections');
-    if (selected.length == 0) {
+    if (selected.length === 0) {
         alert("请选择一条记录");
         return null;
     } else {
@@ -159,7 +159,7 @@ $(function () {
     $.get(baseURL + "sys/dept/info", function(r){
         var colunms = Dept.initColumn();
         var table = new TreeTable(Dept.id, baseURL + "sys/dept/list", colunms);
-        table.setRootCodeValue(r.deptId);
+        table.setRootCodeValue(r.data);
         table.setExpandColumn(2);
         table.setIdField("deptId");
         table.setCodeField("deptId");

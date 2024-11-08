@@ -11,25 +11,6 @@
 
 	<description>博客猎手，基于webMagic的博客爬取工具，支持慕课、csdn、iteye、cnblogs、掘金和V2EX等各大主流博客平台。博客千万篇，版权第一条。狩猎不规范，亲人两行泪。</description>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven-source.version>2.2.1</maven-source.version>
-		<maven-compiler.version>3.7.0</maven-compiler.version>
-		<maven.test.skip>true</maven.test.skip>
-		<hutool-version>4.1.21</hutool-version>
-		<lombok-version>1.18.4</lombok-version>
-		<junit-version>4.11</junit-version>
-		<fastjson-version>[1.2.31,)</fastjson-version>
-		<webmagic.version>0.7.3</webmagic.version>
-		<jsoup.version>1.10.2</jsoup.version>
-		<hibernate.validator.version>6.0.9.Final</hibernate.validator.version>
-		<tomcat.version>8.5.24</tomcat.version>
-		<log4j.version>1.2.17</log4j.version>
-	</properties>
-
 
 	<dependencies>
 
@@ -38,23 +19,25 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
+			<version>${hutool-all.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit-version}</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>${fastjson-version}</version>
+			<version>${fastjson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>us.codecraft</groupId>
@@ -74,6 +57,7 @@
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.validator.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
@@ -94,13 +78,11 @@
 		</dependency>
 
 
-
-
-
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
+			<version>2.13.5</version>
 		</dependency>
 
 	</dependencies>

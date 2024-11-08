@@ -6,18 +6,25 @@
     <version>1.0.0</version>
   </parent>
   <artifactId>log-logback</artifactId>
+
+    <properties>
+        <logback-core.version>1.5.12</logback-core.version>
+        <logback-classic.version>1.5.12</logback-classic.version>
+    </properties>
   
   
   <dependencies>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
+            <version>${logback-core.version}</version>
             <scope>provided</scope>
         </dependency>
         
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <version>${logback-classic.version}</version>
              <scope>provided</scope>
         </dependency>
         

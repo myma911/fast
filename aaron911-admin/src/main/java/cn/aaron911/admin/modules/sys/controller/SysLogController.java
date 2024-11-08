@@ -2,6 +2,7 @@ package cn.aaron911.admin.modules.sys.controller;
 
 import java.util.Map;
 
+import cn.aaron911.admin.modules.sys.entity.SysLogEntity;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,8 +31,8 @@ public class SysLogController {
 	@ResponseBody
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:log:list")
-	public Result list(@RequestParam Map<String, Object> params){
-		IPage page = sysLogService.queryPage(params);
+	public Result<IPage<SysLogEntity>> list(@RequestParam Map<String, Object> params){
+		IPage<SysLogEntity> page = sysLogService.queryPage(params);
 		return Result.ok(page);
 	}
 	

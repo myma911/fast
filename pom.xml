@@ -10,6 +10,56 @@
 	<description>快速开发功能集合</description>
 	<name>aaron911-fast</name>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.test.skip>true</maven.test.skip>
+		<maven-source.version>2.2.1</maven-source.version>
+		<maven-compiler.version>3.7.0</maven-compiler.version>
+
+		<hutool-all.version>4.6.8</hutool-all.version>
+		<junit.version>4.11</junit.version>
+		<webmagic.version>0.7.3</webmagic.version>
+		<jsoup.version>1.10.2</jsoup.version>
+		<hibernate.validator.version>6.0.9.Final</hibernate.validator.version>
+		<tomcat.version>8.5.24</tomcat.version>
+		<log4j.version>1.2.17</log4j.version>
+		<lombok.version>1.18.4</lombok.version>
+		<quartz.version>2.3.0</quartz.version>
+		<shiro.version>1.4.0</shiro.version>
+		<kaptcha.version>0.0.9</kaptcha.version>
+		<qiniu.version>7.2.23</qiniu.version>
+		<aliyun.oss.version>2.5.0</aliyun.oss.version>
+		<qcloud.cos.version>4.4</qcloud.cos.version>
+		<swagger.version>2.7.0</swagger.version>
+		<springboot.version>2.3.1.RELEASE</springboot.version>
+		<mybatisplus.version>3.3.2</mybatisplus.version>
+
+		<mybatis.plus.boot.starter>3.5.5</mybatis.plus.boot.starter>
+
+		<mysql.version>8.0.16</mysql.version>
+		<servlet.version>3.0.1</servlet.version>
+		<netty-all.version>4.1.42.Final</netty-all.version>
+		<fastjson.version>1.2.29</fastjson.version>
+
+		<slf4j.version>2.0.16</slf4j.version>
+		<jedis.version>5.2.0</jedis.version>
+
+		<redission.version>3.5.5</redission.version>
+
+		<spring.version>5.1.3.RELEASE</spring.version>
+		<jackson.version>2.9.7</jackson.version>
+
+		<druid.version>1.2.23</druid.version>
+		<spring-data-redis.version>3.3.5</spring-data-redis.version>
+
+		<commons-lang3.version>3.17.0</commons-lang3.version>
+	</properties>
+
 	<developers>
 		<developer>
 			<id>aaron911</id>
@@ -44,134 +94,16 @@
 		<module>aaron911-generator</module>
 		<module>aaron911-idempotent-spring</module>
 		<module>aaron911-limiter-spring-boot-starter</module>
+		<module>aaron911-learn-example</module>
 		<module>aaron911-lock-spring-boot-starter</module>
+		<module>aaron911-netty-im</module>
 		<module>aaron911-oauth</module>
 		<module>aaron911-pay</module>
+		<module>aaron911-rpc</module>
 		<module>aaron911-spider</module>
 		<module>aaron911-sso</module>
 		<module>aaron911-trace-log</module>
-	</modules>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-		<junit.version>4.12</junit.version>
-
-		<projectlombok.version>1.18.12</projectlombok.version>
-		<springboot.version>2.3.1.RELEASE</springboot.version>
-		<hutool-all.version>4.6.8</hutool-all.version>
-		<jedis.version>2.9.0</jedis.version>
-		<druid.version>1.1.23</druid.version>
-		<mybatisplus.version>3.3.2</mybatisplus.version>
-		<mysql.version>8.0.16</mysql.version>
-		<mssql.version>4.0</mssql.version>
-		<oracle.version>11.2.0.3</oracle.version>
-		<commons.lang.version>2.6</commons.lang.version>
-		<commons.fileupload.version>1.3.1</commons.fileupload.version>
-		<commons.io.version>2.5</commons.io.version>
-		<commons.codec.version>1.10</commons.codec.version>
-
-		<gson.version>2.8.5</gson.version>
-		<hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
-		<lombok.version>1.18.4</lombok.version>
-		<swagger.version>2.7.0</swagger.version>
-		<servlet-api.version>4.0.1</servlet-api.version>
-
-	</properties>
-
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<!-- Import dependency management from Spring Boot -->
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>${springboot.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-
-			<!-- servlet-api -->
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>${servlet-api.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<!-- lombok -->
-			<dependency>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok</artifactId>
-				<version>${projectlombok.version}</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<!-- springfox-swagger2 -->
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger2</artifactId>
-				<version>${swagger.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger-ui</artifactId>
-				<version>${swagger.version}</version>
-			</dependency>
-
-			<!-- mysql驱动 -->
-			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>${mysql.version}</version>
-			</dependency>
-
-			<!-- hutool -->
-			<dependency>
-				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-all</artifactId>
-				<version>${hutool-all.version}</version>
-			</dependency>
-
-			<!-- junit -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junit.version}</version>
-				<scope>test</scope>
-			</dependency>
-
-			<!-- hibernate-validator -->
-			<dependency>
-				<groupId>org.hibernate.validator</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>${hibernate-validator.version}</version>
-			</dependency>
-
-
-			<!-- mybatis-plus-boot-starter -->
-			<dependency>
-				<groupId>com.baomidou</groupId>
-				<artifactId>mybatis-plus-boot-starter</artifactId>
-				<version>${mybatisplus.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>com.baomidou</groupId>
-						<artifactId>mybatis-plus-generator</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>druid</artifactId>
-				<version>${druid.version}</version>
-			</dependency>
-
-		</dependencies>
-	</dependencyManagement>
+    </modules>
 
 	<build>
 		<plugins>

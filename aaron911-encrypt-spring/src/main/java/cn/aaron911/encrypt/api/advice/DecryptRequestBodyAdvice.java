@@ -26,6 +26,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -41,20 +42,18 @@ import java.lang.reflect.Type;
 public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
 	private static final Logger log = LoggerFactory.getLogger(DecryptRequestBodyAdvice.class);
 
-    @Autowired
+    @Resource
     private EncryptConfig config;
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
         Annotation[] annotations = methodParameter.getDeclaringClass().getAnnotations();
-        if(annotations!=null && annotations.length>0){
-            for (Annotation annotation : annotations) {
-                if(annotation instanceof DecryptBody ||
-                        annotation instanceof AESDecryptBody ||
-                        annotation instanceof DESDecryptBody ||
-                        annotation instanceof RSADecryptBody){
-                    return true;
-                }
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof DecryptBody ||
+                    annotation instanceof AESDecryptBody ||
+                    annotation instanceof DESDecryptBody ||
+                    annotation instanceof RSADecryptBody) {
+                return true;
             }
         }
         return methodParameter.getMethod().isAnnotationPresent(DecryptBody.class) ||
@@ -70,9 +69,6 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
 
     @Override
     public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
-        if(inputMessage.getBody()==null){
-            return inputMessage;
-        }
         String body;
         try {
         	body = IoUtil.read(inputMessage.getBody(), config.getCharset());
@@ -140,18 +136,16 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
      */
     private DecryptAnnotationInfoBean getClassAnnotation(Class<?> clazz){
         Annotation[] annotations = clazz.getDeclaredAnnotations();
-        if(annotations!=null && annotations.length>0){
-            for (Annotation annotation : annotations) {
-                if(annotation instanceof DecryptBody){
-                    DecryptBody decryptBody = (DecryptBody) annotation;
-                    return new DecryptAnnotationInfoBean(decryptBody.value(), decryptBody.otherKey());
-                }
-                if(annotation instanceof DESDecryptBody){
-                	return new DecryptAnnotationInfoBean(DecryptBodyMethod.DES, ((DESDecryptBody) annotation).otherKey());
-                }
-                if(annotation instanceof AESDecryptBody){
-                	return new DecryptAnnotationInfoBean(DecryptBodyMethod.AES, ((AESDecryptBody) annotation).otherKey());
-                }
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof DecryptBody) {
+                DecryptBody decryptBody = (DecryptBody) annotation;
+                return new DecryptAnnotationInfoBean(decryptBody.value(), decryptBody.otherKey());
+            }
+            if (annotation instanceof DESDecryptBody) {
+                return new DecryptAnnotationInfoBean(DecryptBodyMethod.DES, ((DESDecryptBody) annotation).otherKey());
+            }
+            if (annotation instanceof AESDecryptBody) {
+                return new DecryptAnnotationInfoBean(DecryptBodyMethod.AES, ((AESDecryptBody) annotation).otherKey());
             }
         }
         return null;
