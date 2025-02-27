@@ -1,0 +1,1 @@
+loadBalance=cn.aaron911.rpc.loadbalance.loadbalancer.ConsistentHashLoadBalance

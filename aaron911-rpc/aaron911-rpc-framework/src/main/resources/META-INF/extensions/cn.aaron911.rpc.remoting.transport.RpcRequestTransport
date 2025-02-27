@@ -1,0 +1,2 @@
+netty=cn.aaron911.rpc.remoting.transport.netty.client.NettyRpcClient
+socket=cn.aaron911.rpc.remoting.transport.socket.SocketRpcClient

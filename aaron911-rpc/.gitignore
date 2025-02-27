@@ -1,0 +1,17 @@
+/.idea/
+/target/
+/aaron911-rpc-framework/target/
+/hello-service-api/target/
+/example-server/target/
+/example-client/target/
+/example-server/example-server.iml
+/example-client/example-client.iml
+/aaron911-rpc-framework.iml
+/aaron911-rpc-framework/aaron911-rpc-framework.iml
+/hello-service-api/hello-service-api.iml
+
+/.settings
+*/.settings
+.classpath
+.project
+.DS_Store
